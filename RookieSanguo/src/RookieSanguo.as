@@ -4,7 +4,7 @@ package
 
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()

@@ -1,5 +1,7 @@
 package
 {
+	import rookie.core.resource.ResUrl;
+	import rookie.core.render.ImgCpu;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.global.RookieEntry;
 
@@ -12,6 +14,9 @@ package
 			RookieEntry.mainLoop.init(this.stage);
 			RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
 			testObjPool();
+			
+			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
+			img.render();
 		}
 
 		private function testObjPool() : void

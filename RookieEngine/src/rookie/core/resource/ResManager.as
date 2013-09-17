@@ -43,7 +43,7 @@ package rookie.core.resource
 
 		public function load(resUrl:ResUrl, resType:int, priority:int = 0, callBack:FunHandler = null):void
 		{
-			if (resUrl.url && _loadedItemDic[resUrl.url] == true)
+			if (resUrl.url && _loadedItemDic[resUrl.url] == true && callBack)
 			{
 				callBack.execute();
 				return;
