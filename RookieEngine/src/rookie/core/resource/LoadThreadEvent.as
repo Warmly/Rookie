@@ -11,6 +11,7 @@ package rookie.core.resource
 	{
 		Rookie static const ITEM_LOADED:String = "LoadThreadEvent_ItemLoaded";
 		Rookie static const LOAD_ERROR:String = "LoadThreadEvent_LoadError";
+		Rookie var errorInfo:String;
 
 		public function LoadThreadEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
 		{

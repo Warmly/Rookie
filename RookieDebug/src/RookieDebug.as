@@ -1,5 +1,7 @@
 package
 {
+	import rookie.core.resource.ResType;
+	import rookie.core.resource.ResManager;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.render.ImgCpu;
 	import rookie.tool.objectPool.ObjectPool;
@@ -12,11 +14,15 @@ package
 		public function RookieDebug()
 		{
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
+			//RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
 			testObjPool();
 			
 			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
 			img.render();
+			
+			var mainResUrl:ResUrl = new ResUrl();
+			mainResUrl.manualSetUrl("D:/sgtxRes/DZSG/resource_debug.swf");
+			RookieEntry.resManager.load(mainResUrl, ResType.SWF);
 		}
 
 		private function testObjPool() : void

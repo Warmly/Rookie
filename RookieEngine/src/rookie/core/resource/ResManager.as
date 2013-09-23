@@ -43,9 +43,12 @@ package rookie.core.resource
 
 		public function load(resUrl:ResUrl, resType:int, priority:int = 0, callBack:FunHandler = null):void
 		{
-			if (resUrl.url && _loadedItemDic[resUrl.url] == true && callBack)
+			if (resUrl.url && _loadedItemDic[resUrl.url] == true)
 			{
-				callBack.execute();
+				if (callBack)
+				{
+					callBack.execute();
+				}
 				return;
 			}
 			var loadItem:LoadItem = ObjectPool.getObject(LoadItem) as LoadItem;
@@ -143,6 +146,7 @@ package rookie.core.resource
 
 		private function onLoadError(event:LoadThreadEvent):void
 		{
+			trace(event.errorInfo);
 			loadLoop();
 		}
 	}

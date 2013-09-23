@@ -56,6 +56,7 @@ package rookie.core.resource
 
 		private function onLoadToDomainError(event:IOErrorEvent):void
 		{
+			onError(event);
 		}
 
 		private function onLoadToDomainComplete(event:Event):void
@@ -97,7 +98,9 @@ package rookie.core.resource
 
 		private function onError(event:IOErrorEvent):void
 		{
-			_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.LOAD_ERROR));
+			var e:LoadThreadEvent = new LoadThreadEvent(LoadThreadEvent.LOAD_ERROR);
+			e.errorInfo = event.toString();
+			_eventDispatcher.dispatchEvent(e);
 		}
 
 		private function onOpen(event:Event):void
