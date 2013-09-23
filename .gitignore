@@ -1,4 +1,6 @@
-
+/.metadata/*
+/.metadata/.*
+/.metadata/
 /.metadata/.plugins/org.eclipse.core.resources/.history/18/407a041e8de300121758c692fb8bfb8e
 /.metadata/.plugins/org.eclipse.core.resources/.history/2b/8044db008de300121758c692fb8bfb8e
 /.metadata/.plugins/org.eclipse.core.resources/.history/a5/0024db0e8ee300121758c692fb8bfb8e
