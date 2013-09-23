@@ -1,7 +1,6 @@
 package
 {
 	import rookie.core.resource.ResType;
-	import rookie.core.resource.ResManager;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.render.ImgCpu;
 	import rookie.tool.objectPool.ObjectPool;
@@ -22,7 +21,7 @@ package
 			
 			var mainResUrl:ResUrl = new ResUrl();
 			mainResUrl.manualSetUrl("D:/sgtxRes/DZSG/resource_debug.swf");
-			RookieEntry.resManager.load(mainResUrl, ResType.SWF);
+			RookieEntry.loadManager.load(mainResUrl, ResType.SWF);
 		}
 
 		private function testObjPool() : void

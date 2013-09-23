@@ -1,4 +1,4 @@
-package definition
+package rookie.core.vo
 {
 	import rookie.core.resource.ResUrl;
 

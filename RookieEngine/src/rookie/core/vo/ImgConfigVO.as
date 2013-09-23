@@ -1,9 +1,8 @@
-package definition
+package rookie.core.vo
 {
 	import rookie.core.resource.ResUrl;
 
 	import flash.utils.ByteArray;
-
 	/**
 	 * @author Warmly
 	 */

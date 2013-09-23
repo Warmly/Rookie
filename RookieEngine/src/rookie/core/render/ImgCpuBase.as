@@ -28,7 +28,7 @@ package rookie.core.render
 			if (_parent)
 			{
 				_parent.addChild(this);
-				RookieEntry.resManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
+				RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
 			}
 		}
 

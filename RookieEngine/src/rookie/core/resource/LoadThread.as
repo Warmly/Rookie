@@ -69,7 +69,7 @@ package rookie.core.resource
 				RookieEntry.resManager.setBmdData(_curLoadingItem.url, Bitmap(_loader.content).bitmapData);
 			}
 			_isLoading = false;
-			RookieEntry.resManager.setLoadedDicToken(_curLoadingItem.url);
+			RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
 			_curLoadingItem.onLoaded();
 			_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
 		}
@@ -83,7 +83,7 @@ package rookie.core.resource
 			else if (_curLoadingItem.resType == ResType.DATA)
 			{
 				_isLoading = false;
-				RookieEntry.resManager.setLoadedDicToken(_curLoadingItem.url);
+				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
 				RookieEntry.resManager.setByteArrData(_curLoadingItem.url, _urlLoader.data);
 				_curLoadingItem.onLoaded();
 				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
