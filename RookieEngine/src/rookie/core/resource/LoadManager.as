@@ -118,16 +118,6 @@ package rookie.core.resource
 			_loadedItemDic[url] = true;
 		}
 
-//		Rookie function setByteArrData(url:String, byteArr:ByteArray):void
-//		{
-//			_byteArrDataDic[url] = byteArr;
-//		}
-//
-//		Rookie function setBmdData(url:String, bmd:BitmapData):void
-//		{
-//			_bmdDataDic[url] = bmd;
-//		}
-
 		private function isItemLoaded(loadItem:LoadItem):Boolean
 		{
 			return _loadedItemDic[loadItem.url] == true;
