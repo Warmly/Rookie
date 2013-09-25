@@ -7,9 +7,10 @@ package rookie.core.render
 	 */
 	public class RenderManager implements IMainLoop
 	{
-		private var _renderQueue : Vector.<IRenderItem> = new Vector.<IRenderItem>();
+		public static const FRAME_RATE:Number = 30;
+		private var _renderQueue:Vector.<IRenderItem> = new Vector.<IRenderItem>();
 
-		public function onEnterFrame() : void
+		public function onEnterFrame():void
 		{
 			for each (var i : IRenderItem in _renderQueue)
 			{

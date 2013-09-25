@@ -1,5 +1,6 @@
 package
 {
+	import rookie.core.render.AnimCpu;
 	import rookie.tool.functionHandler.FH;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
@@ -27,6 +28,11 @@ package
 			RookieEntry.resManager.init();
 			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
 			img.render();
+
+			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 123), this);
+			anim.x = 200;
+			anim.y = 200;
+			anim.render();
 		}
 
 		private function testObjPool():void

@@ -45,7 +45,7 @@ package rookie.core.render
 		{
 			if (!_imgConfigVO)
 			{
-				throw new Error("没有对应图片的配置！");
+				throw new Error("没有" + _resUrl.packId + "/" + _resUrl.groupId + "/" + _resUrl.imageId + "图片的配置！");
 				return;
 			}
 			var frameLength:uint = _imgConfigVO.frameLength;

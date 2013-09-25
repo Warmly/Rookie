@@ -11,6 +11,7 @@ package rookie.core.vo
 	 */
 	public class ImgFrameConfigVO
 	{
+		// 这一帧的图片数据
 		private var _bitmapData:BitmapData;
 		private var _resUrl:ResUrl;
 		private var _index:uint;
