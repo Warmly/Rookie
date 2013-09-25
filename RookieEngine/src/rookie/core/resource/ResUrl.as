@@ -45,10 +45,5 @@ package rookie.core.resource
 		{
 			return _imageId;
 		}
-
-		public function get clsName():String
-		{
-			return _clsName;
-		}
 	}
 }

@@ -3,6 +3,7 @@ package rookie.core.vo
 	import rookie.core.resource.ResUrl;
 
 	import flash.utils.ByteArray;
+
 	/**
 	 * @author Warmly
 	 */
@@ -27,13 +28,13 @@ package rookie.core.vo
 			if (_frameLength > 0)
 			{
 				_frames = new Vector.<ImgFrameConfigVO>();
-				for (var i:int = 0; i < _frameLength;i++)
+				for (var i:uint = 0; i < _frameLength;i++)
 				{
 					var topLeftX:int = data.readShort();
 					var topLeftY:int = data.readShort();
 					var bottomRightX:int = data.readShort();
 					var bottomRightY:int = data.readShort();
-					_frames[i] = new ImgFrameConfigVO(_resUrl, topLeftX, topLeftY, bottomRightX, bottomRightY);
+					_frames[i] = new ImgFrameConfigVO(i, _resUrl, topLeftX, topLeftY, bottomRightX, bottomRightY, _imgWidth, _imgHeight);
 				}
 			}
 		}
@@ -51,6 +52,20 @@ package rookie.core.vo
 		public function get resUrl():ResUrl
 		{
 			return _resUrl;
+		}
+
+		public function get frameLength():uint
+		{
+			return _frameLength;
+		}
+
+		public function getFrames(index:uint):ImgFrameConfigVO
+		{
+			if (index < _frameLength)
+			{
+				return _frames[index];
+			}
+			return null;
 		}
 	}
 }

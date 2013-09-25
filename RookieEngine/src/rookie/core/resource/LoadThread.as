@@ -1,13 +1,11 @@
 package rookie.core.resource
 {
-	import flash.display.Bitmap;
-
 	import rookie.global.RookieEntry;
-
-	import flash.net.URLRequest;
-
 	import rookie.namespace.Rookie;
 
+	import com.utils.LZMA;
+
+	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -15,7 +13,10 @@ package rookie.core.resource
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
+	import flash.utils.Endian;
 	import flash.utils.getTimer;
 
 	use namespace Rookie;
@@ -34,6 +35,8 @@ package rookie.core.resource
 		private var _curBytesLoaded:Number;
 		private var _curBytesTotal:Number;
 		private var _startTime:Number;
+		private var _byteArrQueue:Vector.<ByteArray> = new Vector.<ByteArray>();
+		private var _isURLLoaderLoading:Boolean;
 
 		public function LoadThread(eventDispatcher:EventDispatcher, loaderContext:LoaderContext):void
 		{
@@ -45,7 +48,7 @@ package rookie.core.resource
 			_urlLoader.addEventListener(Event.OPEN, onOpen);
 			_urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			_urlLoader.addEventListener(ProgressEvent.PROGRESS, onProgress);
-			_urlLoader.addEventListener(Event.COMPLETE, onComplete);
+			_urlLoader.addEventListener(Event.COMPLETE, onLoadToByteArrComplete);
 
 			_urlRequest = new URLRequest();
 
@@ -61,24 +64,67 @@ package rookie.core.resource
 
 		private function onLoadToDomainComplete(event:Event):void
 		{
-			if (_curLoadingItem.resType == ResType.SWF)
+			_isURLLoaderLoading = false;
+			if (_curLoadingItem.resType == ResType.SWF || _curLoadingItem.resType == ResType.PACK_SWF)
 			{
 			}
 			else if (_curLoadingItem.resType == ResType.JPG)
 			{
 				RookieEntry.resManager.setBmdData(_curLoadingItem.url, Bitmap(_loader.content).bitmapData);
 			}
-			_isLoading = false;
-			RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
-			_curLoadingItem.onLoaded();
-			_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
+			if (_byteArrQueue.length)
+			{
+				loadByteArrToDomain();
+			}
+			else
+			{
+				_isLoading = false;
+				_isURLLoaderLoading = false;
+				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
+				_curLoadingItem.onLoaded();
+				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
+			}
 		}
 
-		private function onComplete(event:Event):void
+		private function loadByteArrToDomain():void
 		{
+			if (!_isURLLoaderLoading)
+			{
+				var byteArr:ByteArray = _byteArrQueue.shift();
+				if (byteArr)
+				{
+					_isURLLoaderLoading = true;
+					if (byteArr[0] == 0x5a)
+					{
+						byteArr = LZMA.decodeSWF(byteArr);
+					}
+					_loader.loadBytes(byteArr, _loaderContext);
+				}
+			}
+		}
+
+		private function onLoadToByteArrComplete(event:Event):void
+		{
+			var byteArr:ByteArray = _urlLoader.data;
 			if (_curLoadingItem.resType == ResType.SWF || _curLoadingItem.resType == ResType.JPG)
 			{
-				_loader.loadBytes(_urlLoader.data, _loaderContext);
+				_byteArrQueue.push(byteArr);
+				loadByteArrToDomain();
+			}
+			else if (_curLoadingItem.resType == ResType.PACK_SWF)
+			{
+			    byteArr.endian = Endian.LITTLE_ENDIAN;
+				var flag:uint = byteArr.readUnsignedInt();
+				var num:uint = byteArr.readUnsignedInt();
+				for (var i:int = 0;i < num;i++)
+				{
+					byteArr.position += 64;
+					var length:uint = byteArr.readUnsignedInt();
+					var eachSwfByteArr:ByteArray = new ByteArray();
+					byteArr.readBytes(eachSwfByteArr, 0, length);
+					_byteArrQueue.push(eachSwfByteArr);
+				}
+				loadByteArrToDomain();
 			}
 			else if (_curLoadingItem.resType == ResType.DATA)
 			{

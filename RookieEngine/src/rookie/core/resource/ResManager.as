@@ -17,13 +17,16 @@ package rookie.core.resource
 	{
 		// 二进制数据的字典
 		private var _byteArrDataDic:Dictionary = new Dictionary();
-		// 位图数据的字典
+		// 位图数据的字典（直接以图片格式加载进来的图片，而不是swf）
 		private var _bmdDataDic:Dictionary = new Dictionary();
-		private var _packList:Array = [302, 307, 310, 313, 316, 317];
+		// 包列表
+		private var _packList:Array;
+		// 图片配置的字典
 		private var _imgConfigDic:Dictionary = new Dictionary();
 
 		public function ResManager()
 		{
+			_packList = [302, 307, 310, 311, 313, 316, 317];
 		}
 
 		public function init():void
@@ -37,10 +40,11 @@ package rookie.core.resource
 			}
 		}
 
-		public function parseImgConfigData(data:ByteArray):void
+		private function parseImgConfigData(data:ByteArray):void
 		{
 			data.endian = Endian.LITTLE_ENDIAN;
 			var byteArr:ByteArray = new ByteArray();
+			byteArr.endian = Endian.LITTLE_ENDIAN;
 			byteArr.writeBytes(data);
 			byteArr.position = 0;
 
@@ -59,10 +63,25 @@ package rookie.core.resource
 				{
 					var imageId:uint = byteArr.readUnsignedShort();
 					var vo:ImgConfigVO = new ImgConfigVO(packId, groupId, imageId);
-					vo.parseAndInit(data);
+					vo.parseAndInit(byteArr);
 					imgDic[imageId] = vo;
 				}
 			}
+		}
+
+		public function getImgConfigVO(resUrl:ResUrl):ImgConfigVO
+		{
+			var packDic:Dictionary = _imgConfigDic[resUrl.packId];
+			if (packDic)
+			{
+				var groupDic:Dictionary = packDic[resUrl.groupId];
+				if (groupDic)
+				{
+					var vo:ImgConfigVO = groupDic[resUrl.imageId];
+					return vo;
+				}
+			}
+			return null;
 		}
 
 		Rookie function setByteArrData(url:String, byteArr:ByteArray):void

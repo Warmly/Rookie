@@ -9,9 +9,13 @@ package rookie.core.render
 	 */
 	public class AnimCpu extends ImgCpuBase
 	{
-		public function AnimCpu(resUrl:ResUrl, parent:DisplayObjectContainer)
+		public function AnimCpu(resUrl:ResUrl, parent:DisplayObjectContainer = null)
 		{
 			super(resUrl, parent);
+		}
+
+		override protected function onImgDataLoaded():void
+		{
 		}
 	}
 }

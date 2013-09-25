@@ -1,5 +1,6 @@
 package
 {
+	import rookie.tool.functionHandler.FH;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.render.ImgCpu;
@@ -13,24 +14,28 @@ package
 		public function RookieDebug()
 		{
 			RookieEntry.mainLoop.init(this.stage);
-			//RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
+			// RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
 			testObjPool();
-			
-			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
-			img.render();
-			
+
 			var mainResUrl:ResUrl = new ResUrl();
 			mainResUrl.manualSetUrl("D:/sgtxRes/DZSG/resource_debug.swf");
-			RookieEntry.loadManager.load(mainResUrl, ResType.SWF);
+			RookieEntry.loadManager.load(mainResUrl, ResType.PACK_SWF, 0, FH(onMainResLoaded));
 		}
 
-		private function testObjPool() : void
+		private function onMainResLoaded():void
 		{
-			var obj : TestItem = ObjectPool.getObject(TestItem) as TestItem;
+			RookieEntry.resManager.init();
+			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
+			img.render();
+		}
+
+		private function testObjPool():void
+		{
+			var obj:TestItem = ObjectPool.getObject(TestItem) as TestItem;
 			obj.act();
 		}
 
-		private function intervalFun() : void
+		private function intervalFun():void
 		{
 			trace("!!!!!!");
 		}
@@ -40,21 +45,21 @@ import rookie.tool.objectPool.IObjPoolItem;
 
 class TestItem implements IObjPoolItem
 {
-	public var id : int;
-	public var name : String;
+	public var id:int;
+	public var name:String;
 
-	public function act() : void
+	public function act():void
 	{
 		trace("I am " + name + id);
 	}
 
-	public function reset() : void
+	public function reset():void
 	{
 		id = 1;
 		name = "Bob";
 	}
 
-	public function dispose() : void
+	public function dispose():void
 	{
 	}
 }

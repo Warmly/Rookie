@@ -1,8 +1,6 @@
 package rookie.core.render
 {
-	import flash.display.BitmapData;
-	import flash.utils.getDefinitionByName;
-
+	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.resource.ResUrl;
 
 	import flash.display.DisplayObjectContainer;
@@ -12,16 +10,16 @@ package rookie.core.render
 	 */
 	public class ImgCpu extends ImgCpuBase
 	{
-		public function ImgCpu(resUrl:ResUrl, parent:DisplayObjectContainer)
+		public function ImgCpu(resUrl:ResUrl, parent:DisplayObjectContainer = null)
 		{
 			super(resUrl, parent);
 		}
 
 		override protected function onImgDataLoaded():void
 		{
-			var cls:Class = getDefinitionByName(_resUrl.clsName) as Class;
-			var bmd:BitmapData = new cls();
-			this.bitmapData = bmd;
+			super.onImgDataLoaded();
+			var frameFirst:ImgFrameConfigVO = _imgConfigVO.getFrames(0);
+			super.bitmapData = frameFirst.bitmapData;
 		}
 	}
 }
