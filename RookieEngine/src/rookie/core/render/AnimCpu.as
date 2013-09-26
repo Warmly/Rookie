@@ -1,5 +1,9 @@
 package rookie.core.render
 {
+	import flash.geom.Rectangle;
+
+	import rookie.core.vo.ImgFrameConfigVO;
+
 	import flash.utils.getTimer;
 	import flash.events.Event;
 
@@ -26,6 +30,9 @@ package rookie.core.render
 		// 播放次数，默认一直播放
 		private var _loop:int = -1;
 		private var _curLoop:int = 1;
+		// 基准点
+		private var _originX:Number;
+		private var _originY:Number;
 
 		public function AnimCpu(resUrl:ResUrl, parent:DisplayObjectContainer = null)
 		{
@@ -86,7 +93,25 @@ package rookie.core.render
 
 		private function setCurFrameBmd():void
 		{
-			super.bitmapData = _imgConfigVO.getFrames(_curFrame - 1).bitmapData;
+			var curFrameVO:ImgFrameConfigVO = _imgConfigVO.getFrames(_curFrame - 1);
+			var curRect:Rectangle = curFrameVO.validRect;
+			var maxWidth:uint = _imgConfigVO.imgWidth;
+			var maxHeight:uint = _imgConfigVO.imgHeight;
+			var offsetX:Number = (maxWidth - curRect.width) * 0.5;
+			var offsetY:Number = (maxHeight - curRect.height) * 0.5;
+			super.x = _originX + offsetX;
+			super.y = _originY + offsetY;
+			super.bitmapData = curFrameVO.bitmapData;
+		}
+
+		override public function set x(value:Number):void
+		{
+			_originX = value;
+		}
+
+		override public function set y(value:Number):void
+		{
+			_originY = value;
 		}
 
 		override protected function onImgDataLoaded():void

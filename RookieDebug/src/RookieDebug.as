@@ -29,7 +29,7 @@ package
 			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
 			img.render();
 
-			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 123), this);
+			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139), this);
 			anim.x = 200;
 			anim.y = 200;
 			anim.render();

@@ -1,5 +1,6 @@
 package rookie.core.vo
 {
+	import flash.geom.Rectangle;
 	import flash.utils.getDefinitionByName;
 	import flash.system.ApplicationDomain;
 	import flash.display.BitmapData;
@@ -18,6 +19,7 @@ package rookie.core.vo
 		private var _resCls:Class;
 		private var _imgWidth:uint;
 		private var _imgHeight:uint;
+		private var _validRect:Rectangle;
 
 		public function ImgFrameConfigVO(index:uint, resUrl:ResUrl, topLeftX:int, topLeftY:int, bottomRightX:int, bottomRightY:int, width:uint, height:uint)
 		{
@@ -25,6 +27,7 @@ package rookie.core.vo
 			_index = index;
 			_imgWidth = width;
 			_imgHeight = height;
+			_validRect = new Rectangle(topLeftX, topLeftY, bottomRightX - topLeftX, bottomRightY - topLeftY);
 		}
 
 		public function onImgFrameDataLoaded():void
@@ -56,6 +59,11 @@ package rookie.core.vo
 				_bitmapData = new _resCls();
 			}
 			return _bitmapData;
+		}
+
+		public function get validRect():Rectangle
+		{
+			return _validRect;
 		}
 	}
 }
