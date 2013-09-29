@@ -37,7 +37,15 @@ package rookie.core.resource
 
 		public function load(resUrl:ResUrl, resType:int, priority:int = 0, callBack:FunHandler = null):void
 		{
-			if (resUrl.url && _loadedItemDic[resUrl.url] == true)
+			if (!resUrl.url)
+			{
+				return;
+			}
+			if (isResAlreadyLoading(resUrl.url))
+			{
+				return;
+			}
+			if (_loadedItemDic[resUrl.url] == true)
 			{
 				if (callBack)
 				{
@@ -116,6 +124,18 @@ package rookie.core.resource
 		Rookie function setLoadedDicToken(url:String):void
 		{
 			_loadedItemDic[url] = true;
+		}
+
+		private function isResAlreadyLoading(url:String):Boolean
+		{
+			for each (var i : LoadThread in _loadThreadQueue)
+			{
+				if (i.curUrl && i.curUrl == url)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private function isItemLoaded(loadItem:LoadItem):Boolean

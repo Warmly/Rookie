@@ -1,20 +1,18 @@
 package rookie.core.render
 {
-	import flash.geom.Rectangle;
-
-	import rookie.core.vo.ImgFrameConfigVO;
-
-	import flash.utils.getTimer;
-	import flash.events.Event;
-
 	import rookie.core.resource.ResUrl;
+	import rookie.core.vo.ImgFrameConfigVO;
+	import rookie.global.RookieEntry;
+	import rookie.namespace.Rookie;
 
-	import flash.display.DisplayObjectContainer;
+	import flash.geom.Rectangle;
+	import flash.utils.getTimer;
 
+	use namespace Rookie;
 	/**
 	 * @author Warmly
 	 */
-	public class AnimCpu extends ImgCpuBase
+	public class AnimCpu extends ImgCpuBase implements IRenderItem
 	{
 		private static const _DEFAULT_FREQUENCY:Number = 8;
 		private var _totalFrame:uint;
@@ -33,41 +31,23 @@ package rookie.core.render
 		// 基准点
 		private var _originX:Number;
 		private var _originY:Number;
+		// 开始帧
+		private var _startFrame:uint;
+		// 结束帧
+		private var _endFrame:uint;
 
-		public function AnimCpu(resUrl:ResUrl, parent:DisplayObjectContainer = null)
+		public function AnimCpu(resUrl:ResUrl)
 		{
-			super(resUrl, parent);
-			_totalFrame = _imgConfigVO.frameLength;
+			super(resUrl);
 			_curFrame = 1;
 			_frequency = _DEFAULT_FREQUENCY;
 			_intervalTime = 1000 / _frequency;
+			_totalFrame = _imgConfigVO.frameLength;
+			setPlayRange(1, _totalFrame);
+			gotoAndPlay(_startFrame);
 		}
 
-		private function gotoAndPlay(frame:int):void
-		{
-			_curFrame = frame;
-			startPlay();
-		}
-
-		private function startPlay():void
-		{
-			if (!hasEventListener(Event.ENTER_FRAME))
-			{
-				addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			}
-			_lastTime = getTimer();
-		}
-
-		private function stopPlay():void
-		{
-			if (hasEventListener(Event.ENTER_FRAME))
-			{
-				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-			}
-			_curLoop = 1;
-		}
-
-		private function onEnterFrame(event:Event):void
+		private function enterFrameRender():void
 		{
 			_curTime = getTimer();
 			if (_curTime - _lastTime >= _intervalTime)
@@ -79,7 +59,7 @@ package rookie.core.render
 					return;
 				}
 				_lastTime = _curTime;
-				if (_curFrame < _totalFrame)
+				if (_curFrame < _endFrame)
 				{
 					_curFrame++;
 				}
@@ -94,14 +74,23 @@ package rookie.core.render
 		private function setCurFrameBmd():void
 		{
 			var curFrameVO:ImgFrameConfigVO = _imgConfigVO.getFrames(_curFrame - 1);
-			var curRect:Rectangle = curFrameVO.validRect;
-			var maxWidth:uint = _imgConfigVO.imgWidth;
-			var maxHeight:uint = _imgConfigVO.imgHeight;
-			var offsetX:Number = (maxWidth - curRect.width) * 0.5;
-			var offsetY:Number = (maxHeight - curRect.height) * 0.5;
-			super.x = _originX + offsetX;
-			super.y = _originY + offsetY;
-			super.bitmapData = curFrameVO.bitmapData;
+			if (curFrameVO.bitmapData)
+			{
+				var curRect:Rectangle = curFrameVO.validRect;
+				var maxWidth:uint = _imgConfigVO.imgWidth;
+				var maxHeight:uint = _imgConfigVO.imgHeight;
+				var offsetX:Number = (maxWidth - curRect.width) * 0.5;
+				var offsetY:Number = (maxHeight - curRect.height) * 0.5;
+				super.x = _originX + offsetX;
+				super.y = _originY + offsetY;
+				super.bitmapData = curFrameVO.bitmapData;
+			}
+		}
+
+		public function setPlayRange(start:uint, end:uint):void
+		{
+			_startFrame = start;
+			_endFrame = end;
 		}
 
 		override public function set x(value:Number):void
@@ -114,10 +103,38 @@ package rookie.core.render
 			_originY = value;
 		}
 
-		override protected function onImgDataLoaded():void
+		public function gotoAndPlay(frame:int):void
 		{
-			super.onImgDataLoaded();
-			gotoAndPlay(1);
+			_lastTime = getTimer();
+			_curFrame = frame;
+			startPlay();
+		}
+
+		public function startPlay():void
+		{
+			RookieEntry.renderManager.addToQueue(this);
+		}
+
+		public function stopPlay():void
+		{
+			dispose();
+			deleteParent();
+			_curLoop = 1;
+		}
+
+		public function render():void
+		{
+			enterFrameRender();
+		}
+
+		public function dispose():void
+		{
+			RookieEntry.renderManager.dispose(this);
+		}
+
+		public function get key():String
+		{
+			return _resUrl.url + name;
 		}
 
 		public function get loop():uint

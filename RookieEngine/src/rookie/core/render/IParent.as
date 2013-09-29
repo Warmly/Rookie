@@ -8,5 +8,7 @@ package rookie.core.render
 	public interface IParent
 	{
 		function set parent(parent:DisplayObjectContainer):void
+
+		function deleteParent():void
 	}
 }

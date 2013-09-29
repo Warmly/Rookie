@@ -26,13 +26,19 @@ package
 		private function onMainResLoaded():void
 		{
 			RookieEntry.resManager.init();
-			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106), this);
-			img.render();
+			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
+			img.parent = this;
 
-			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139), this);
+			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
 			anim.x = 200;
 			anim.y = 200;
-			anim.render();
+			
+			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			anim1.x = 300;
+			anim1.y = 200;
+			
+			anim.parent = this;
+			anim1.parent = this;
 		}
 
 		private function testObjPool():void

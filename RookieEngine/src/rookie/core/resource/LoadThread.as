@@ -168,5 +168,14 @@ package rookie.core.resource
 		{
 			return _isLoading;
 		}
+		
+		Rookie function get curUrl():String
+		{
+			if(_isLoading && _curLoadingItem)
+			{
+				return _curLoadingItem.url;
+			}
+			return "";
+		}
 	}
 }

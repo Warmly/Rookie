@@ -5,6 +5,10 @@ package rookie.core.render
 	 */
 	public interface IRenderItem
 	{
-		function render() : void
+		function render():void
+
+		function dispose():void
+
+		function get key():String
 	}
 }

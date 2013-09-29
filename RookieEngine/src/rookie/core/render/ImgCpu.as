@@ -3,16 +3,14 @@ package rookie.core.render
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.resource.ResUrl;
 
-	import flash.display.DisplayObjectContainer;
-
 	/**
 	 * @author Warmly
 	 */
 	public class ImgCpu extends ImgCpuBase
 	{
-		public function ImgCpu(resUrl:ResUrl, parent:DisplayObjectContainer = null)
+		public function ImgCpu(resUrl:ResUrl)
 		{
-			super(resUrl, parent);
+			super(resUrl);
 		}
 
 		override protected function onImgDataLoaded():void

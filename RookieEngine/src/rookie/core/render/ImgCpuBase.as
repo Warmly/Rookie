@@ -13,32 +13,17 @@ package rookie.core.render
 	/**
 	 * @author Warmly
 	 */
-	public class ImgCpuBase extends Bitmap implements IRenderItem,IParent
+	public class ImgCpuBase extends Bitmap implements IParent
 	{
 		protected var _imgConfigVO:ImgConfigVO;
-		protected var _parent:DisplayObjectContainer;
 		protected var _resUrl:ResUrl;
 
-		public function ImgCpuBase(resUrl:ResUrl, parent:DisplayObjectContainer = null)
+		public function ImgCpuBase(resUrl:ResUrl)
 		{
 			super();
 			_resUrl = resUrl;
-			_parent = parent;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
-		}
-
-		public function render():void
-		{
-			if (_parent)
-			{
-				_parent.addChild(this);
-				RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
-			}
-		}
-
-		public function set parent(parent:DisplayObjectContainer):void
-		{
-			_parent = parent;
+			RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
 		}
 
 		protected function onImgDataLoaded():void
@@ -53,6 +38,24 @@ package rookie.core.render
 			{
 				var frame:ImgFrameConfigVO = _imgConfigVO.getFrames(i);
 				frame.onImgFrameDataLoaded();
+			}
+		}
+
+		public function manualLoad():void
+		{
+			RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
+		}
+
+		public function set parent(parent:DisplayObjectContainer):void
+		{
+			parent.addChild(this);
+		}
+
+		public function deleteParent():void
+		{
+			if (parent)
+			{
+				parent.removeChild(this);
 			}
 		}
 	}
