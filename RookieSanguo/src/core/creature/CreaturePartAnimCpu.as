@@ -1,5 +1,6 @@
 package core.creature
 {
+	import definition.Define;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 
@@ -11,7 +12,6 @@ package core.creature
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
 
-	import flash.geom.Rectangle;
 	import flash.system.ApplicationDomain;
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
@@ -182,23 +182,23 @@ package core.creature
 
 		override protected function setCurFrameBmd():void
 		{
-			var curFrameVO:ImgFrameConfigVO = _imgConfigVO.getFrames(_curFrame - 1);
-			if (curFrameVO)
+			_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
+			if (_curFrameVO)
 			{
-				super.bitmapData = _needYReverse ? curFrameVO.yReverseBitmapData : curFrameVO.bitmapData;
-				var curRect:Rectangle = curFrameVO.validRect;
-				adjustInnerPos(curRect);
+				super.bitmapData = _needYReverse ? _curFrameVO.yReverseBitmapData : _curFrameVO.bitmapData;
+				adjustInnerPos();
 			}
 		}
 
-		override protected function adjustInnerPos(validRect:Rectangle):void
+		override protected function adjustInnerPos():void
 		{
-			var maxWidth:uint = _imgConfigVO.imgWidth;
-			var maxHeight:uint = _imgConfigVO.imgHeight;
-			var offsetX:Number = (maxWidth - validRect.width) * 0.5;
-			var offsetY:Number = maxHeight - validRect.height;
-			super.x = _originX + offsetX;
-			super.y = _originY + offsetY;
+			var xVal:Number = -_curFrameVO.imgWidth * 0.5 + _curFrameVO.validRectX;
+			var yVal:Number = -_curFrameVO.imgHeight * 0.5 + _curFrameVO.validRectY + Define.CREATURE_PART_ANIM_Y_OFFSET;
+			if (_needYReverse)
+			{
+				xVal = -xVal - _curFrameVO.validRectWidth;
+			}
+			hardSetPos(xVal, yVal);
 		}
 
 		private function getResCls(actionId:uint, index:uint):Class

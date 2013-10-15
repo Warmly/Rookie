@@ -5,7 +5,6 @@ package rookie.core.render
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 
-	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 
 	use namespace Rookie;
@@ -35,6 +34,8 @@ package rookie.core.render
 		protected var _startFrame:uint;
 		// 结束帧
 		protected var _endFrame:uint;
+		// 当前帧数据
+		protected var _curFrameVO:ImgFrameConfigVO;
 
 		public function AnimCpu(resUrl:ResUrl, isAutoPlay:Boolean = true)
 		{
@@ -79,23 +80,18 @@ package rookie.core.render
 
 		protected function setCurFrameBmd():void
 		{
-			var curFrameVO:ImgFrameConfigVO = _imgConfigVO.getFrames(_curFrame - 1);
-			if (curFrameVO.bitmapData)
+			_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
+			if (_curFrameVO)
 			{
-				super.bitmapData = curFrameVO.bitmapData;
-				var curRect:Rectangle = curFrameVO.validRect;
-				adjustInnerPos(curRect);
+				super.bitmapData = _curFrameVO.bitmapData;
+				adjustInnerPos();
 			}
 		}
 
-		protected function adjustInnerPos(validRect:Rectangle):void
+		protected function adjustInnerPos():void
 		{
-			var maxWidth:uint = _imgConfigVO.imgWidth;
-			var maxHeight:uint = _imgConfigVO.imgHeight;
-			var offsetX:Number = (maxWidth - validRect.width) * 0.5;
-			var offsetY:Number = (maxHeight - validRect.height) * 0.5;
-			super.x = _originX + offsetX;
-			super.y = _originY + offsetY;
+			super.x = _originX + _curFrameVO.validRectX;
+			super.y = _originY + _curFrameVO.validRectY;
 		}
 
 		public function setPlayRange(start:uint, end:uint):void
@@ -131,6 +127,12 @@ package rookie.core.render
 			dispose();
 			deleteParent();
 			_curLoop = 1;
+		}
+
+		protected function hardSetPos(xValue:Number, yValue:Number):void
+		{
+			super.x = xValue;
+			super.y = yValue;
 		}
 
 		public function render():void

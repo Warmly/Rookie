@@ -1,7 +1,6 @@
 package rookie.core.vo
 {
 	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
 	import flash.utils.getDefinitionByName;
 	import flash.system.ApplicationDomain;
 	import flash.display.BitmapData;
@@ -15,14 +14,20 @@ package rookie.core.vo
 	{
 		// 这一帧的图片数据
 		private var _bitmapData:BitmapData;
-		// Y轴反转
+		// Y轴反转的图片数据
 		private var _yReverseBitmapData:BitmapData;
 		private var _resUrl:ResUrl;
 		private var _index:uint;
 		private var _resCls:Class;
+		// 原始图片宽
 		private var _imgWidth:uint;
+		// 原始图片高
 		private var _imgHeight:uint;
-		private var _validRect:Rectangle;
+		// 切割后的矩形区域
+		private var _validRectX:Number;
+		private var _validRectY:Number;
+		private var _validRectWidth:Number;
+		private var _validRectHeight:Number;
 
 		public function ImgFrameConfigVO(index:uint, resUrl:ResUrl, topLeftX:int, topLeftY:int, bottomRightX:int, bottomRightY:int, width:uint, height:uint)
 		{
@@ -30,7 +35,10 @@ package rookie.core.vo
 			_index = index;
 			_imgWidth = width;
 			_imgHeight = height;
-			_validRect = new Rectangle(topLeftX, topLeftY, bottomRightX - topLeftX, bottomRightY - topLeftY);
+			_validRectX = topLeftX;
+			_validRectY = topLeftY;
+			_validRectWidth = bottomRightX - topLeftX;
+			_validRectHeight = bottomRightY - topLeftY;
 		}
 
 		public function onImgFrameDataLoaded():void
@@ -78,15 +86,40 @@ package rookie.core.vo
 			return _yReverseBitmapData;
 		}
 
-		public function get validRect():Rectangle
-		{
-			return _validRect;
-		}
-
 		public function manualSetResCls(cls:Class):void
 		{
 			_resCls = cls;
 			_bitmapData = new _resCls();
+		}
+
+		public function get imgWidth():uint
+		{
+			return _imgWidth;
+		}
+
+		public function get imgHeight():uint
+		{
+			return _imgHeight;
+		}
+
+		public function get validRectX():Number
+		{
+			return _validRectX;
+		}
+
+		public function get validRectY():Number
+		{
+			return _validRectY;
+		}
+
+		public function get validRectWidth():Number
+		{
+			return _validRectWidth;
+		}
+
+		public function get validRectHeight():Number
+		{
+			return _validRectHeight;
 		}
 	}
 }
