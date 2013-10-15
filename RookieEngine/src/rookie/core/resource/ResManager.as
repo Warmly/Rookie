@@ -84,6 +84,20 @@ package rookie.core.resource
 			return null;
 		}
 
+		public function getImgConfigVoDic(resUrl:ResUrl):Dictionary
+		{
+			var packDic:Dictionary = _imgConfigDic[resUrl.packId];
+			if (packDic)
+			{
+				var groupDic:Dictionary = packDic[resUrl.groupId];
+				if (groupDic)
+				{
+					return groupDic;
+				}
+			}
+			return null;
+		}
+
 		Rookie function setByteArrData(url:String, byteArr:ByteArray):void
 		{
 			_byteArrDataDic[url] = byteArr;

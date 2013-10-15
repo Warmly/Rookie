@@ -31,7 +31,7 @@ package rookie.tool.objectPool
 		/**
 		 * 在IObjPoolItem的dispose方法中调用
 		 */
-		public function addToPool(obj : IObjPoolItem) : void
+		public static function addToPool(obj : IObjPoolItem) : void
 		{
 			var clsName : String = getQualifiedClassName(obj);
 			var cls : Class = getDefinitionByName(clsName) as Class;

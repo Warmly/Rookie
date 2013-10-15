@@ -14,37 +14,43 @@ package rookie.core.render
 	 */
 	public class AnimCpu extends ImgCpuBase implements IRenderItem
 	{
-		private static const _DEFAULT_FREQUENCY:Number = 8;
-		private var _totalFrame:uint;
-		private var _curFrame:uint;
+		protected static const _DEFAULT_FREQUENCY:Number = 8;
+		protected var _totalFrame:uint;
+		protected var _curFrame:uint;
 		// 频率：帧/秒
-		private var _frequency:Number;
+		protected var _frequency:Number;
 		// 当前帧时间
-		private var _curTime:Number;
+		protected var _curTime:Number;
 		// 上一帧时间
-		private var _lastTime:Number;
+		protected var _lastTime:Number;
 		// 间隔时间
-		private var _intervalTime:Number;
+		protected var _intervalTime:Number;
 		// 播放次数，默认一直播放
-		private var _loop:int = -1;
-		private var _curLoop:int = 1;
+		protected var _loop:int = -1;
+		protected var _curLoop:int = 1;
 		// 基准点
-		private var _originX:Number;
-		private var _originY:Number;
+		protected var _originX:Number = 0;
+		protected var _originY:Number = 0;
 		// 开始帧
-		private var _startFrame:uint;
+		protected var _startFrame:uint;
 		// 结束帧
-		private var _endFrame:uint;
+		protected var _endFrame:uint;
 
-		public function AnimCpu(resUrl:ResUrl)
+		public function AnimCpu(resUrl:ResUrl, isAutoPlay:Boolean = true)
 		{
 			super(resUrl);
 			_curFrame = 1;
 			_frequency = _DEFAULT_FREQUENCY;
 			_intervalTime = 1000 / _frequency;
-			_totalFrame = _imgConfigVO.frameLength;
+			if (_imgConfigVO)
+			{
+				_totalFrame = _imgConfigVO.frameLength;
+			}
 			setPlayRange(1, _totalFrame);
-			gotoAndPlay(_startFrame);
+			if (isAutoPlay)
+			{
+				gotoAndPlay(_startFrame);
+			}
 		}
 
 		private function enterFrameRender():void
@@ -66,25 +72,30 @@ package rookie.core.render
 				else
 				{
 					_curLoop++;
-					_curFrame = 1;
+					_curFrame = _startFrame;
 				}
 			}
 		}
 
-		private function setCurFrameBmd():void
+		protected function setCurFrameBmd():void
 		{
 			var curFrameVO:ImgFrameConfigVO = _imgConfigVO.getFrames(_curFrame - 1);
 			if (curFrameVO.bitmapData)
 			{
-				var curRect:Rectangle = curFrameVO.validRect;
-				var maxWidth:uint = _imgConfigVO.imgWidth;
-				var maxHeight:uint = _imgConfigVO.imgHeight;
-				var offsetX:Number = (maxWidth - curRect.width) * 0.5;
-				var offsetY:Number = (maxHeight - curRect.height) * 0.5;
-				super.x = _originX + offsetX;
-				super.y = _originY + offsetY;
 				super.bitmapData = curFrameVO.bitmapData;
+				var curRect:Rectangle = curFrameVO.validRect;
+				adjustInnerPos(curRect);
 			}
+		}
+
+		protected function adjustInnerPos(validRect:Rectangle):void
+		{
+			var maxWidth:uint = _imgConfigVO.imgWidth;
+			var maxHeight:uint = _imgConfigVO.imgHeight;
+			var offsetX:Number = (maxWidth - validRect.width) * 0.5;
+			var offsetY:Number = (maxHeight - validRect.height) * 0.5;
+			super.x = _originX + offsetX;
+			super.y = _originY + offsetY;
 		}
 
 		public function setPlayRange(start:uint, end:uint):void
@@ -105,13 +116,13 @@ package rookie.core.render
 
 		public function gotoAndPlay(frame:int):void
 		{
-			_lastTime = getTimer();
 			_curFrame = frame;
 			startPlay();
 		}
 
 		public function startPlay():void
 		{
+			_lastTime = getTimer();
 			RookieEntry.renderManager.addToQueue(this);
 		}
 

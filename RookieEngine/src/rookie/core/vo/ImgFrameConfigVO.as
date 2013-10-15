@@ -1,5 +1,6 @@
 package rookie.core.vo
 {
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.getDefinitionByName;
 	import flash.system.ApplicationDomain;
@@ -14,6 +15,8 @@ package rookie.core.vo
 	{
 		// 这一帧的图片数据
 		private var _bitmapData:BitmapData;
+		// Y轴反转
+		private var _yReverseBitmapData:BitmapData;
 		private var _resUrl:ResUrl;
 		private var _index:uint;
 		private var _resCls:Class;
@@ -61,9 +64,29 @@ package rookie.core.vo
 			return _bitmapData;
 		}
 
+		public function get yReverseBitmapData():BitmapData
+		{
+			if (_bitmapData && !_yReverseBitmapData)
+			{
+				var yReverseCopy:BitmapData = new BitmapData(_bitmapData.width, _bitmapData.height);
+				var matrix:Matrix = new Matrix();
+				matrix.a = -1;
+				matrix.tx = _bitmapData.width;
+				yReverseCopy.draw(_bitmapData, matrix, null, null, null, true);
+				_yReverseBitmapData = yReverseCopy;
+			}
+			return _yReverseBitmapData;
+		}
+
 		public function get validRect():Rectangle
 		{
 			return _validRect;
+		}
+
+		public function manualSetResCls(cls:Class):void
+		{
+			_resCls = cls;
+			_bitmapData = new _resCls();
 		}
 	}
 }

@@ -1,5 +1,11 @@
 package
 {
+	import definition.DirectionEnum;
+	import definition.ActionEnum;
+	import core.creature.NpcCpu;
+
+	import global.ModelEntry;
+
 	import rookie.core.render.AnimCpu;
 	import rookie.tool.functionHandler.FH;
 	import rookie.core.resource.ResType;
@@ -26,19 +32,27 @@ package
 		private function onMainResLoaded():void
 		{
 			RookieEntry.resManager.init();
-			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
-			img.parent = this;
+//			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
+//			img.parent = this;
+//
+//			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+//			anim.x = 200;
+//			anim.y = 200;
+//
+//			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+//			anim1.x = 300;
+//			anim1.y = 200;
+//
+//			anim.parent = this;
+//			anim1.parent = this;
 
-			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			anim.x = 200;
-			anim.y = 200;
-			
-			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			anim1.x = 300;
-			anim1.y = 200;
-			
-			anim.parent = this;
-			anim1.parent = this;
+			ModelEntry.staticDataModel;
+
+			var npc:NpcCpu = new NpcCpu();
+			npc.init(3075);
+			npc.parent = this;
+			npc.synAction(ActionEnum.ATK);
+			npc.synDirection(DirectionEnum.LEFT);
 		}
 
 		private function testObjPool():void
