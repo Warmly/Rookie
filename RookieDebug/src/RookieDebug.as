@@ -2,6 +2,7 @@ package
 {
 	import definition.DirectionEnum;
 	import definition.ActionEnum;
+
 	import core.creature.NpcCpu;
 
 	import global.ModelEntry;
@@ -16,6 +17,7 @@ package
 
 	import flash.display.Sprite;
 
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class RookieDebug extends Sprite
 	{
 		public function RookieDebug()
@@ -27,34 +29,38 @@ package
 			var mainResUrl:ResUrl = new ResUrl();
 			mainResUrl.manualSetUrl("D:/sgtxRes/DZSG/resource_debug.swf");
 			RookieEntry.loadManager.load(mainResUrl, ResType.PACK_SWF, 0, FH(onMainResLoaded));
+			addChild(new Stats());
 		}
 
 		private function onMainResLoaded():void
 		{
 			RookieEntry.resManager.init();
-//			var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
-//			img.parent = this;
-//
-//			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-//			anim.x = 200;
-//			anim.y = 200;
-//
-//			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-//			anim1.x = 350;
-//			anim1.y = 200;
-//
-//			anim.parent = this;
-//			anim1.parent = this;
+			// var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
+			// img.parent = this;
+			//
+			// var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			// anim.x = 200;
+			// anim.y = 200;
+			//
+			// var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			// anim1.x = 350;
+			// anim1.y = 200;
+			//
+			// anim.parent = this;
+			// anim1.parent = this;
 
 			ModelEntry.staticDataModel;
 
-			var npc:NpcCpu = new NpcCpu();
-			npc.init(3075);
-			npc.parent = this;
-			npc.x = 200;
-			npc.y = 200; 
-			npc.synAction(ActionEnum.ATK);
-			npc.synDirection(DirectionEnum.LEFT);
+			for (var i:int = 0 ;i < 200;i++)
+			{
+				var npc:NpcCpu = new NpcCpu();
+				npc.init(3075);
+				npc.parent = this;
+				npc.x = 100 + Math.random()*600;
+				npc.y = 100 + Math.random()*600;
+				npc.synAction(ActionEnum.STAND);
+				npc.synDirection(DirectionEnum.LEFT);
+			}
 		}
 
 		private function testObjPool():void

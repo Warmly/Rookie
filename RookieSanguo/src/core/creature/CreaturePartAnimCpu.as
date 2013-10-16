@@ -190,6 +190,7 @@ package core.creature
 			}
 		}
 
+		// 待优化
 		override protected function adjustInnerPos():void
 		{
 			var xVal:Number = -_curFrameVO.imgWidth * 0.5 + _curFrameVO.validRectX;

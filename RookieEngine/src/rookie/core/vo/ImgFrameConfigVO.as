@@ -74,13 +74,13 @@ package rookie.core.vo
 
 		public function get yReverseBitmapData():BitmapData
 		{
-			if (_bitmapData && !_yReverseBitmapData)
+			if (bitmapData && !_yReverseBitmapData)
 			{
-				var yReverseCopy:BitmapData = new BitmapData(_bitmapData.width, _bitmapData.height);
+				var yReverseCopy:BitmapData = new BitmapData(bitmapData.width, bitmapData.height, bitmapData.transparent, 0x00000000);
 				var matrix:Matrix = new Matrix();
 				matrix.a = -1;
-				matrix.tx = _bitmapData.width;
-				yReverseCopy.draw(_bitmapData, matrix, null, null, null, true);
+				matrix.tx = bitmapData.width;
+				yReverseCopy.draw(bitmapData, matrix);
 				_yReverseBitmapData = yReverseCopy;
 			}
 			return _yReverseBitmapData;
