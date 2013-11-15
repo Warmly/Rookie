@@ -70,7 +70,7 @@ package rookie.core.resource
 			}
 			else if (_curLoadingItem.resType == ResType.JPG)
 			{
-				RookieEntry.resManager.setBmdData(_curLoadingItem.url, Bitmap(_loader.content).bitmapData);
+				RookieEntry.resManager.bmdData.insert(_curLoadingItem.url, Bitmap(_loader.content).bitmapData);
 			}
 			if (_byteArrQueue.length)
 			{
@@ -130,7 +130,8 @@ package rookie.core.resource
 			{
 				_isLoading = false;
 				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
-				RookieEntry.resManager.setByteArrData(_curLoadingItem.url, _urlLoader.data);
+				var unPackedData:ByteArray = LZMA.decode(_urlLoader.data);
+				RookieEntry.resManager.byteArrData.insert(_curLoadingItem.url, unPackedData);
 				_curLoadingItem.onLoaded();
 				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
 			}

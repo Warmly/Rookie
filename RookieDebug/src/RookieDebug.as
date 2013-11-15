@@ -1,5 +1,7 @@
 package
 {
+	import flash.utils.Dictionary;
+	import core.scene.SanguoScene;
 	import definition.DirectionEnum;
 	import definition.ActionEnum;
 
@@ -35,6 +37,10 @@ package
 		private function onMainResLoaded():void
 		{
 			RookieEntry.resManager.init();
+			
+			var scene:SanguoScene = new SanguoScene();
+			addChild(scene);
+			
 			// var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
 			// img.parent = this;
 			//
@@ -51,22 +57,29 @@ package
 
 			ModelEntry.staticDataModel;
 
-			for (var i:int = 0 ;i < 200;i++)
+			for (var i:int = 0 ;i < 20;i++)
 			{
 				var npc:NpcCpu = new NpcCpu();
-				npc.init(3075);
-				npc.parent = this;
+				npc.init(256);
+				npc.parent = scene;
 				npc.x = 100 + Math.random()*600;
 				npc.y = 100 + Math.random()*600;
-				npc.synAction(ActionEnum.STAND);
+				npc.synAction(ActionEnum.RUN);
 				npc.synDirection(DirectionEnum.LEFT);
 			}
+			
+			ModelEntry.mapModel.curMapId = 2001;
+			ModelEntry.mapModel.loadMap();
 		}
 
 		private function testObjPool():void
 		{
 			var obj:TestItem = ObjectPool.getObject(TestItem) as TestItem;
 			obj.act();
+			
+			var dic:Dictionary = new Dictionary();
+			trace(dic["aa"]);
+			trace(!dic["aa"]);
 		}
 
 		private function intervalFun():void

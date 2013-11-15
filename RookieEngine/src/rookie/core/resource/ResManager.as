@@ -1,5 +1,6 @@
 package rookie.core.resource
 {
+	import rookie.dataStruct.HashTable;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.namespace.Rookie;
 
@@ -16,9 +17,9 @@ package rookie.core.resource
 	public class ResManager
 	{
 		// 二进制数据的字典
-		private var _byteArrDataDic:Dictionary = new Dictionary();
+		private var _byteArrData:HashTable = new HashTable(String, ByteArray);
 		// 位图数据的字典（直接以图片格式加载进来的图片，而不是swf）
-		private var _bmdDataDic:Dictionary = new Dictionary();
+		private var _bmdData:HashTable = new HashTable(String, BitmapData);
 		// 包列表
 		private var _packList:Array;
 		// 图片配置的字典
@@ -98,14 +99,14 @@ package rookie.core.resource
 			return null;
 		}
 
-		Rookie function setByteArrData(url:String, byteArr:ByteArray):void
+		public function get byteArrData():HashTable
 		{
-			_byteArrDataDic[url] = byteArr;
+			return _byteArrData;
 		}
 
-		Rookie function setBmdData(url:String, bmd:BitmapData):void
+		public function get bmdData():HashTable
 		{
-			_bmdDataDic[url] = bmd;
+			return _bmdData;
 		}
 	}
 }

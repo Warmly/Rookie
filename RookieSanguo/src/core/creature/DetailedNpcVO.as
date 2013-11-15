@@ -34,5 +34,10 @@ package core.creature
 			_visitFlag = byteArr.readUnsignedByte();
 			_moveRange = byteArr.readByte();
 		}
+
+		public function get pic():uint
+		{
+			return _pic;
+		}
 	}
 }

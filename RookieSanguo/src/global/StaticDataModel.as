@@ -21,6 +21,7 @@ package global
 	public class StaticDataModel extends ModelBase
 	{
 		public var Action:XML;
+		public var sceneMapInfoConfig:XML;
 		public var detailedNpcDic:Dictionary = new Dictionary();
 
 		public function StaticDataModel()
@@ -67,7 +68,7 @@ package global
 			for each (var i : XML in nameList)
 			{
 				var name:String = i.@name;
-				if (name == "Action")
+				if (name == "Action" || name == "sceneMapInfoConfig")
 				{
 					var subXmlStr:String = parseUtfToGb2312(name);
 					this[name] = new XML(subXmlStr);

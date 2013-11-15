@@ -41,9 +41,10 @@ package rookie.core.render
 			}
 		}
 
-		public function manualLoad():void
+		public function manualLoad(resUrl:ResUrl):void
 		{
-			RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
+			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
+			RookieEntry.loadManager.load(resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
 		}
 
 		public function set parent(parent:DisplayObjectContainer):void

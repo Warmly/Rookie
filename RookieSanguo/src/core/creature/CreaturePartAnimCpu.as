@@ -24,9 +24,9 @@ package core.creature
 		// 动作ID为键，包含所有方向的配置为值的字典
 		private var _imgConfigVoDic:Dictionary = new Dictionary();
 		// 动作ID
-		private var _action:uint;
+		private var _action:uint = ActionEnum.DEFAULT;
 		// 动作方向
-		private var _direction:uint;
+		private var _direction:uint = DirectionEnum.DEFAULT;
 		// 使用的图片资源的方向
 		private var _resDir:uint;
 		// 图片资源包含几个方向
@@ -41,16 +41,18 @@ package core.creature
 			super(resUrl, false);
 			_imgConfigVoDic = RookieEntry.resManager.getImgConfigVoDic(resUrl);
 			synAction(ActionEnum.DEFAULT);
-			synDirection(DirectionEnum.DEFAULT);
 		}
 
 		public function synAction(action:uint):void
 		{
-			_action = action;
-			_imgConfigVO = _imgConfigVoDic[action];
-			_totalFrame = _imgConfigVO.frameLength;
-			synActDirNum();
-			synDirection(_direction);
+			if (action != _action)
+			{
+				_action = action;
+				_imgConfigVO = _imgConfigVoDic[action];
+				_totalFrame = _imgConfigVO.frameLength;
+				synActDirNum();
+				synDirection(_direction);
+			}
 		}
 
 		public function synDirection(direction:uint):void

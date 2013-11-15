@@ -1,7 +1,7 @@
 package core.creature
 {
-	import rookie.core.render.AnimCpu;
 	import rookie.core.resource.ResUrl;
+
 	import global.ModelEntry;
 
 	import core.creature.CreatureCpu;
@@ -20,14 +20,17 @@ package core.creature
 
 		public function init(staticId:int):void
 		{
-			_detailedVO = ModelEntry.staticDataModel.detailedNpcDic[staticId];
-			if (_body)
+			if (!_detailedVO || _detailedVO.id != staticId)
 			{
-				_body.deleteParent();
+				_detailedVO = ModelEntry.staticDataModel.detailedNpcDic[staticId];
+				if (_body)
+				{
+					_body.deleteParent();
+				}
+				var resUrl:ResUrl = new ResUrl(316, _detailedVO.pic);
+				_body = new CreaturePartAnimCpu(resUrl);
+				_body.parent = this;
 			}
-			var resUrl:ResUrl = new ResUrl(316, staticId);
-			_body = new CreaturePartAnimCpu(resUrl);
-			_body.parent = this;
 		}
 
 		override public function reset():void

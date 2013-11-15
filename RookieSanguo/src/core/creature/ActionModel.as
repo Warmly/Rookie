@@ -1,5 +1,7 @@
 package core.creature
 {
+	import rookie.dataStruct.HashTable;
+
 	import global.ModelEntry;
 	import global.StaticDataModel;
 	import global.ModelBase;
@@ -9,25 +11,23 @@ package core.creature
 	 */
 	public class ActionModel extends ModelBase
 	{
-		private var _actDirNumConfig:Vector.<ActDirNumVO> = new Vector.<ActDirNumVO>();
+		private var _actDirNumConfig:HashTable = new HashTable(int, ActDirNumVO);
 
 		public function ActionModel()
 		{
 			super();
 		}
 
-		private function get actDirNumConfig():Vector.<ActDirNumVO>
+		private function get actDirNumConfig():HashTable
 		{
 			if (_actDirNumConfig.length == 0)
 			{
 				var model:StaticDataModel = ModelEntry.staticDataModel;
-				for each (var i : XML in model.Action.action)
+				var xmlList:XMLList = model.Action.action;
+				for each (var i : XML in xmlList)
 				{
-					var vo:ActDirNumVO = new ActDirNumVO();
-					vo.id = i.@id;
-					vo.dirNum = i.@dir;
-					vo.groupIdArr = String(i.@picID).split(";");
-					_actDirNumConfig.push(vo);
+					var vo:ActDirNumVO = new ActDirNumVO(i);
+					_actDirNumConfig.insert(vo.id, vo);
 				}
 			}
 			return _actDirNumConfig;
@@ -39,24 +39,16 @@ package core.creature
 			var voNormal:ActDirNumVO;
 			// 单独配picID了的
 			var voSingle:ActDirNumVO;
-			for each (var i : ActDirNumVO in actDirNumConfig)
+			var temp:ActDirNumVO = actDirNumConfig.find(actId);
+			if (temp)
 			{
-				if (i.id == actId)
+				if (temp.groupIdArr && temp.groupIdArr[0] == 0)
 				{
-					if (i.groupIdArr && i.groupIdArr[0] == 0)
-					{
-						voNormal = i;
-					}
-					else
-					{
-						for each (var ii : int in i.groupIdArr)
-						{
-							if (ii == groupId)
-							{
-								voSingle = i;
-							}
-						}
-					}
+					voNormal = temp;
+				}
+				else if (temp.groupIdArr.indexOf(groupId) != -1)
+				{
+					voSingle = temp;
 				}
 			}
 			if (voSingle)

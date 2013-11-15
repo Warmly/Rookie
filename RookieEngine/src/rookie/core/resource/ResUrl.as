@@ -26,9 +26,16 @@ package rookie.core.resource
 			}
 		}
 
-		public function manualSetUrl(url:String):void
+		public function manualSetUrl(url:String, defaultRoot:Boolean = false):void
 		{
-			_url = url;
+			if(defaultRoot)
+			{
+				_url = _ROOT_PATH + url;
+			}
+			else
+			{
+				_url = url;
+			}
 		}
 
 		public function get url():String
