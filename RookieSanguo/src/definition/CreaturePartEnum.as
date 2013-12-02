@@ -9,7 +9,9 @@ package definition
 		public static const WEAPON:uint = 6;
 		public static const RENDER_ORDER:Array = 
 		// 
-		[[BODY, WEAPON],
+		[[],
+		// 
+		[BODY, WEAPON],
 		// 
 		[BODY, WEAPON],
 		// 

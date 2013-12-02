@@ -48,16 +48,17 @@ package
 			// anim.x = 200;
 			// anim.y = 200;
 			//
-			// var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			// anim1.x = 350;
-			// anim1.y = 200;
+			 var anim1:AnimCpu = new AnimCpu(new ResUrl(310, 1, 648));
+			 anim1.x = 350;
+			 anim1.y = 200;
+			 anim1.loop = 2;
 			//
 			// anim.parent = this;
-			// anim1.parent = this;
+			 anim1.parent = this;
 
 			ModelEntry.staticDataModel;
 
-			for (var i:int = 0 ;i < 20;i++)
+			for (var i:int = 0 ;i < 1;i++)
 			{
 				var npc:NpcCpu = new NpcCpu();
 				npc.init(256);
@@ -70,6 +71,30 @@ package
 			
 			ModelEntry.mapModel.curMapId = 2001;
 			ModelEntry.mapModel.loadMap();
+			
+			var testVec:Vector.<TestItem> = new Vector.<TestItem>();
+			var a:TestItem = new TestItem();
+			a.id = 3;
+			testVec.push(a);
+			var b:TestItem = new TestItem();
+			b.id = 19;
+			testVec.push(b);
+			var c:TestItem = new TestItem();
+			c.id = 8;
+			testVec.push(c);
+			testVec.sort(aaa);
+		}
+		
+		private function aaa(a:TestItem, b:TestItem):Number
+		{
+			if(a.id <= b.id)
+			{
+				return -1;
+			}
+			else
+			{
+				return 1;
+			}
 		}
 
 		private function testObjPool():void

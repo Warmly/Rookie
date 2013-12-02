@@ -35,9 +35,14 @@ package core.creature
 		private var _eachDirFrameNum:int;
 		// Y轴反转
 		private var _needYReverse:Boolean;
+		// 类型
+		private var _type:uint;
+		// 深度
+		private var _depth:uint;
 
-		public function CreaturePartAnimCpu(resUrl:ResUrl)
+		public function CreaturePartAnimCpu(resUrl:ResUrl, type:uint)
 		{
+			_type = type;
 			super(resUrl, false);
 			_imgConfigVoDic = RookieEntry.resManager.getImgConfigVoDic(resUrl);
 			synAction(ActionEnum.DEFAULT);
@@ -213,6 +218,21 @@ package core.creature
 				resCls = getDefinitionByName(clsName) as Class;
 			}
 			return resCls;
+		}
+
+		public function get type():uint
+		{
+			return _type;
+		}
+
+		public function get depth():uint
+		{
+			return _depth;
+		}
+
+		public function set depth(depth:uint):void
+		{
+			_depth = depth;
 		}
 	}
 }

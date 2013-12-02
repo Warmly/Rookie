@@ -23,19 +23,10 @@ package core.creature
 			if (!_detailedVO || _detailedVO.id != staticId)
 			{
 				_detailedVO = ModelEntry.staticDataModel.detailedNpcDic[staticId];
-				if (_body)
-				{
-					_body.deleteParent();
-				}
+				_partsContainer.reset();
 				var resUrl:ResUrl = new ResUrl(316, _detailedVO.pic);
-				_body = new CreaturePartAnimCpu(resUrl);
-				_body.parent = this;
+				_partsContainer.initBody(resUrl);
 			}
-		}
-
-		override public function reset():void
-		{
-			super.reset();
 		}
 
 		public function get detailedVO():DetailedNpcVO
