@@ -58,7 +58,7 @@ package
 
 			ModelEntry.staticDataModel;
 
-			for (var i:int = 0 ;i < 1;i++)
+			for (var i:int = 0 ;i < 20;i++)
 			{
 				var npc:NpcCpu = new NpcCpu();
 				npc.init(256);

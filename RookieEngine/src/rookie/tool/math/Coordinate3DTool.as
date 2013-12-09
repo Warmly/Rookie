@@ -6,7 +6,7 @@ package rookie.tool.math
 	/**
 	 * @author Warmly
 	 */
-	public class Coordinate3DUtil
+	public class Coordinate3DTool
 	{
 		/**
 		 * 屏幕坐标系下一点的坐标，转换到xz平面上的一点的坐标

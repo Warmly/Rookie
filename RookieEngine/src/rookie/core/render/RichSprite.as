@@ -12,9 +12,20 @@ package rookie.core.render
 		{
 		}
 		
-		public function set parent(parent:DisplayObjectContainer):void
+		public function set parent(prt:DisplayObjectContainer):void
 		{
-			parent.addChild(this);
+			if(parent)
+			{
+				if(parent == prt)
+				{
+					return;
+				}
+				else
+				{
+					parent.removeChild(this);
+				}
+			}
+			prt.addChild(this);
 		}
 
 		public function deleteParent():void
