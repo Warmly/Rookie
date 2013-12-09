@@ -1,7 +1,13 @@
 package
 {
+	import tool.UserFactory;
+	import core.creature.UserCpu;
+	import tool.NpcFactory;
+
 	import flash.utils.Dictionary;
+
 	import core.scene.SanguoScene;
+
 	import definition.DirectionEnum;
 	import definition.ActionEnum;
 
@@ -37,41 +43,50 @@ package
 		private function onMainResLoaded():void
 		{
 			RookieEntry.resManager.init();
-			
+
 			var scene:SanguoScene = new SanguoScene();
 			addChild(scene);
-			
-			// var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
-			// img.parent = this;
-			//
-			// var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			// anim.x = 200;
-			// anim.y = 200;
-			//
-			 var anim1:AnimCpu = new AnimCpu(new ResUrl(310, 1, 648));
-			 anim1.x = 350;
-			 anim1.y = 200;
-			 anim1.loop = 2;
-			//
-			// anim.parent = this;
-			 anim1.parent = this;
 
 			ModelEntry.staticDataModel;
 
-			for (var i:int = 0 ;i < 20;i++)
+			/*for (var i:int = 0 ;i < 10;i++)
 			{
-				var npc:NpcCpu = new NpcCpu();
-				npc.init(256);
+				var npc:NpcCpu = NpcFactory.getTestNpcCpu();
 				npc.parent = scene;
-				npc.x = 100 + Math.random()*600;
-				npc.y = 100 + Math.random()*600;
+				npc.x = 100 + Math.random() * 600;
+				npc.y = 100 + Math.random() * 600;
 				npc.synAction(ActionEnum.RUN);
 				npc.synDirection(DirectionEnum.LEFT);
-			}
+			}*/
 			
+			for (var ii:int = 0 ;ii < 10;ii++)
+			{
+				var user:UserCpu = UserFactory.getTestUserCpu();
+				user.parent = scene;
+				user.x = 100 + Math.random() * 600;
+				user.y = 100 + Math.random() * 600;
+				user.synAction(ActionEnum.RUN);
+				user.synDirection(DirectionEnum.RIGHT);
+			}
+
 			ModelEntry.mapModel.curMapId = 2001;
 			ModelEntry.mapModel.loadMap();
-			
+
+			/*var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
+			img.parent = this;
+
+			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			anim.x = 200;
+			anim.y = 200;
+
+			var anim1:AnimCpu = new AnimCpu(new ResUrl(310, 1, 648));
+			anim1.x = 350;
+			anim1.y = 200;
+			anim1.loop = 2;
+
+			anim.parent = this;
+			anim1.parent = this;
+
 			var testVec:Vector.<TestItem> = new Vector.<TestItem>();
 			var a:TestItem = new TestItem();
 			a.id = 3;
@@ -82,12 +97,12 @@ package
 			var c:TestItem = new TestItem();
 			c.id = 8;
 			testVec.push(c);
-			testVec.sort(aaa);
+			testVec.sort(aaa);*/
 		}
-		
+
 		private function aaa(a:TestItem, b:TestItem):Number
 		{
-			if(a.id <= b.id)
+			if (a.id <= b.id)
 			{
 				return -1;
 			}
@@ -101,7 +116,7 @@ package
 		{
 			var obj:TestItem = ObjectPool.getObject(TestItem) as TestItem;
 			obj.act();
-			
+
 			var dic:Dictionary = new Dictionary();
 			trace(dic["aa"]);
 			trace(!dic["aa"]);

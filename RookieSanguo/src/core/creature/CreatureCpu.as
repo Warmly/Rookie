@@ -12,6 +12,7 @@ package core.creature
 	 */
 	public class CreatureCpu extends RichSprite implements IObjPoolItem
 	{
+		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
 		protected var _direction:uint = DirectionEnum.DEFAULT;
 		protected var _action:uint = ActionEnum.DEFAULT;

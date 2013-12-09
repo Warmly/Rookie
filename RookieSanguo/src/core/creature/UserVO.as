@@ -7,6 +7,9 @@ package core.creature
 	 */
 	public class UserVO extends CreatureVO
 	{
+		public var body:uint;
+		public var weapon:uint;
+
 		public function UserVO()
 		{
 		}

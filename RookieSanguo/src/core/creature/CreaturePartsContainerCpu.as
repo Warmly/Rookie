@@ -65,9 +65,9 @@ package core.creature
 			_body.parent = this;
 		}
 
-		public function initWeapon(resUrk:ResUrl):void
+		public function initWeapon(resUrl:ResUrl):void
 		{
-			_weapon = new CreaturePartAnimCpu(resUrk, CreaturePartEnum.WEAPON);
+			_weapon = new CreaturePartAnimCpu(resUrl, CreaturePartEnum.WEAPON);
 			_ref.push(_weapon);
 			_weapon.parent = this;
 		}

@@ -9,7 +9,7 @@ package core.creature
 	/**
 	 * @author Warmly
 	 */
-	public class DetailedNpcVO extends ParseableVO
+	public class NpcConfigVO extends ParseableVO
 	{
 		private var _name:String;
 		private var _type:uint;
@@ -21,7 +21,7 @@ package core.creature
 		private var _visitFlag:uint;
 		private var _moveRange:uint;
 
-		public function DetailedNpcVO(byteArr:ByteArray)
+		public function NpcConfigVO(byteArr:ByteArray)
 		{
 			super(byteArr);
 			_name = byteArr.readMultiByte(Define.MAX_NAME_SIZE + 1, Define.CHARSET);

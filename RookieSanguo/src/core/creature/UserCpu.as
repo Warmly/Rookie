@@ -1,6 +1,6 @@
 package core.creature
 {
-	import core.creature.CreatureCpu;
+	import rookie.core.resource.ResUrl;
 
 	/**
 	 * @author Warmly
@@ -10,6 +10,23 @@ package core.creature
 		public function UserCpu()
 		{
 			super();
+		}
+		
+		public function init(vo:UserVO):void
+		{
+			_creatureVO = vo;
+			_partsContainer.reset();
+			
+			var bodyUrl:ResUrl = new ResUrl(317, vo.body);
+			_partsContainer.initBody(bodyUrl);
+			
+			var weaponUrl:ResUrl = new ResUrl(307, vo.weapon);
+			_partsContainer.initWeapon(weaponUrl);
+		}
+		
+		public function get userVO():UserVO
+		{
+			return _creatureVO as UserVO;
 		}
 	}
 }

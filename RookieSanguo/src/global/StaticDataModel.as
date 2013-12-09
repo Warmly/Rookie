@@ -1,17 +1,13 @@
 package global
 {
-	import flash.utils.Endian;
-
-	import core.creature.DetailedNpcVO;
-
-	import flash.utils.Dictionary;
+	import core.creature.NpcConfigVO;
 
 	import definition.Define;
 
+	import rookie.dataStruct.HashTable;
+
 	import flash.utils.ByteArray;
-
-	import global.ModelBase;
-
+	import flash.utils.Endian;
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 
@@ -22,7 +18,7 @@ package global
 	{
 		public var Action:XML;
 		public var sceneMapInfoConfig:XML;
-		public var detailedNpcDic:Dictionary = new Dictionary();
+		public var npcConfig:HashTable = new HashTable(uint, NpcConfigVO);
 
 		public function StaticDataModel()
 		{
@@ -33,10 +29,10 @@ package global
 
 		private function initTable():void
 		{
-			parseTable("NpcBase", DetailedNpcVO, detailedNpcDic);
+			parseTable("NpcBase", NpcConfigVO, npcConfig);
 		}
 
-		private function parseTable(name:String, voType:Class, dic:Dictionary):void
+		private function parseTable(name:String, voType:Class, config:HashTable):void
 		{
 			var tableCls:Class = getDefinitionByName("Table_StaticData_" + name) as Class;
 			var table:ByteArray = new tableCls();
@@ -55,7 +51,7 @@ package global
 			for (var i:uint = 0;i < recordNum;i++)
 			{
 				var vo:ParseableVO = new voType(byteArr);
-				dic[vo.id] = vo;
+				config.insert(vo.id , vo);
 			}
 		}
 
