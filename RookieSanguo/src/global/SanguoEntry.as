@@ -1,5 +1,6 @@
 package global
 {
+	import core.scene.SanguoScene;
 	import core.scene.SanguoCamera;
 
 	import rookie.global.RookieEntry;
@@ -11,6 +12,7 @@ package global
 	{
 		private static var _rookie:RookieEntry;
 		private static var _camera:SanguoCamera;
+		private static var _scene:SanguoScene;
 
 		public static function get rookie():RookieEntry
 		{
@@ -28,6 +30,15 @@ package global
 				_camera = new SanguoCamera();
 			}
 			return _camera;
+		}
+
+		public static function get scene():SanguoScene
+		{
+			if(!_scene)
+			{
+				_scene = new SanguoScene();
+			}
+			return _scene;
 		}
 	}
 }

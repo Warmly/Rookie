@@ -81,6 +81,7 @@ package core.scene
 				mapVO = new MapVO(byteArr);
 				_mapVoConfig.insert(_curMapInfoVO.id, mapVO);
 			}
+			_curMapVO = mapVO; 
 		}
 
 		public function getMapImgUrl(index:int):ResUrl
