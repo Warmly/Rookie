@@ -1,7 +1,5 @@
 package core.creature
 {
-	import rookie.dataStruct.HashTable;
-
 	import global.ModelEntry;
 	import global.StaticDataModel;
 	import global.ModelBase;
@@ -11,14 +9,14 @@ package core.creature
 	 */
 	public class ActionModel extends ModelBase
 	{
-		private var _actDirNumConfig:HashTable = new HashTable(int, ActDirNumVO);
+		private var _actDirNumConfig:Vector.<ActDirNumVO> = new Vector.<ActDirNumVO>();
 
 		public function ActionModel()
 		{
 			super();
 		}
 
-		private function get actDirNumConfig():HashTable
+		private function get actDirNumConfig():Vector.<ActDirNumVO>
 		{
 			if (_actDirNumConfig.length == 0)
 			{
@@ -27,7 +25,7 @@ package core.creature
 				for each (var i : XML in xmlList)
 				{
 					var vo:ActDirNumVO = new ActDirNumVO(i);
-					_actDirNumConfig.insert(vo.id, vo);
+					_actDirNumConfig.push(vo);
 				}
 			}
 			return _actDirNumConfig;
@@ -39,17 +37,20 @@ package core.creature
 			var voNormal:ActDirNumVO;
 			// 单独配picID了的
 			var voSingle:ActDirNumVO;
-			var temp:ActDirNumVO = actDirNumConfig.find(actId);
-			if (temp)
+			for each (var temp : ActDirNumVO in actDirNumConfig)
 			{
-				if (temp.groupIdArr && temp.groupIdArr[0] == 0)
+				if (temp.id == actId)
 				{
-					voNormal = temp;
+					if (temp.groupIdArr && temp.groupIdArr[0] == 0)
+					{
+						voNormal = temp;
+					}
+					else if (temp.groupIdArr.indexOf(String(groupId)) != -1)
+					{
+						voSingle = temp;
+					}
 				}
-				else if (temp.groupIdArr.indexOf(groupId) != -1)
-				{
-					voSingle = temp;
-				}
+				
 			}
 			if (voSingle)
 			{

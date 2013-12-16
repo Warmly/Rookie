@@ -1,5 +1,7 @@
 package core.creature
 {
+	import flash.utils.Dictionary;
+	import rookie.dataStruct.HashTable;
 	import definition.Define;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
@@ -13,7 +15,6 @@ package core.creature
 	import rookie.global.RookieEntry;
 
 	import flash.system.ApplicationDomain;
-	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 
 	/**
@@ -21,8 +22,8 @@ package core.creature
 	 */
 	public class CreaturePartAnimCpu extends AnimCpu
 	{
-		// 动作ID为键，包含所有方向的配置为值的字典
-		private var _imgConfigVoDic:Dictionary = new Dictionary();
+		// 动作ID为键，包含所有方向的配置为值的哈希表
+		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);
 		// 动作ID
 		private var _action:uint = ActionEnum.DEFAULT;
 		// 动作方向
@@ -44,7 +45,7 @@ package core.creature
 		{
 			_type = type;
 			super(resUrl, false);
-			_imgConfigVoDic = RookieEntry.resManager.getImgConfigVoDic(resUrl);
+			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 			synAction(ActionEnum.DEFAULT);
 		}
 
@@ -53,7 +54,7 @@ package core.creature
 			if (action != _action)
 			{
 				_action = action;
-				_imgConfigVO = _imgConfigVoDic[action];
+				_imgConfigVO = _imgConfigVoTable.find(action);
 				_totalFrame = _imgConfigVO.frameLength;
 				synActDirNum();
 				synDirection(_direction);
@@ -175,9 +176,10 @@ package core.creature
 
 		override protected function onImgDataLoaded():void
 		{
-			for (var i : * in _imgConfigVoDic)
+			var items:Dictionary = _imgConfigVoTable.content;
+			for (var i : * in items)
 			{
-				var vo:ImgConfigVO = _imgConfigVoDic[i];
+				var vo:ImgConfigVO = items[i];
 				var frameLength:uint = vo.frameLength;
 				for (var j:int = 0;j < frameLength;j++)
 				{

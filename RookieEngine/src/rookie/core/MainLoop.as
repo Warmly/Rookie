@@ -10,19 +10,20 @@ package rookie.core
 	 */
 	public class MainLoop
 	{
-		private var _stage : Stage;
+		private var _stage:Stage;
+		//private var _mainLoopQueue:Vector.<type>
 
 		public function MainLoop()
 		{
 		}
 
-		public function init(stage : Stage) : void
+		public function init(stage:Stage):void
 		{
 			_stage = stage;
 			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
-		private function onEnterFrame(event : Event) : void
+		private function onEnterFrame(event:Event):void
 		{
 			RookieEntry.renderManager.onEnterFrame();
 			RookieEntry.timerManager.onEnterFrame();

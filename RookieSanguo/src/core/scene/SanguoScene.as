@@ -1,21 +1,21 @@
 package core.scene
 {
+	import rookie.core.render.RichSprite;
 	import global.SanguoEntry;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.display.Sprite;
 
 	/**
 	 * @author Warmly
 	 */
-	public class SanguoScene extends Sprite
+	public class SanguoScene extends RichSprite
 	{
 		private var _mapLayer:MapLayerCpu;
 
 		public function SanguoScene()
 		{
 			_mapLayer = new MapLayerCpu();
-			addChild(_mapLayer);
+			_mapLayer.parent = this;
 
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
@@ -35,6 +35,11 @@ package core.scene
 		{
 			SanguoEntry.camera.setup(0, x, stage.stageWidth, stage.stageHeight);
 			_mapLayer.onScreenResize();
+		}
+
+		public function get mapLayer():MapLayerCpu
+		{
+			return _mapLayer;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package rookie.core.render
 {
-	import rookie.namespace.Rookie;
-
 	import flash.utils.Dictionary;
+	import rookie.dataStruct.HashTable;
+	import rookie.namespace.Rookie;
 
 	import rookie.core.IMainLoop;
 
@@ -12,11 +12,12 @@ package rookie.core.render
 	public class RenderManager implements IMainLoop
 	{
 		public static const FRAME_RATE:Number = 30;
-		private var _renderQueue:Dictionary = new Dictionary();
+		private var _renderQueue:HashTable = new HashTable(String, IRenderItem);
 
 		public function onEnterFrame():void
 		{
-			for each (var i : IRenderItem in _renderQueue)
+			var items:Dictionary = _renderQueue.content;
+			for each (var i : IRenderItem in items)
 			{
 				i.render();
 			}
@@ -24,19 +25,20 @@ package rookie.core.render
 
 		Rookie function addToQueue(renderItem:IRenderItem):void
 		{
-			if (!_renderQueue[renderItem.key])
+			if(!_renderQueue.has(renderItem.key))
 			{
-				_renderQueue[renderItem.key] = renderItem;
+				_renderQueue.insert(renderItem.key, renderItem);
 			}
 		}
 
-		Rookie function dispose(renderItem:IRenderItem):void
+		Rookie function removeFromQueue(renderItem:IRenderItem):void
 		{
-			if (_renderQueue[renderItem.key])
-			{
-				_renderQueue[renderItem.key] = null;
-				delete _renderQueue[renderItem.key];
-			}
+			_renderQueue.del(renderItem.key);
+		}
+		
+		Rookie function isInRenderQueue(renderItem:IRenderItem):Boolean
+		{
+			return _renderQueue.has(renderItem.key);
 		}
 	}
 }

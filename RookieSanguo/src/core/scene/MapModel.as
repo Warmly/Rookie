@@ -1,5 +1,6 @@
 package core.scene
 {
+	import global.ManagerEntry;
 	import flash.utils.ByteArray;
 
 	import rookie.core.resource.ResManager;
@@ -11,8 +12,6 @@ package core.scene
 
 	import global.ModelEntry;
 	import global.StaticDataModel;
-
-	import flash.utils.Dictionary;
 
 	import rookie.core.resource.ResUrl;
 
@@ -70,6 +69,10 @@ package core.scene
 				resUrl.manualSetUrl(mapUrlStr);
 				RookieEntry.loadManager.load(resUrl, ResType.DATA, LoadPriority.HIGH, FH(onMapLoaded, mapUrlStr));
 			}
+			else
+			{
+				throw new Error("未找到地图ID为" + _curMapId + "的地图XML配置！");
+			}
 		}
 
 		private function onMapLoaded(mapUrlStr:String):void
@@ -81,7 +84,7 @@ package core.scene
 				mapVO = new MapVO(byteArr);
 				_mapVoConfig.insert(_curMapInfoVO.id, mapVO);
 			}
-			_curMapVO = mapVO; 
+			_curMapVO = mapVO;
 		}
 
 		public function getMapImgUrl(index:int):ResUrl
@@ -102,7 +105,7 @@ package core.scene
 			_curMapId = curMapId;
 		}
 
-		public function get mapVoDic():HashTable
+		public function get mapVoConfig():HashTable
 		{
 			return _mapVoConfig;
 		}

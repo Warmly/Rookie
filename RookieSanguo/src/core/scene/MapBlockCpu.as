@@ -1,17 +1,17 @@
 package core.scene
 {
+	import rookie.core.render.RichSprite;
+
 	import global.ModelEntry;
 
 	import rookie.core.resource.ResUrl;
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.core.render.ImgCpu;
 
-	import flash.display.Sprite;
-
 	/**
 	 * @author Warmly
 	 */
-	public class MapBlockCpu extends Sprite implements IObjPoolItem
+	public class MapBlockCpu extends RichSprite implements IObjPoolItem
 	{
 		private var _img:ImgCpu;
 		private var _index:int;
@@ -30,6 +30,7 @@ package core.scene
 			else
 			{
 				_img = new ImgCpu(resUrl);
+				_img.parent = this;
 			}
 		}
 

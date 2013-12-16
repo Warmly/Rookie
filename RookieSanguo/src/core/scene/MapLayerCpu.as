@@ -1,16 +1,15 @@
 package core.scene
 {
+	import rookie.core.render.RichSprite;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 
 	import global.SanguoEntry;
 
-	import flash.display.Sprite;
-
 	/**
 	 * @author Warmly
 	 */
-	public class MapLayerCpu extends Sprite
+	public class MapLayerCpu extends RichSprite
 	{
 		// 水平
 		private var _numBlockH:int;
@@ -57,6 +56,7 @@ package core.scene
 			for (var i:int = 0;i < needAddNum;i++)
 			{
 				var block:MapBlockCpu = ObjectPool.getObject(MapBlockCpu) as MapBlockCpu;
+				block.parent = this;
 				_blocks.push(block);
 			}
 		}

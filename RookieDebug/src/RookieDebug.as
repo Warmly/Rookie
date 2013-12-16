@@ -45,7 +45,7 @@ package
 			RookieEntry.resManager.init();
 
 			var scene:SanguoScene = new SanguoScene();
-			addChild(scene);
+			scene.parent = this;
 
 			ModelEntry.staticDataModel;
 
@@ -75,17 +75,17 @@ package
 			/*var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
 			img.parent = this;
 
-			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			anim.x = 200;
-			anim.y = 200;
 
 			var anim1:AnimCpu = new AnimCpu(new ResUrl(310, 1, 648));
 			anim1.x = 350;
 			anim1.y = 200;
-			anim1.loop = 2;
+			anim1.loop = 2;*/
 
+			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			anim.x = 200;
+			anim.y = 200;
 			anim.parent = this;
-			anim1.parent = this;
+			/*anim1.parent = this;
 
 			var testVec:Vector.<TestItem> = new Vector.<TestItem>();
 			var a:TestItem = new TestItem();

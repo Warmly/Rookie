@@ -6,7 +6,6 @@ package rookie.core.resource
 
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
 	import flash.utils.Endian;
 	import flash.utils.getDefinitionByName;
 
@@ -23,7 +22,7 @@ package rookie.core.resource
 		// 包列表
 		private var _packList:Array;
 		// 图片配置的字典
-		private var _imgConfigDic:Dictionary = new Dictionary();
+		private var _imgConfig:HashTable = new HashTable(uint, HashTable);
 
 		public function ResManager()
 		{
@@ -51,49 +50,49 @@ package rookie.core.resource
 
 			var packId:uint = byteArr.readUnsignedShort();
 			var groupLength:uint = byteArr.readUnsignedShort();
-			var groupDic:Dictionary = new Dictionary();
-			_imgConfigDic[packId] = groupDic;
+			var groupTable:HashTable = new HashTable(uint, HashTable);
+			_imgConfig.insert(packId, groupTable);
 
 			for (var i:int = 0; i < groupLength;i++)
 			{
 				var groupId:uint = byteArr.readUnsignedShort();
 				var imgLength:uint = byteArr.readUnsignedShort();
-				var imgDic:Dictionary = new Dictionary();
-				groupDic[groupId] = imgDic;
+				var imgTable:HashTable = new HashTable(uint, ImgConfigVO);
+				groupTable.insert(groupId, imgTable);
 				for (var j:int = 0;j < imgLength;j++)
 				{
 					var imageId:uint = byteArr.readUnsignedShort();
 					var vo:ImgConfigVO = new ImgConfigVO(packId, groupId, imageId);
 					vo.parseAndInit(byteArr);
-					imgDic[imageId] = vo;
+					imgTable.insert(imageId, vo);
 				}
 			}
 		}
 
 		public function getImgConfigVO(resUrl:ResUrl):ImgConfigVO
 		{
-			var packDic:Dictionary = _imgConfigDic[resUrl.packId];
-			if (packDic)
+			var groupTable:HashTable = _imgConfig.find(resUrl.packId);
+			if (groupTable)
 			{
-				var groupDic:Dictionary = packDic[resUrl.groupId];
-				if (groupDic)
+				var imgTable:HashTable = groupTable.find(resUrl.groupId);
+				if (imgTable)
 				{
-					var vo:ImgConfigVO = groupDic[resUrl.imageId];
+					var vo:ImgConfigVO = imgTable.find(resUrl.imageId);
 					return vo;
 				}
 			}
 			return null;
 		}
 
-		public function getImgConfigVoDic(resUrl:ResUrl):Dictionary
+		public function getImgConfigVoTable(resUrl:ResUrl):HashTable
 		{
-			var packDic:Dictionary = _imgConfigDic[resUrl.packId];
-			if (packDic)
+			var groupTable:HashTable = _imgConfig.find(resUrl.packId);
+			if (groupTable)
 			{
-				var groupDic:Dictionary = packDic[resUrl.groupId];
-				if (groupDic)
+				var imgTable:HashTable = groupTable.find(resUrl.groupId);
+				if (imgTable)
 				{
-					return groupDic;
+					return imgTable;
 				}
 			}
 			return null;

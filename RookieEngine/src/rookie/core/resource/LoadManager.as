@@ -1,5 +1,7 @@
 package rookie.core.resource
 {
+	import rookie.tool.log.error;
+	import rookie.dataStruct.HashTable;
 	import rookie.namespace.Rookie;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.tool.objectPool.ObjectPool;
@@ -8,7 +10,6 @@ package rookie.core.resource
 	import flash.system.ApplicationDomain;
 	import flash.system.ImageDecodingPolicy;
 	import flash.system.LoaderContext;
-	import flash.utils.Dictionary;
 
 	use namespace Rookie;
 	/**
@@ -22,7 +23,7 @@ package rookie.core.resource
 		private var _eventDispatcher:EventDispatcher;
 		private var _loaderContext:LoaderContext;
 		// 加载过的资源的标记字典
-		private var _loadedItemDic:Dictionary = new Dictionary();
+		private var _loadedItemDic:HashTable = new HashTable(String, Boolean);
 
 		public function LoadManager()
 		{
@@ -45,7 +46,7 @@ package rookie.core.resource
 			{
 				return;
 			}
-			if (_loadedItemDic[resUrl.url] == true)
+			if (_loadedItemDic.has(resUrl.url))
 			{
 				if (callBack)
 				{
@@ -123,7 +124,7 @@ package rookie.core.resource
 
 		Rookie function setLoadedDicToken(url:String):void
 		{
-			_loadedItemDic[url] = true;
+			_loadedItemDic.insert(url, true);
 		}
 
 		private function isResAlreadyLoading(url:String):Boolean
@@ -140,7 +141,7 @@ package rookie.core.resource
 
 		private function isItemLoaded(loadItem:LoadItem):Boolean
 		{
-			return _loadedItemDic[loadItem.url] == true;
+			return _loadedItemDic.has(loadItem.url);
 		}
 
 		private function onItemLoaded(event:LoadThreadEvent):void
@@ -150,7 +151,7 @@ package rookie.core.resource
 
 		private function onLoadError(event:LoadThreadEvent):void
 		{
-			trace(event.errorInfo);
+			error(event.errorInfo);
 			loadLoop();
 		}
 	}

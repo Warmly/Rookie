@@ -142,12 +142,12 @@ package rookie.core.render
 
 		public function dispose():void
 		{
-			RookieEntry.renderManager.dispose(this);
+			RookieEntry.renderManager.removeFromQueue(this);
 		}
 
 		public function get key():String
 		{
-			return _resUrl.url + name;
+			return _resUrl.url + "[" + name + "]";
 		}
 
 		public function get loop():uint

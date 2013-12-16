@@ -1,5 +1,6 @@
 package core.scene
 {
+	import rookie.tool.log.log;
 	import definition.SceneLayerEnum;
 
 	import flash.utils.Endian;
@@ -32,7 +33,7 @@ package core.scene
 			_jpgSize = byteArr.readUnsignedInt();
 			byteArr.position += 24;
 
-			trace("宽:" + _numCellH + " 高:" + _numCellV + " 层数:" + numLayer);
+			log("宽:" + _numCellH + " 高:" + _numCellV + " 层数:" + numLayer);
 
 			for (var i:uint = 0;i < numLayer;i++)
 			{
@@ -48,7 +49,7 @@ package core.scene
 				var rearX:uint = byteArr.readUnsignedShort();
 				var rearY:uint = byteArr.readUnsignedShort();
 
-				trace("地表类型:" + layerType + " 叠加方式:" + blendType + " 元素数量:" + numItem + " x,y 方向缩放比率" + rearX + " " + rearY);
+				log("地表类型:" + layerType + " 叠加方式:" + blendType + " 元素数量:" + numItem + " x,y 方向缩放比率" + rearX + " " + rearY);
 
 				if (layerType == SceneLayerEnum.OBSTACLE)
 				{
