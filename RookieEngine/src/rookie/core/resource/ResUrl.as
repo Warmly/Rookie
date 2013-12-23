@@ -1,41 +1,39 @@
 package rookie.core.resource
 {
 	/**
+	 * 资源路径
+	 * 1.-1表示无该级路径
 	 * @author Warmly
 	 */
 	public class ResUrl
 	{
-		private static const _ROOT_PATH:String = "D:/sgtxRes/DZSG/3guores/";
+		private static const _ROOT_PATH:String = "E:/SanguoTX/Res/";
 		private var _packId:int;
 		private var _groupId:int;
-		private var _imageId:int;
+		private var _fileName:*;
 		private var _url:String;
+		private var _resType:int = ResType.SWF;
 
-		public function ResUrl(packId:int = -1, groupId:int = -1, imageId:int = -1)
+		public function ResUrl(packId:int = -1, groupId:int = -1, fileName:* = -1, resType:int = 0, subPath:String = "3guores/")
 		{
 			_packId = packId;
 			_groupId = groupId;
-			_imageId = imageId;
-			if (imageId > 0)
-			{
-				_url = _ROOT_PATH + _packId + "/" + _groupId + "/" + _imageId + ".swf";
-			}
-			else
-			{
-				_url = _ROOT_PATH + _packId + "/" + _groupId + ".swf";
-			}
+			_fileName = fileName;
+			_resType = resType;
+			
+			var packPath:String = packId != -1 ? packId + "/" : "";
+			var groupPath:String = groupId != -1 ? groupId + "/" : "";
+			var fileNamePath:String = fileName != -1 ? fileName : "";
+			
+			_url = _ROOT_PATH + subPath + packPath + groupPath + fileNamePath;
+		
+			_url += ResType.getTailByType(resType);
 		}
 
-		public function manualSetUrl(url:String, defaultRoot:Boolean = false):void
+		public function manualSetUrl(url:String, resType:int = 0):void
 		{
-			if(defaultRoot)
-			{
-				_url = _ROOT_PATH + url;
-			}
-			else
-			{
-				_url = url;
-			}
+			_url = _ROOT_PATH + url;
+			_resType = resType;
 		}
 
 		public function get url():String
@@ -53,9 +51,14 @@ package rookie.core.resource
 			return _groupId;
 		}
 
-		public function get imageId():int
+		public function get fileName():*
 		{
-			return _imageId;
+			return _fileName;
+		}
+		
+		public function get resType():int
+		{
+			return _resType;
 		}
 	}
 }

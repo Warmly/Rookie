@@ -1,5 +1,6 @@
 package
 {
+	import rookie.core.resource.LoadPriority;
 	import tool.UserFactory;
 	import core.creature.UserCpu;
 	import tool.NpcFactory;
@@ -25,7 +26,7 @@ package
 
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
 	public class RookieDebug extends Sprite
 	{
 		public function RookieDebug()
@@ -34,9 +35,8 @@ package
 			// RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
 			testObjPool();
 
-			var mainResUrl:ResUrl = new ResUrl();
-			mainResUrl.manualSetUrl("D:/sgtxRes/DZSG/resource_debug.swf");
-			RookieEntry.loadManager.load(mainResUrl, ResType.PACK_SWF, 0, FH(onMainResLoaded));
+			var mainResUrl:ResUrl = new ResUrl(-1, -1, "resource_debug", ResType.PACK_SWF, "");
+			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
 			addChild(new Stats());
 		}
 
@@ -59,7 +59,7 @@ package
 				npc.synDirection(DirectionEnum.LEFT);
 			}*/
 			
-			for (var ii:int = 0 ;ii < 10;ii++)
+			for (var ii:int = 0 ;ii < 2;ii++)
 			{
 				var user:UserCpu = UserFactory.getTestUserCpu();
 				user.parent = scene;
@@ -69,8 +69,8 @@ package
 				user.synDirection(DirectionEnum.RIGHT);
 			}
 
-			ModelEntry.mapModel.curMapId = 2001;
-			ModelEntry.mapModel.loadMap();
+			ModelEntry.mapModel.curMapId = 2005;
+			//ModelEntry.mapModel.loadMap();
 
 			/*var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
 			img.parent = this;
@@ -85,9 +85,9 @@ package
 			anim.x = 200;
 			anim.y = 200;
 			anim.parent = this;
-			/*anim1.parent = this;
+			//anim1.parent = this
 
-			var testVec:Vector.<TestItem> = new Vector.<TestItem>();
+			/*var testVec:Vector.<TestItem> = new Vector.<TestItem>();
 			var a:TestItem = new TestItem();
 			a.id = 3;
 			testVec.push(a);

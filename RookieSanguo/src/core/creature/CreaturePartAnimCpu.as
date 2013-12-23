@@ -213,7 +213,7 @@ package core.creature
 
 		private function getResCls(actionId:uint, index:uint):Class
 		{
-			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.groupId + "_" + actionId + "_" + index;
+			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.fileName + "_" + actionId + "_" + index;
 			var resCls:Class;
 			if (ApplicationDomain.currentDomain.hasDefinition(clsName))
 			{

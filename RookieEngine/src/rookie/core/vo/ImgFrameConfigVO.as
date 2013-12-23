@@ -48,7 +48,7 @@ package rookie.core.vo
 
 		private function initClass():void
 		{
-			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.groupId + "_" + _resUrl.imageId;
+			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.groupId + "_" + _resUrl.fileName;
 			if (ApplicationDomain.currentDomain.hasDefinition(clsName))
 			{
 				_resCls = getDefinitionByName(clsName) as Class;

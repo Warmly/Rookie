@@ -17,10 +17,10 @@ package core.creature
 			_creatureVO = vo;
 			_partsContainer.reset();
 			
-			var bodyUrl:ResUrl = new ResUrl(317, vo.body);
+			var bodyUrl:ResUrl = new ResUrl(317, -1, vo.body);
 			_partsContainer.initBody(bodyUrl);
 			
-			var weaponUrl:ResUrl = new ResUrl(307, vo.weapon);
+			var weaponUrl:ResUrl = new ResUrl(307, -1, vo.weapon);
 			_partsContainer.initWeapon(weaponUrl);
 		}
 		

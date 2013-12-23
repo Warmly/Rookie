@@ -1,5 +1,6 @@
 package core.scene
 {
+	import rookie.core.render.ImgCpuBase;
 	import rookie.core.render.RichSprite;
 
 	import global.ModelEntry;
@@ -11,19 +12,19 @@ package core.scene
 	/**
 	 * @author Warmly
 	 */
-	public class MapBlockCpu extends RichSprite implements IObjPoolItem
+	public class MapBlockCpu extends ImgCpuBase implements IObjPoolItem
 	{
-		private var _img:ImgCpu;
 		private var _index:int;
 
 		public function MapBlockCpu()
 		{
+			super(new ResUrl());
 		}
 
 		public function update():void
 		{
 			var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
-			if (_img)
+			/*if (_img)
 			{
 				_img.manualLoad(resUrl);
 			}
@@ -31,7 +32,7 @@ package core.scene
 			{
 				_img = new ImgCpu(resUrl);
 				_img.parent = this;
-			}
+			}*/
 		}
 
 		public function reset():void

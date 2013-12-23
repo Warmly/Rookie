@@ -18,7 +18,7 @@ package core.creature
 		{
 			_creatureVO = vo;
 			_partsContainer.reset();
-			var resUrl:ResUrl = new ResUrl(316, vo.detail.pic);
+			var resUrl:ResUrl = new ResUrl(316, -1, vo.detail.pic);
 			_partsContainer.initBody(resUrl);
 		}
 

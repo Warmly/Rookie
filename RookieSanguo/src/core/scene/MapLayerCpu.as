@@ -1,15 +1,17 @@
 package core.scene
 {
+	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RichSprite;
+	import rookie.global.RookieEntry;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
-
+    import rookie.namespace.Rookie;
 	import global.SanguoEntry;
-
+    use namespace Rookie;
 	/**
 	 * @author Warmly
 	 */
-	public class MapLayerCpu extends RichSprite
+	public class MapLayerCpu extends RichSprite implements IRenderItem
 	{
 		// 水平
 		private var _numBlockH:int;
@@ -26,6 +28,10 @@ package core.scene
 			var camera:SanguoCamera = SanguoEntry.camera;
 			var startIndexH:int = getStartIndex(camera.xInScene + MapModel.MAP_H_ADD);
 			var startIndexV:int = getStartIndex(camera.yInScene + MapModel.MAP_V_ADD);
+			
+			startIndexH = 0;
+			startIndexV = 0;
+			
 			for (var i:int = 0;i < _numBlockV;i++)
 			{
 				var yInScene:Number = (i + startIndexV) * MapModel.MAP_BLOCK_SIZE;
@@ -74,6 +80,16 @@ package core.scene
 		private function getBlockNum(distance:Number):int
 		{
 			return RookieMath.ceil(distance / MapModel.MAP_BLOCK_SIZE) + MapModel.CAMERA_RESERVE_BLOCK_NUM * 2;
+		}
+		
+		public function dispose():void
+		{
+			RookieEntry.renderManager.removeFromQueue(this);
+		}
+		
+		public function get key():String
+		{
+			return "MapLayerCpu" + "[" + name + "]";
 		}
 	}
 }

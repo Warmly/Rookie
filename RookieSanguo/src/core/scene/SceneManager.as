@@ -1,7 +1,6 @@
 package core.scene
 {
 	import global.ModelEntry;
-	import rookie.core.IMainLoop;
 
 	import global.SanguoEntry;
 	import global.ManagerBase;
@@ -9,7 +8,7 @@ package core.scene
 	/**
 	 * @author Warmly
 	 */
-	public class SceneManager extends ManagerBase implements IMainLoop
+	public class SceneManager extends ManagerBase
 	{
 		private var _scene:SanguoScene;
 		private var _mapModel:MapModel;
@@ -18,11 +17,6 @@ package core.scene
 		{
 			_scene = SanguoEntry.scene;
 			_mapModel = ModelEntry.mapModel;
-		}
-
-		public function onEnterFrame():void
-		{
-			_scene.mapLayer.render();
 		}
 	}
 }

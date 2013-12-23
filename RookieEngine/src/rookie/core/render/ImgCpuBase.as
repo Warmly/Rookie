@@ -1,5 +1,6 @@
 package rookie.core.render
 {
+	import rookie.core.resource.LoadPriority;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.tool.functionHandler.FH;
@@ -9,6 +10,7 @@ package rookie.core.render
 
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
+	import rookie.tool.log.error;
 
 	/**
 	 * @author Warmly
@@ -18,19 +20,22 @@ package rookie.core.render
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
 
-		public function ImgCpuBase(resUrl:ResUrl)
+		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true)
 		{
 			super();
 			_resUrl = resUrl;
-			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
-			RookieEntry.loadManager.load(_resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
+			if (loadImmediately)
+			{
+				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
+				RookieEntry.loadManager.load(_resUrl, LoadPriority.LOW, FH(onImgDataLoaded));
+		    }
 		}
 
 		protected function onImgDataLoaded():void
 		{
 			if (!_imgConfigVO)
 			{
-				throw new Error("没有" + _resUrl.packId + "/" + _resUrl.groupId + "/" + _resUrl.imageId + "图片的配置！");
+				error("没有" + _resUrl.url + "的配置！");
 				return;
 			}
 			var frameLength:uint = _imgConfigVO.frameLength;
@@ -43,8 +48,9 @@ package rookie.core.render
 
 		public function manualLoad(resUrl:ResUrl):void
 		{
+			_resUrl = resUrl;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
-			RookieEntry.loadManager.load(resUrl, ResType.SWF, 0, FH(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, LoadPriority.LOW, FH(onImgDataLoaded));
 		}
 
 		public function set parent(parent:DisplayObjectContainer):void

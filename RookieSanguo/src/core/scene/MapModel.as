@@ -16,6 +16,8 @@ package core.scene
 	import rookie.core.resource.ResUrl;
 
 	import global.ModelBase;
+	
+	import rookie.tool.log.error;
 
 	/**
 	 * @author Warmly
@@ -31,9 +33,9 @@ package core.scene
 		// 格子高
 		public static const CELL_HEIGHT:int = 32;
 		// 地图水平附加长度
-		public static const MAP_V_ADD:int = 20 * CELL_WIDTH;
+		public static const MAP_H_ADD:int = 20 * CELL_WIDTH;
 		// 地图竖直附加长度
-		public static const MAP_H_ADD:int = 20 * CELL_HEIGHT;
+		public static const MAP_V_ADD:int = 20 * CELL_HEIGHT;
 		private var _sceneMapInfoConfig:HashTable = new HashTable(int, MapInfoVO);
 		private var _curMapInfoVO:MapInfoVO;
 		private var _mapVoConfig:HashTable = new HashTable(int, MapVO);
@@ -64,14 +66,12 @@ package core.scene
 			if (mapInfoVO)
 			{
 				_curMapInfoVO = mapInfoVO;
-				var mapUrlStr:String = "D:/sgtxRes/DZSG/map/" + mapInfoVO.fileName + ".map";
-				var resUrl:ResUrl = new ResUrl();
-				resUrl.manualSetUrl(mapUrlStr);
-				RookieEntry.loadManager.load(resUrl, ResType.DATA, LoadPriority.HIGH, FH(onMapLoaded, mapUrlStr));
+				var resUrl:ResUrl = new ResUrl(-1, -1, mapInfoVO.fileName, ResType.MAP_DATA, "map/");
+				RookieEntry.loadManager.load(resUrl, LoadPriority.HIGH, FH(onMapLoaded, resUrl.url));
 			}
 			else
 			{
-				throw new Error("未找到地图ID为" + _curMapId + "的地图XML配置！");
+				error("未找到地图ID为" + _curMapId + "的地图XML配置！");
 			}
 		}
 
@@ -89,9 +89,7 @@ package core.scene
 
 		public function getMapImgUrl(index:int):ResUrl
 		{
-			var resUrl:ResUrl = new ResUrl();
-			var urlStr:String = "320/" + _curMapVO.groupId + "/" + index + "_" + MAP_BLOCK_SIZE + "_" + totalMapWidth + "_" + totalMapHeight;
-			resUrl.manualSetUrl(urlStr, true);
+			var resUrl:ResUrl = new ResUrl(320, _curMapVO.groupId, (index + "_" + MAP_BLOCK_SIZE + "_" + totalMapWidth + "_" + totalMapHeight), ResType.JPG);
 			return resUrl;
 		}
 

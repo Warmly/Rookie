@@ -11,7 +11,6 @@ package rookie.core
 	public class MainLoop
 	{
 		private var _stage:Stage;
-		//private var _mainLoopQueue:Vector.<type>
 
 		public function MainLoop()
 		{

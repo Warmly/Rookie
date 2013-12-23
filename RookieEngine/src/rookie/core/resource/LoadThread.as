@@ -126,7 +126,7 @@ package rookie.core.resource
 				}
 				loadByteArrToDomain();
 			}
-			else if (_curLoadingItem.resType == ResType.DATA)
+			else if (_curLoadingItem.resType == ResType.MAP_DATA)
 			{
 				_isLoading = false;
 				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);

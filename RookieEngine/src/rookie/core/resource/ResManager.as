@@ -77,7 +77,7 @@ package rookie.core.resource
 				var imgTable:HashTable = groupTable.find(resUrl.groupId);
 				if (imgTable)
 				{
-					var vo:ImgConfigVO = imgTable.find(resUrl.imageId);
+					var vo:ImgConfigVO = imgTable.find(resUrl.fileName);
 					return vo;
 				}
 			}
@@ -89,7 +89,7 @@ package rookie.core.resource
 			var groupTable:HashTable = _imgConfig.find(resUrl.packId);
 			if (groupTable)
 			{
-				var imgTable:HashTable = groupTable.find(resUrl.groupId);
+				var imgTable:HashTable = groupTable.find(resUrl.fileName);
 				if (imgTable)
 				{
 					return imgTable;

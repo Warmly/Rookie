@@ -4,7 +4,9 @@ package core.scene
 	import global.SanguoEntry;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-
+	import rookie.global.RookieEntry;
+	import rookie.namespace.Rookie;
+    use namespace Rookie;
 	/**
 	 * @author Warmly
 	 */
@@ -25,6 +27,7 @@ package core.scene
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			onScreenResize();
+			//RookieEntry.renderManager.addToQueue(_mapLayer);
 		}
 
 		private function onMouseDown(e:MouseEvent):void
@@ -33,7 +36,7 @@ package core.scene
 
 		private function onScreenResize(e:Event = null):void
 		{
-			SanguoEntry.camera.setup(0, x, stage.stageWidth, stage.stageHeight);
+			SanguoEntry.camera.setup(0, 0, stage.stageWidth, stage.stageHeight);
 			_mapLayer.onScreenResize();
 		}
 

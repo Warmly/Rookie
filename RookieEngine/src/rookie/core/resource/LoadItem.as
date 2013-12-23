@@ -13,10 +13,10 @@ package rookie.core.resource
 		private var _priority:int;
 		private var _callBack:FunHandler;
 
-		public function init(resUrl:ResUrl, resType:int, priority:int = 0, callBack:FunHandler = null):void
+		public function init(resUrl:ResUrl, priority:int = 0, callBack:FunHandler = null):void
 		{
 			_resUrl = resUrl;
-			_resType = resType;
+			_resType = resUrl.resType;
 			_priority = priority;
 			_callBack = callBack;
 		}

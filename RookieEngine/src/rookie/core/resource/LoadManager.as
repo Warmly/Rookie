@@ -36,7 +36,7 @@ package rookie.core.resource
 			initLoadQueue();
 		}
 
-		public function load(resUrl:ResUrl, resType:int, priority:int = 0, callBack:FunHandler = null):void
+		public function load(resUrl:ResUrl, priority:int = 0, callBack:FunHandler = null):void
 		{
 			if (!resUrl.url)
 			{
@@ -55,7 +55,7 @@ package rookie.core.resource
 				return;
 			}
 			var loadItem:LoadItem = ObjectPool.getObject(LoadItem) as LoadItem;
-			loadItem.init(resUrl, resType, priority, callBack);
+			loadItem.init(resUrl, priority, callBack);
 			addToWaitToLoadQueue(loadItem);
 			loadLoop();
 		}
