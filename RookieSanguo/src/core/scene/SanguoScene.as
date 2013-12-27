@@ -27,7 +27,7 @@ package core.scene
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			onScreenResize();
-			//RookieEntry.renderManager.addToQueue(_mapLayer);
+			RookieEntry.renderManager.addToQueue(_mapLayer);
 		}
 
 		private function onMouseDown(e:MouseEvent):void
@@ -36,7 +36,9 @@ package core.scene
 
 		private function onScreenResize(e:Event = null):void
 		{
-			SanguoEntry.camera.setup(0, 0, stage.stageWidth, stage.stageHeight);
+			SanguoEntry.camera.setup(1000, 1000, stage.stageWidth, stage.stageHeight);
+			this.x = -1000;
+			this.y = -1000;
 			_mapLayer.onScreenResize();
 		}
 

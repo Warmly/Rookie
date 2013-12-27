@@ -49,7 +49,7 @@ package core.scene
 		private var _totalMapWidth:int;
 		// 地图总宽（计算附加宽）
 		private var _totalMapHeight:int;
-		// // // // // //
+		//
 		private var _staticDataModel:StaticDataModel;
 		private var _resManager:ResManager;
 
@@ -62,7 +62,7 @@ package core.scene
 
 		public function loadMap():void
 		{
-			var mapInfoVO:MapInfoVO = sceneMapInfoConfig.find(_curMapId) as MapInfoVO;
+			var mapInfoVO:MapInfoVO = sceneMapInfoConfig.search(_curMapId) as MapInfoVO;
 			if (mapInfoVO)
 			{
 				_curMapInfoVO = mapInfoVO;
@@ -77,10 +77,10 @@ package core.scene
 
 		private function onMapLoaded(mapUrlStr:String):void
 		{
-			var mapVO:MapVO = _mapVoConfig.find(_curMapInfoVO.id);
+			var mapVO:MapVO = _mapVoConfig.search(_curMapInfoVO.id);
 			if (!mapVO)
 			{
-				var byteArr:ByteArray = RookieEntry.resManager.byteArrData.find(mapUrlStr);
+				var byteArr:ByteArray = RookieEntry.resManager.byteArrData.search(mapUrlStr);
 				mapVO = new MapVO(byteArr);
 				_mapVoConfig.insert(_curMapInfoVO.id, mapVO);
 			}

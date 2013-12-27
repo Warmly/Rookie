@@ -71,13 +71,13 @@ package rookie.core.resource
 
 		public function getImgConfigVO(resUrl:ResUrl):ImgConfigVO
 		{
-			var groupTable:HashTable = _imgConfig.find(resUrl.packId);
+			var groupTable:HashTable = _imgConfig.search(resUrl.packId);
 			if (groupTable)
 			{
-				var imgTable:HashTable = groupTable.find(resUrl.groupId);
+				var imgTable:HashTable = groupTable.search(resUrl.groupId);
 				if (imgTable)
 				{
-					var vo:ImgConfigVO = imgTable.find(resUrl.fileName);
+					var vo:ImgConfigVO = imgTable.search(resUrl.fileName);
 					return vo;
 				}
 			}
@@ -86,10 +86,10 @@ package rookie.core.resource
 
 		public function getImgConfigVoTable(resUrl:ResUrl):HashTable
 		{
-			var groupTable:HashTable = _imgConfig.find(resUrl.packId);
+			var groupTable:HashTable = _imgConfig.search(resUrl.packId);
 			if (groupTable)
 			{
-				var imgTable:HashTable = groupTable.find(resUrl.fileName);
+				var imgTable:HashTable = groupTable.search(resUrl.fileName);
 				if (imgTable)
 				{
 					return imgTable;

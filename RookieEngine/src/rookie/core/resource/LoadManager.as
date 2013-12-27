@@ -23,7 +23,7 @@ package rookie.core.resource
 		private var _eventDispatcher:EventDispatcher;
 		private var _loaderContext:LoaderContext;
 		// 加载过的资源的标记字典
-		private var _loadedItemDic:HashTable = new HashTable(String, Boolean);
+		private var _loadedItemTable:HashTable = new HashTable(String, Boolean);
 
 		public function LoadManager()
 		{
@@ -46,7 +46,7 @@ package rookie.core.resource
 			{
 				return;
 			}
-			if (_loadedItemDic.has(resUrl.url))
+			if (_loadedItemTable.has(resUrl.url))
 			{
 				if (callBack)
 				{
@@ -122,9 +122,9 @@ package rookie.core.resource
 			}
 		}
 
-		Rookie function setLoadedDicToken(url:String):void
+		Rookie function setItemLoadedToken(url:String):void
 		{
-			_loadedItemDic.insert(url, true);
+			_loadedItemTable.insert(url, true);
 		}
 
 		private function isResAlreadyLoading(url:String):Boolean
@@ -141,7 +141,7 @@ package rookie.core.resource
 
 		private function isItemLoaded(loadItem:LoadItem):Boolean
 		{
-			return _loadedItemDic.has(loadItem.url);
+			return _loadedItemTable.has(loadItem.url);
 		}
 
 		private function onItemLoaded(event:LoadThreadEvent):void

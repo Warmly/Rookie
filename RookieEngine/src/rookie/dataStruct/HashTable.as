@@ -26,7 +26,7 @@ package rookie.dataStruct
 		/**
 		 * 查找
 		 */
-		public function find(key:*):*
+		public function search(key:*):*
 		{
 			return _items[key];
 		}
@@ -52,7 +52,7 @@ package rookie.dataStruct
 		 */
 		public function del(key:*):*
 		{
-			var ret:* = find(key);
+			var ret:* = search(key);
 			if (ret)
 			{
 				delete _items[key];

@@ -1,5 +1,7 @@
 package
 {
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import rookie.core.resource.LoadPriority;
 	import tool.UserFactory;
 	import core.creature.UserCpu;
@@ -38,6 +40,11 @@ package
 			var mainResUrl:ResUrl = new ResUrl(-1, -1, "resource_debug", ResType.PACK_SWF, "");
 			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
 			addChild(new Stats());
+			
+			trace(this.stage.scaleMode)
+			trace(this.stage.align);
+			this.stage.scaleMode = StageScaleMode.NO_SCALE;
+			this.stage.align = StageAlign.TOP_LEFT;
 		}
 
 		private function onMainResLoaded():void
@@ -62,7 +69,7 @@ package
 			for (var ii:int = 0 ;ii < 2;ii++)
 			{
 				var user:UserCpu = UserFactory.getTestUserCpu();
-				user.parent = scene;
+				user.parent = this;
 				user.x = 100 + Math.random() * 600;
 				user.y = 100 + Math.random() * 600;
 				user.synAction(ActionEnum.RUN);
@@ -70,7 +77,7 @@ package
 			}
 
 			ModelEntry.mapModel.curMapId = 2005;
-			//ModelEntry.mapModel.loadMap();
+			ModelEntry.mapModel.loadMap();
 
 			/*var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
 			img.parent = this;
@@ -98,6 +105,8 @@ package
 			c.id = 8;
 			testVec.push(c);
 			testVec.sort(aaa);*/
+			
+			trace("----------------"+2%7);
 		}
 
 		private function aaa(a:TestItem, b:TestItem):Number

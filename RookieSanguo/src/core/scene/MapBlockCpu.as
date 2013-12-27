@@ -1,13 +1,19 @@
 package core.scene
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import rookie.core.render.ImgCpuBase;
 	import rookie.core.render.RichSprite;
+	import rookie.core.resource.LoadPriority;
+	import rookie.global.RookieEntry;
 
 	import global.ModelEntry;
 
 	import rookie.core.resource.ResUrl;
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.core.render.ImgCpu;
+	import rookie.tool.functionHandler.FH;
+	import rookie.tool.log.log;
 
 	/**
 	 * @author Warmly
@@ -18,21 +24,29 @@ package core.scene
 
 		public function MapBlockCpu()
 		{
-			super(new ResUrl());
+			super(null, false);
 		}
 
 		public function update():void
 		{
-			var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
-			/*if (_img)
+			if (ModelEntry.mapModel.curMapVO)
 			{
-				_img.manualLoad(resUrl);
+				var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
+				manualLoad(resUrl, LoadPriority.HIGH);
+				//log(resUrl.url);
 			}
-			else
-			{
-				_img = new ImgCpu(resUrl);
-				_img.parent = this;
-			}*/
+		}
+		
+		override protected function onImgDataLoaded():void
+		{
+			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(_resUrl.url);
+			super.bitmapData = bmd;
+		}
+		
+		override public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
+		{
+			_resUrl = resUrl;
+			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
 		}
 
 		public function reset():void

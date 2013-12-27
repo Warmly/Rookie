@@ -80,7 +80,7 @@ package rookie.core.resource
 			{
 				_isLoading = false;
 				_isURLLoaderLoading = false;
-				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
+				RookieEntry.loadManager.setItemLoadedToken(_curLoadingItem.url);
 				_curLoadingItem.onLoaded();
 				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
 			}
@@ -129,7 +129,7 @@ package rookie.core.resource
 			else if (_curLoadingItem.resType == ResType.MAP_DATA)
 			{
 				_isLoading = false;
-				RookieEntry.loadManager.setLoadedDicToken(_curLoadingItem.url);
+				RookieEntry.loadManager.setItemLoadedToken(_curLoadingItem.url);
 				var unPackedData:ByteArray = LZMA.decode(_urlLoader.data);
 				RookieEntry.resManager.byteArrData.insert(_curLoadingItem.url, unPackedData);
 				_curLoadingItem.onLoaded();

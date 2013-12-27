@@ -5,6 +5,7 @@ package core.scene
 	import rookie.global.RookieEntry;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.log.log;
     import rookie.namespace.Rookie;
 	import global.SanguoEntry;
     use namespace Rookie;
@@ -29,16 +30,13 @@ package core.scene
 			var startIndexH:int = getStartIndex(camera.xInScene + MapModel.MAP_H_ADD);
 			var startIndexV:int = getStartIndex(camera.yInScene + MapModel.MAP_V_ADD);
 			
-			startIndexH = 0;
-			startIndexV = 0;
-			
 			for (var i:int = 0;i < _numBlockV;i++)
 			{
 				var yInScene:Number = (i + startIndexV) * MapModel.MAP_BLOCK_SIZE;
 				for (var j:int = 0;j < _numBlockH;j++)
 				{
 					var xInScene:Number = (j + startIndexH) * MapModel.MAP_BLOCK_SIZE;
-					var index:int = (i + startIndexV) * _numBlockH + (j + startIndexH);
+					var index:int = i * _numBlockH + j;
 					var block:MapBlockCpu = _blocks[index] as MapBlockCpu;
 					block.x = xInScene;
 					block.y = yInScene;

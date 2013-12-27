@@ -20,14 +20,14 @@ package rookie.core.render
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
 
-		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true)
+		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0)
 		{
 			super();
 			_resUrl = resUrl;
 			if (loadImmediately)
 			{
 				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
-				RookieEntry.loadManager.load(_resUrl, LoadPriority.LOW, FH(onImgDataLoaded));
+				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded));
 		    }
 		}
 
@@ -46,11 +46,11 @@ package rookie.core.render
 			}
 		}
 
-		public function manualLoad(resUrl:ResUrl):void
+		public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
 		{
 			_resUrl = resUrl;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
-			RookieEntry.loadManager.load(resUrl, LoadPriority.LOW, FH(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
 		}
 
 		public function set parent(parent:DisplayObjectContainer):void

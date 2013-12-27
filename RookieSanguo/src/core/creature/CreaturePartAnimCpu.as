@@ -54,7 +54,7 @@ package core.creature
 			if (action != _action)
 			{
 				_action = action;
-				_imgConfigVO = _imgConfigVoTable.find(action);
+				_imgConfigVO = _imgConfigVoTable.search(action);
 				_totalFrame = _imgConfigVO.frameLength;
 				synActDirNum();
 				synDirection(_direction);
