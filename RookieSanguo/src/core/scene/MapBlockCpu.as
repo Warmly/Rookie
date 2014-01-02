@@ -33,7 +33,7 @@ package core.scene
 			{
 				var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
 				manualLoad(resUrl, LoadPriority.HIGH);
-				//log(resUrl.url);
+				log(resUrl.url);
 			}
 		}
 		

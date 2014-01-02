@@ -7,8 +7,6 @@ package
 	import core.creature.UserCpu;
 	import tool.NpcFactory;
 
-	import flash.utils.Dictionary;
-
 	import core.scene.SanguoScene;
 
 	import definition.DirectionEnum;
@@ -28,21 +26,17 @@ package
 
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class RookieDebug extends Sprite
 	{
 		public function RookieDebug()
 		{
 			RookieEntry.mainLoop.init(this.stage);
-			// RookieEntry.timerManager.setInterval(1000, 10000, true, intervalFun);
-			testObjPool();
 
 			var mainResUrl:ResUrl = new ResUrl(-1, -1, "resource_debug", ResType.PACK_SWF, "");
 			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
 			addChild(new Stats());
 			
-			trace(this.stage.scaleMode)
-			trace(this.stage.align);
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
 		}
@@ -79,83 +73,12 @@ package
 			ModelEntry.mapModel.curMapId = 2005;
 			ModelEntry.mapModel.loadMap();
 
-			/*var img:ImgCpu = new ImgCpu(new ResUrl(311, 26, 106));
-			img.parent = this;
-
-
-			var anim1:AnimCpu = new AnimCpu(new ResUrl(310, 1, 648));
-			anim1.x = 350;
-			anim1.y = 200;
-			anim1.loop = 2;*/
-
 			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
 			anim.x = 200;
 			anim.y = 200;
 			anim.parent = this;
-			//anim1.parent = this
-
-			/*var testVec:Vector.<TestItem> = new Vector.<TestItem>();
-			var a:TestItem = new TestItem();
-			a.id = 3;
-			testVec.push(a);
-			var b:TestItem = new TestItem();
-			b.id = 19;
-			testVec.push(b);
-			var c:TestItem = new TestItem();
-			c.id = 8;
-			testVec.push(c);
-			testVec.sort(aaa);*/
 			
-			trace("----------------"+2%7);
+			new Test();
 		}
-
-		private function aaa(a:TestItem, b:TestItem):Number
-		{
-			if (a.id <= b.id)
-			{
-				return -1;
-			}
-			else
-			{
-				return 1;
-			}
-		}
-
-		private function testObjPool():void
-		{
-			var obj:TestItem = ObjectPool.getObject(TestItem) as TestItem;
-			obj.act();
-
-			var dic:Dictionary = new Dictionary();
-			trace(dic["aa"]);
-			trace(!dic["aa"]);
-		}
-
-		private function intervalFun():void
-		{
-			trace("!!!!!!");
-		}
-	}
-}
-import rookie.tool.objectPool.IObjPoolItem;
-
-class TestItem implements IObjPoolItem
-{
-	public var id:int;
-	public var name:String;
-
-	public function act():void
-	{
-		trace("I am " + name + id);
-	}
-
-	public function reset():void
-	{
-		id = 1;
-		name = "Bob";
-	}
-
-	public function dispose():void
-	{
 	}
 }

@@ -36,9 +36,11 @@ package core.scene
 
 		private function onScreenResize(e:Event = null):void
 		{
-			SanguoEntry.camera.setup(1000, 1000, stage.stageWidth, stage.stageHeight);
-			this.x = -1000;
-			this.y = -1000;
+			var xDis:int = 256*6;
+			var yDis:int = 256*6;
+			SanguoEntry.camera.setup(xDis, yDis, stage.stageWidth, stage.stageHeight);
+			this.x = -xDis;
+			this.y = -yDis;
 			_mapLayer.onScreenResize();
 		}
 

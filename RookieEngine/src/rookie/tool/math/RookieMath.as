@@ -7,7 +7,7 @@ package rookie.tool.math
 	{
 		public static function ceil(val:Number):int
 		{
-			return int(val) + 1;
+			return int(val) == val ? int(val) : int(val) + 1;
 		}
 
 		public static function floor(val:Number):int

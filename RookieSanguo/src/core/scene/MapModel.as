@@ -33,9 +33,9 @@ package core.scene
 		// 格子高
 		public static const CELL_HEIGHT:int = 32;
 		// 地图水平附加长度
-		public static const MAP_H_ADD:int = 20 * CELL_WIDTH;
+		public static const MAP_W_ADD:int = 20 * CELL_WIDTH;
 		// 地图竖直附加长度
-		public static const MAP_V_ADD:int = 20 * CELL_HEIGHT;
+		public static const MAP_H_ADD:int = 20 * CELL_HEIGHT;
 		private var _sceneMapInfoConfig:HashTable = new HashTable(int, MapInfoVO);
 		private var _curMapInfoVO:MapInfoVO;
 		private var _mapVoConfig:HashTable = new HashTable(int, MapVO);
@@ -120,26 +120,31 @@ package core.scene
 
 		public function get totalMapWidth():int
 		{
-			_totalMapWidth = validMapWidth + MAP_H_ADD * 2;
+			_totalMapWidth = validMapWidth + MAP_W_ADD * 2;
 			return _totalMapWidth;
 		}
 
 		public function get totalMapHeight():int
 		{
-			_totalMapHeight = validMapHeight + MAP_V_ADD * 2;
+			_totalMapHeight = validMapHeight + MAP_H_ADD * 2;
 			return _totalMapHeight;
 		}
 
 		public function get validMapWidth():int
 		{
-			_validMapWidth = _curMapVO.numCellH * CELL_WIDTH;
+			_validMapWidth = _curMapVO.numCellW * CELL_WIDTH;
 			return _validMapWidth;
 		}
 
 		public function get validMapHeight():int
 		{
-			_validMapHeight = _curMapVO.numCellV * CELL_HEIGHT;
+			_validMapHeight = _curMapVO.numCellH * CELL_HEIGHT;
 			return _validMapHeight;
+		}
+		
+		public function get numBlockW():int
+		{
+			return totalMapWidth / MAP_BLOCK_SIZE;
 		}
 
 		public function get sceneMapInfoConfig():HashTable

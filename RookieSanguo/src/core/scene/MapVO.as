@@ -17,23 +17,23 @@ package core.scene
 		private var _jpgSize:uint;
 		private var _country:uint;
 		// 水平格子数
-		private var _numCellH:uint;
+		private var _numCellW:uint;
 		// 竖直格子数
-		private var _numCellV:uint;
+		private var _numCellH:uint;
 		private var _buildShadows:Vector.<Vector.<int>>;
 
 		public function MapVO(byteArr:ByteArray)
 		{
 			byteArr.endian = Endian.LITTLE_ENDIAN;
 			byteArr.position = 12;
+			_numCellW = byteArr.readUnsignedInt();
 			_numCellH = byteArr.readUnsignedInt();
-			_numCellV = byteArr.readUnsignedInt();
 			var numLayer:uint = byteArr.readUnsignedInt();
 			_groupId = byteArr.readUnsignedInt();
 			_jpgSize = byteArr.readUnsignedInt();
 			byteArr.position += 24;
 
-			log("宽:" + _numCellH + " 高:" + _numCellV + " 层数:" + numLayer);
+			log("宽:" + _numCellW + " 高:" + _numCellH + " 层数:" + numLayer);
 
 			for (var i:uint = 0;i < numLayer;i++)
 			{
@@ -55,7 +55,7 @@ package core.scene
 				{
 					if (!_buildShadows)
 					{
-						_buildShadows = new Vector.<Vector.<int>>(_numCellH, true);
+						//_buildShadows = new Vector.<Vector.<int>>(_numCellH, true);
 					}
 					for (var j:uint = 0;j < numItem;j++)
 					{
@@ -91,14 +91,14 @@ package core.scene
 			return _country;
 		}
 
+		public function get numCellW():uint
+		{
+			return _numCellW;
+		}
+
 		public function get numCellH():uint
 		{
 			return _numCellH;
-		}
-
-		public function get numCellV():uint
-		{
-			return _numCellV;
 		}
 	}
 }
