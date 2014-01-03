@@ -49,7 +49,7 @@ package core.scene
 						block.update();
 					}
 				}
-				log("=============");
+				//log("=============");
 			}
 		}
 

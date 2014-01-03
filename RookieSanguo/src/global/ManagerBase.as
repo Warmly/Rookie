@@ -1,9 +1,10 @@
 package global
 {
+	import flash.events.EventDispatcher;
 	/**
 	 * @author Warmly
 	 */
-	public class ManagerBase
+	public class ManagerBase extends EventDispatcher
 	{
 	}
 }

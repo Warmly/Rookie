@@ -9,6 +9,7 @@ package core.creature
 	{
 		public var body:uint;
 		public var weapon:uint;
+		public var horse:uint;
 
 		public function UserVO()
 		{

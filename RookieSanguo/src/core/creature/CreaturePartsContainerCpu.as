@@ -12,6 +12,7 @@ package core.creature
 	{
 		private var _body:CreaturePartAnimCpu;
 		private var _weapon:CreaturePartAnimCpu;
+		private var _horse:CreaturePartAnimCpu;
 		private var _ref:Vector.<CreaturePartAnimCpu> = new Vector.<CreaturePartAnimCpu>();
 		private var _action:uint;
 		private var _direction:uint;
@@ -70,6 +71,13 @@ package core.creature
 			_weapon = new CreaturePartAnimCpu(resUrl, CreaturePartEnum.WEAPON);
 			_ref.push(_weapon);
 			_weapon.parent = this;
+		}
+		
+		public function initHorse(resUrl:ResUrl):void
+		{
+			_horse = new CreaturePartAnimCpu(resUrl, CreaturePartEnum.HORSE);
+			_ref.push(_horse);
+			_horse.parent = this;
 		}
 		
 		public function reset():void

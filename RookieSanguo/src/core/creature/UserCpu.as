@@ -22,6 +22,12 @@ package core.creature
 			
 			var weaponUrl:ResUrl = new ResUrl(307, -1, vo.weapon);
 			_partsContainer.initWeapon(weaponUrl);
+			
+			if (vo.horse)
+			{
+				var horseUrl:ResUrl = new ResUrl(316, -1, vo.horse);
+				_partsContainer.initHorse(horseUrl);
+			}
 		}
 		
 		public function get userVO():UserVO
