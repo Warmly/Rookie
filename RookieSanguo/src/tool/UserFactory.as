@@ -31,8 +31,7 @@ package tool
 		{
 			var myselfCpu:MyselfCpu = new MyselfCpu();
 			myselfCpu.init(getTestUserVO());
-			myselfCpu.synAction(ActionEnum.RUN_ON_HORSE);
-			myselfCpu.synDirection(DirectionEnum.RIGHT_DOWN);
+			myselfCpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
 			return myselfCpu;
 		}
 	}

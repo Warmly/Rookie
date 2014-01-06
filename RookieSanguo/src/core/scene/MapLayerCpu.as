@@ -3,7 +3,6 @@ package core.scene
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RichSprite;
-	import rookie.global.RookieEntry;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.log.log;
@@ -13,7 +12,7 @@ package core.scene
 	/**
 	 * @author Warmly
 	 */
-	public class MapLayerCpu extends RichSprite implements IRenderItem
+	public class MapLayerCpu extends RichSprite
 	{
 		private var _mapModel:MapModel;
 		// 水平
@@ -27,7 +26,7 @@ package core.scene
 			_mapModel = ModelEntry.mapModel;
 		}
 
-		public function render():void
+		public function refresh():void
 		{
 			if (_mapModel.curMapVO)
 			{
@@ -46,10 +45,9 @@ package core.scene
 						block.y = yInScene;
 						var index:int = (i + startIndexY) * numBlockWMAP + (j + startIndexX);
 						block.index = index;
-						block.update();
+						block.refresh();
 					}
 				}
-				//log("=============");
 			}
 		}
 
@@ -85,16 +83,6 @@ package core.scene
 		private function getBlockNum(distance:Number):int
 		{
 			return RookieMath.ceil(distance / MapModel.MAP_BLOCK_SIZE) + MapModel.CAMERA_RESERVE_BLOCK_NUM * 2;
-		}
-		
-		public function dispose():void
-		{
-			RookieEntry.renderManager.removeFromQueue(this);
-		}
-		
-		public function get key():String
-		{
-			return "MapLayerCpu" + "[" + name + "]";
 		}
 	}
 }

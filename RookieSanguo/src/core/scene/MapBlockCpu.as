@@ -27,13 +27,12 @@ package core.scene
 			super(null, false);
 		}
 
-		public function update():void
+		public function refresh():void
 		{
 			if (ModelEntry.mapModel.curMapVO)
 			{
 				var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
 				manualLoad(resUrl, LoadPriority.HIGH);
-				//log(resUrl.url);
 			}
 		}
 		

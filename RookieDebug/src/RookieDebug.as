@@ -66,8 +66,7 @@ package
 				user.parent = this;
 				user.x = 100 + Math.random() * 600;
 				user.y = 100 + Math.random() * 600;
-				user.synAction(ActionEnum.RUN_ON_HORSE);
-				user.synDirection(DirectionEnum.RIGHT);
+				user.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.RIGHT);
 			}
 
 			ModelEntry.mapModel.curMapId = 2005;

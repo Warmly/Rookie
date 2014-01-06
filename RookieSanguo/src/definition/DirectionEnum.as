@@ -34,7 +34,7 @@ package definition
 		public static function getDirection(fromX:Number, fromY:Number, toX:Number, toY:Number):int
 		{
 			var relative:Point = new Point(toX - fromX, toY - fromY);
-			var degree:Number = Math.atan2(relative.y, relative.x);
+			var degree:Number = Math.atan2(relative.y, relative.x) * 180 / Math.PI;
 			var unit:Number = 22.5;
 			var direction:int;
 			if (-unit <= degree && degree <= unit)
@@ -63,7 +63,7 @@ package definition
 			}
 			else if (-unit*7 <= degree && degree <= -unit*5)
 			{
-				direction = LEFT_UP
+				direction = LEFT_UP;
 			}
 			else
 			{

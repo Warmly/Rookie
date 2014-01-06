@@ -3,6 +3,8 @@ package core.scene
 	import core.creature.MyselfCpu;
 	import core.creature.UserCpu;
 	import global.ManagerEntry;
+	import global.ModelEntry;
+	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RichSprite;
 	import global.SanguoEntry;
 	import flash.events.Event;
@@ -14,7 +16,7 @@ package core.scene
 	/**
 	 * @author Warmly
 	 */
-	public class SanguoScene extends RichSprite
+	public class SanguoScene extends RichSprite implements IRenderItem
 	{
 		private var _mapLayer:MapLayerCpu;
 		private var _itemLayer:ItemLayerCpu;
@@ -38,7 +40,7 @@ package core.scene
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			onScreenResize();
-			RookieEntry.renderManager.addToQueue(_mapLayer);
+			RookieEntry.renderManager.addToQueue(this);
 		}
 
 		private function onMouseDown(e:MouseEvent):void
@@ -62,6 +64,24 @@ package core.scene
 			_myself.parent = _itemLayer;
 			_myself.x = 256 * 9;
 			_myself.y = 256 * 7;
+			ModelEntry.myselfModel.cellX = _myself.x / MapModel.CELL_WIDTH;
+			ModelEntry.myselfModel.cellY = _myself.y / MapModel.CELL_HEIGHT;
+		}
+		
+		public function render():void
+		{
+			_mapLayer.refresh();
+			_myself.refreshPosition();
+		}
+		
+		public function dispose():void
+		{
+			RookieEntry.renderManager.removeFromQueue(this);
+		}
+		
+		public function get key():String
+		{
+			return "SanguoScene" + "[" + name + "]";
 		}
 
 		public function get mapLayer():MapLayerCpu

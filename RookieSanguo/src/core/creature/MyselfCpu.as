@@ -6,7 +6,13 @@ package core.creature
 	 */
 	public class MyselfCpu extends UserCpu 
 	{
+		private var _curActProcess:ActProcess;
+		
 		public function MyselfCpu() 
+		{
+		}
+		
+		public function refreshPosition():void
 		{
 		}
 	}

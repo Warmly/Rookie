@@ -14,8 +14,8 @@ package core.creature
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
-		protected var _direction:uint = DirectionEnum.DEFAULT;
-		protected var _action:uint = ActionEnum.DEFAULT;
+		protected var _direction:uint;
+		protected var _action:uint;
 
 		public function CreatureCpu()
 		{
@@ -30,22 +30,23 @@ package core.creature
 			_partsContainer.reset();
 		}
 
-		public function synActionAndDirection(action:uint, direction:uint):void
+		public function synAction(action:uint, direction:uint = 5):void
 		{
-			synAction(action);
-			synDirection(direction);
-		}
-
-		public function synAction(action:uint):void
-		{
-			_action = action;
-			_partsContainer.synAction(action);
+			if (_action != action)
+			{
+				_action = action;
+				_direction = direction;
+				_partsContainer.synAction(action, direction);
+			}
 		}
 
 		public function synDirection(direction:uint):void
 		{
-			_direction = direction;
-			_partsContainer.synDirection(direction);
+			if (_direction != direction)
+			{
+				_direction = direction;
+				_partsContainer.synDirection(direction);
+			}
 		}
 
 		public function dispose():void

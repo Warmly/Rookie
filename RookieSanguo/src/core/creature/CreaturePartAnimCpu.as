@@ -46,19 +46,16 @@ package core.creature
 			_type = type;
 			super(resUrl, false);
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
-			synAction(ActionEnum.DEFAULT);
+			//synAction(ActionEnum.DEFAULT);
 		}
 
-		public function synAction(action:uint):void
+		public function synAction(action:uint, direction:uint = 5):void
 		{
-			if (action != _action)
-			{
-				_action = action;
-				_imgConfigVO = _imgConfigVoTable.search(action);
-				_totalFrame = _imgConfigVO.frameLength;
-				synActDirNum();
-				synDirection(_direction);
-			}
+			_action = action;
+			_imgConfigVO = _imgConfigVoTable.search(action);
+			_totalFrame = _imgConfigVO.frameLength;
+			synActDirNum();
+			synDirection(direction);
 		}
 
 		public function synDirection(direction:uint):void

@@ -1,8 +1,11 @@
 package core.scene
 {
 	import core.creature.MyselfCpu;
+	import definition.DirectionEnum;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import global.ModelEntry;
+	import tool.SanguoCoorTool;
 
 	import global.SanguoEntry;
 	import global.ManagerBase;
@@ -25,14 +28,14 @@ package core.scene
 		}
 		
 		public function handleMouseDown(event:MouseEvent):void
+		{	
+			var sceneCoor:Point = SanguoCoorTool.cameraToScene(event.stageX, event.stageY);
+			var dir:int = DirectionEnum.getDirection(_myself.x, _myself.y, sceneCoor.x, sceneCoor.y);
+			_myself.synDirection(dir);
+		}
+		
+		public function handleMyselfMove():void
 		{
-			//log("======");
-			log(event.localX+" "+event.localY);
-			log(event.stageX + " " + event.stageY);
-			_myself.x = event.localX;
-			_myself.y = event.localY;
-			
-			//var dir:int = 
 		}
 	}
 }
