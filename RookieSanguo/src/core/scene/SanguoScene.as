@@ -2,6 +2,7 @@ package core.scene
 {
 	import core.creature.MyselfCpu;
 	import core.creature.UserCpu;
+	import flash.events.KeyboardEvent;
 	import global.ManagerEntry;
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
@@ -37,6 +38,7 @@ package core.scene
 
 		private function onAddToStage(e:Event):void
 		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			onScreenResize();
@@ -46,6 +48,11 @@ package core.scene
 		private function onMouseDown(e:MouseEvent):void
 		{
 			ManagerEntry.sceneManager.handleMouseDown(e);
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void
+		{
+			ManagerEntry.sceneManager.handleKeyDown(e);
 		}
 
 		private function onScreenResize(e:Event = null):void
@@ -71,7 +78,7 @@ package core.scene
 		public function render():void
 		{
 			_mapLayer.refresh();
-			_myself.refreshPosition();
+			_myself.refresh();
 		}
 		
 		public function dispose():void

@@ -1,5 +1,6 @@
 package core.creature
 {
+	import flash.geom.Point;
 	import rookie.core.render.RichSprite;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
@@ -16,6 +17,7 @@ package core.creature
 		protected var _partsContainer:CreaturePartsContainerCpu;
 		protected var _direction:uint;
 		protected var _action:uint;
+		protected var _actProcess:ActProcess;
 
 		public function CreatureCpu()
 		{
@@ -30,25 +32,53 @@ package core.creature
 			_partsContainer.reset();
 		}
 
-		public function synAction(action:uint, direction:uint = 5):void
+		public function synAction(action:int, direction:int = -1):void
 		{
-			if (_action != action)
+			if (action != _action)
 			{
 				_action = action;
-				_direction = direction;
-				_partsContainer.synAction(action, direction);
+				if (direction > 0)
+				{
+					_direction = direction;
+					_partsContainer.synAction(action, direction);
+				}
+				else
+				{
+					_partsContainer.synAction(action, _direction);
+				}
 			}
-		}
-
-		public function synDirection(direction:uint):void
-		{
-			if (_direction != direction)
+			else if(direction != _direction && direction > 0)
 			{
 				_direction = direction;
 				_partsContainer.synDirection(direction);
 			}
 		}
 
+		public function synDirection(direction:uint):void
+		{
+			if (direction != _direction)
+			{
+				_direction = direction;
+				_partsContainer.synDirection(direction);
+			}
+		}
+		
+		public function setScenePixelPos(pt:Point):void
+		{
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+
+		public function setNewActProcess(ap:ActProcess):void
+		{
+			_actProcess = ap;
+		}
+		
+		public function get actProcess():ActProcess
+		{
+			return _actProcess;
+		}
+		
 		public function dispose():void
 		{
 			ObjectPool.addToPool(this);

@@ -7,9 +7,12 @@ package global
 	 */
 	public class MyselfModel extends ModelBase
 	{
-		public var moveSpeed:Number;
 		public var cellX:int;
 		public var cellY:int;
+		/**
+	     * 移动一格耗时
+	     */
+		public var costPerCell:Number = 300;
 		
 		public function MyselfModel()
 		{

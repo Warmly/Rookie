@@ -14,5 +14,14 @@ package rookie.tool.math
 		{
 			return int(val);
 		}
+		
+		public static function abs(val:Number):Number
+		{
+			if (val < 0)
+			{
+				val = -val;
+			}
+			return val;
+		}
 	}
 }
