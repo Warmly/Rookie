@@ -45,8 +45,8 @@ package core.creature
 		{
 			_type = type;
 			super(resUrl, false);
+			frequency = 12;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
-			//synAction(ActionEnum.DEFAULT);
 		}
 
 		public function synAction(action:uint, direction:uint = 5):void

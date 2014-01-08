@@ -14,8 +14,8 @@ package tool
 		public static function getTestUserVO():UserVO
 		{
 			var vo:UserVO = new UserVO();
-			vo.body = 10201;
-			vo.weapon = 10117;
+			vo.body = 201;
+			vo.weapon = 117;
 			vo.horse = 3216;
 			return vo;
 		}
@@ -31,7 +31,7 @@ package tool
 		{
 			var myselfCpu:MyselfCpu = new MyselfCpu();
 			myselfCpu.init(getTestUserVO());
-			myselfCpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
+			myselfCpu.synAction(ActionEnum.STAND, DirectionEnum.RIGHT_DOWN);
 			return myselfCpu;
 		}
 	}

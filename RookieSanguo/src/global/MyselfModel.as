@@ -12,7 +12,7 @@ package global
 		/**
 	     * 移动一格耗时
 	     */
-		public var costPerCell:Number = 300;
+		public var costPerCell:Number = 400;
 		
 		public function MyselfModel()
 		{

@@ -46,16 +46,16 @@ package core.scene
 			switch(event.keyCode)
 			{
 				case Keyboard.W:
-					_myself.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.UP);
+					_myself.synAction(ActionEnum.RUN, DirectionEnum.UP);
 					break;
 				case Keyboard.A:
-					_myself.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.LEFT);
+					_myself.synAction(ActionEnum.RUN, DirectionEnum.LEFT);
 					break;
 				case Keyboard.S:
-					_myself.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.DOWN);
+					_myself.synAction(ActionEnum.RUN, DirectionEnum.DOWN);
 					break;
 				case Keyboard.D:
-					_myself.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.RIGHT);
+					_myself.synAction(ActionEnum.RUN, DirectionEnum.RIGHT);
 					break;
 			}
 		}
@@ -63,14 +63,14 @@ package core.scene
 		public function createMoveProcess(targetCell:Point):void
 		{
 			var dir:int = DirectionEnum.getDirection(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
-			_myself.synAction(ActionEnum.RUN_ON_HORSE, dir);
+			_myself.synAction(ActionEnum.RUN, dir);
 			var startTime:int = SanguoTimeTool.getCurTime();
 			var cellDis:int = SanguoCoorTool.calCellDictance(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
 			var cost:int = cellDis * _myselfModel.costPerCell;
 			var endTime:int = startTime + cost;
 			var startPoint:Point = new Point(_myselfModel.cellX, _myselfModel.cellY);
 			var endPoint:Point = targetCell;
-			var newActProcess:ActProcess = new ActProcess(ActionEnum.RUN_ON_HORSE, startTime, endTime, startPoint, endPoint);
+			var newActProcess:ActProcess = new ActProcess(ActionEnum.RUN, startTime, endTime, startPoint, endPoint);
 			_myself.setNewActProcess(newActProcess);
 		}
 	}

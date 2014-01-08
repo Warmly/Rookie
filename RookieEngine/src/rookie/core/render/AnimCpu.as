@@ -114,6 +114,7 @@ package rookie.core.render
 		{
 			_curFrame = frame;
 			startPlay();
+			setCurFrameBmd();
 		}
 
 		public function startPlay():void
@@ -158,6 +159,12 @@ package rookie.core.render
 		public function set loop(loop:uint):void
 		{
 			_loop = loop;
+		}
+		
+		public function set frequency(val:Number):void
+		{
+			_frequency = val;
+			_intervalTime = 1000 / _frequency;
 		}
 	}
 }

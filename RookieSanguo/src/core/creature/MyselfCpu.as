@@ -25,7 +25,7 @@ package core.creature
 				if (_actProcess.isFinish)
 				{
 					_actProcess = null;
-					synAction(ActionEnum.STAND_ON_HORSE);
+					synAction(ActionEnum.STAND);
 				}
 				else
 				{

@@ -14,6 +14,7 @@ package global
 		private static var _mapModel:MapModel;
 		private static var _actionModel:ActionModel;
 		private static var _myselfModel:MyselfModel;
+		private static var _userModel:UserModel;
 
 		public static function get staticDataModel():StaticDataModel
 		{
@@ -49,6 +50,15 @@ package global
 				_myselfModel = new MyselfModel();
 			}
 			return _myselfModel;
+		}
+		
+		public static function get userModel():UserModel
+		{
+			if (!_userModel)
+			{
+				_userModel = new UserModel();
+			}
+			return _userModel;
 		}
 	}
 }
