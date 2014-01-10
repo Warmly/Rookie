@@ -16,7 +16,7 @@ package tool
 			var vo:UserVO = new UserVO();
 			vo.body = 201;
 			vo.weapon = 117;
-			vo.horse = 3216;
+			//vo.horse = 3216;
 			return vo;
 		}
 		

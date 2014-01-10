@@ -45,7 +45,7 @@ package core.creature
 		{
 			_type = type;
 			super(resUrl, false);
-			frequency = 12;
+			//frequency = 12;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 

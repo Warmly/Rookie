@@ -18,6 +18,11 @@ package core.creature
 		private var _startPos:Point;
 		private var _endPos:Point;
 		
+		private var _totalTime:int;
+		private var _totalXDis:int;
+		private var _totalYDis:int;
+		private var _startPixelPos:Point;
+		
 		public function ActProcess(action:int, startTime:int, endTime:int, startPos:Point, endPos:Point) 
 		{
 			_actionType = action;
@@ -25,6 +30,11 @@ package core.creature
 			_endTime = endTime;
 			_startPos = startPos;
 			_endPos = endPos;
+			
+			_totalTime = endTime - startTime;
+			_totalXDis = MapModel.CELL_WIDTH * (_endPos.x - _startPos.x);
+			_totalYDis = MapModel.CELL_HEIGHT * (_endPos.y - _startPos.y);
+			_startPixelPos = SanguoCoorTool.cellToScene(_startPos.x, _startPos.y);
 		}
 		
 		public function get isFinish():Boolean
@@ -37,12 +47,9 @@ package core.creature
 		{
 			var curTime:int = SanguoTimeTool.getCurTime();
 			var timePast:int = curTime - _startTime;
-			var ratio:Number = timePast / (_endTime - _startTime);
-			var totalXDis:int = MapModel.CELL_WIDTH * (_endPos.x - _startPos.x);
-			var totalYDis:int = MapModel.CELL_HEIGHT * (_endPos.y - _startPos.y);
-			var startPixelPos:Point = SanguoCoorTool.cellToScene(_startPos.x, _startPos.y);
-			var curPixelX:int = totalXDis * ratio + startPixelPos.x;
-			var curPixelY:int = totalYDis * ratio + startPixelPos.y;
+			var ratio:Number = timePast / _totalTime;
+			var curPixelX:int = _totalXDis * ratio + _startPixelPos.x;
+			var curPixelY:int = _totalYDis * ratio + _startPixelPos.y;
 			return new Point(curPixelX, curPixelY);
 		}
 	}
