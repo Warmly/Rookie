@@ -7,14 +7,14 @@ package rookie.core.resource
 	 */
 	public class ResUrl
 	{
-		private static const _ROOT_PATH:String = "E:/SanguoTX/Res/";
+		private static const _ROOT_PATH:String = "res/";
 		private var _packId:int;
 		private var _groupId:int;
 		private var _fileName:*;
 		private var _url:String;
 		private var _resType:int = ResType.SWF;
 
-		public function ResUrl(packId:int = -1, groupId:int = -1, fileName:* = -1, resType:int = 0, subPath:String = "3guores/")
+		public function ResUrl(packId:int = -1, groupId:int = -1, fileName:* = -1, resType:int = 0, subPath:String = "")
 		{
 			_packId = packId;
 			_groupId = groupId;
