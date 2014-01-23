@@ -7,14 +7,25 @@ package core
 	 */
 	public class ZingEntry 
 	{
+		private static var _root:ZingGame;
 		private static var _zingRes:ZingRes;
 		private static var _zingScene:ZingScene;
 		private static var _zingConfig:ZingConfig;
 		private static var _zingModel:ZingModel;
 		private static var _zingLogic:ZingLogic;
+		private static var _zingGUI:ZingGUI;
 		
 		public function ZingEntry() 
 		{
+		}
+		
+		public static function get root():ZingGame
+		{
+			if (!_root)
+			{
+				_root = new ZingGame();
+			}
+			return _root;
 		}
 		
 		public static function get zingRes():ZingRes
@@ -60,6 +71,15 @@ package core
 				_zingLogic = new ZingLogic();
 			}
 			return _zingLogic;
+		}
+		
+		public static function get zingGUI():ZingGUI
+		{
+			if (!_zingGUI)
+			{
+				_zingGUI = new ZingGUI();
+			}
+			return _zingGUI;
 		}
 	}
 }

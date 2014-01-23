@@ -2,6 +2,8 @@ package core
 {
 	import config.ZingStageVO;
 	import flash.geom.Point;
+	import rookie.tool.math.RookieMath;
+	import tool.ZingMathTool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -22,8 +24,6 @@ package core
 		public function drawEnd():void
 		{
 			_isDrawing = false;
-			ZingEntry.zingModel.path.length = 0;
-			ZingEntry.zingScene.resetPathLayer();
 			if (hasDrawAllTgt())
 			{
 				drawSuccess();
@@ -32,14 +32,30 @@ package core
 			{
 				drawFail();
 			}
+			ZingEntry.zingModel.path.length = 0;
+			ZingEntry.zingScene.resetPathLayer();
 		}
 		
 		public function drawSuccess():void
 		{
+			trace("Success!");
+			var curStage:int = ZingEntry.zingModel.stage;
+			if (ZingEntry.zingConfig.getStageVO(curStage + 1))
+			{
+				ZingEntry.zingModel.stage ++;
+				nextStage();
+			}
+			else
+			{
+				trace("Clear!");
+				gameEnd();
+			}
 		}
 		
 		public function drawFail():void
 		{
+			trace("Fail!");
+			_isDrawing = false;
 			ZingEntry.zingModel.life --;
 			if (ZingEntry.zingModel.life == 0)
 			{
@@ -47,8 +63,23 @@ package core
 			}
 		}
 		
+		private function nextStage():void
+		{
+			ZingEntry.zingScene.init();
+		}
+		
+		public function gameStart():void
+		{
+			trace("GameStart!");
+			ZingEntry.zingModel.stage = 1;
+			ZingEntry.zingScene.init();
+			ZingEntry.zingGUI.visible = false;
+		}
+		
 		public function gameEnd():void
 		{
+			trace("GameEnd!");
+			ZingEntry.zingGUI.visible = true;
 		}
 		
 		public function get isDrawing():Boolean
@@ -56,13 +87,12 @@ package core
 			return _isDrawing;
 		}
 		
-		public function isInPath(x:int, y:int):Boolean
+		private function isInPath(pt:Point):Boolean
 		{
-			var pt:Point = new Point(x, y);
 			var path:Vector.<Point> = ZingEntry.zingModel.path;
 			for each(var i:Point in path)
 			{
-				if (ptEqual(i, pt))
+				if (ZingMathTool.isEqualPt(i, pt))
 				{
 					return true;
 				}
@@ -70,23 +100,39 @@ package core
 			return false;
 		}
 		
-		public function addToPath(x:int, y:int):void
+		public function tryAddToPath(x:int, y:int):void
 		{
 			var pt:Point = new Point(x, y);
 			var path:Vector.<Point> = ZingEntry.zingModel.path;
 			var num:int = path.length;
-			//第一个点或者不是上一个点
-			if (num == 0 || !ptEqual(pt, path[num - 1]))
+			if (num != 0)
 			{
-				//与之前的路径交叉
-				if (isInPath(x, y))
+				var lastPt:Point = path[num - 1];
+				if (!ZingMathTool.isEqualPt(pt, lastPt))
 				{
-					drawFail();
-					return;
+					//与之前的路径交叉
+					if (isInPath(pt))
+					{
+						drawFail();
+						return;
+					}
+					if (ZingMathTool.isNeighbourPt(pt, lastPt))
+					{
+						addToPath(pt);
+					}
 				}
-				path.push(pt);
-				ZingEntry.zingScene.drawPath(pt);
 			}
+			else
+			{
+				addToPath(pt);
+			}
+		}
+		
+		private function addToPath(pt:Point):void
+		{
+			var path:Vector.<Point> = ZingEntry.zingModel.path;
+			path.push(pt);
+			ZingEntry.zingScene.drawPath(pt);
 		}
 		
 		public function hasDrawAllTgt():Boolean
@@ -100,7 +146,7 @@ package core
 				var hasDrawThisPt:Boolean = false;
 				for each(var j:Point in hasDrawVec)
 				{
-					if (ptEqual(i, j))
+					if (ZingMathTool.isEqualPt(i, j))
 					{
 						hasDrawThisPt = true;
 					}
@@ -111,11 +157,6 @@ package core
 				}
 			}
 			return true;
-		}
-		
-		private function ptEqual(pt1:Point, pt2:Point):Boolean
-		{
-			return pt1.x == pt2.x && pt1.y == pt2.y;
 		}
 	}
 }

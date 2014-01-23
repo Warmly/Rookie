@@ -5,7 +5,7 @@ package tool
 	 * ...
 	 * @author Warmly
 	 */
-	public class ZingAlign 
+	public class ZingAlignTool 
 	{
 		public static function alignToCenter(tgt:DisplayObject):void
 		{

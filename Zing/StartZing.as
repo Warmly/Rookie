@@ -39,7 +39,7 @@ package
 			
 			ZingEntry.zingConfig;
 			
-			var game:ZingGame = new ZingGame();
+			var game:ZingGame = ZingEntry.root;
 			addChild(game);
 		}
 	}

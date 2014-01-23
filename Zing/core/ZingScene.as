@@ -6,8 +6,9 @@ package core
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
-	import tool.ZingAlign;
+	import tool.ZingAlignTool;
 	import tool.getZingBmd;
+	import tool.ZingMathTool;
 	
 	/**
 	 * ...
@@ -88,12 +89,12 @@ package core
 				_cellLayer.addChild(cell);
 			}
 			
-			ZingAlign.alignToCenter(_cellLayer);
+			ZingAlignTool.alignToCenter(_cellLayer);
 		}
 		
 		private function initPathLayer():void
 		{
-			ZingAlign.alignTo(_pathLayer, _cellLayer);
+			ZingAlignTool.alignTo(_pathLayer, _cellLayer);
 			resetPathLayer();
 		}
 		
@@ -110,7 +111,7 @@ package core
 			{
 				trace("MouseDown!");
 				ZingEntry.zingLogic.drawStart();
-				ZingEntry.zingLogic.addToPath(tgtCell.logicX, tgtCell.logicY);
+				ZingEntry.zingLogic.tryAddToPath(tgtCell.logicX, tgtCell.logicY);
 			}
 		}
 		
@@ -127,8 +128,11 @@ package core
 			var tgtCell:ZingCell = e.target as ZingCell;
 			if (ZingEntry.zingLogic.isDrawing && tgtCell)
 			{
-				trace("MouseMove!");
-				ZingEntry.zingLogic.addToPath(tgtCell.logicX , tgtCell.logicY);
+				if (ZingMathTool.isInCellResponse(e.stageX, e.stageY, tgtCell))
+				{
+					trace("MouseMove!");
+					ZingEntry.zingLogic.tryAddToPath(tgtCell.logicX , tgtCell.logicY);
+				}
 			}
 		}
 		

@@ -23,6 +23,7 @@ package core
 		{
 			_bg = new Bitmap();
 			_bg.bitmapData = getZingBmd("cellBg");
+			_bg.alpha = 0.3;
 			addChild(_bg);
 			
 			_ele = new Bitmap();
