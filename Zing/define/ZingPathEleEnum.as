@@ -6,10 +6,11 @@ package define
 	 */
 	public class ZingPathEleEnum 
 	{
-		public static const ZERO:int = 1;
-		public static const HALF_RIGHT:int = 2;
-		public static const RIGHT:int = 3;
-		public static const THREE_HALF:int = 4;
-		public static const HORI:int = 5;
+		public static const PATH:int = -1;
+		public static const PATH_0:int = 0;
+		public static const PATH_45:int = 45;
+		public static const PATH_90:int = 90;
+		public static const PATH_135:int = 135;
+		public static const PATH_180:int = 180;
 	}
 }

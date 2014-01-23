@@ -47,6 +47,11 @@ package core
 			_logicY = y;
 		}
 		
+		public function get type():int
+		{
+			return _type;
+		}
+		
 		public function get logicX():int
 		{
 			return _logicX;

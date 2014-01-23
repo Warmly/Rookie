@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="gb2312"?>
 <Config>
-  <stage id="1" width="8" height="6" bg="1">
+  <stage id="1" width="8" height="6" bg="1" grid="1">
     <row id="1" data="0_0_0_0_0_0_0_0"/>
 	<row id="2" data="0_0_1_0_0_1_0_0"/>
 	<row id="3" data="0_0_0_0_0_0_0_0"/>
@@ -9,7 +9,7 @@
 	<row id="6" data="0_0_0_0_0_0_0_0"/>
 
   </stage>
-  <stage id="2" width="8" height="6" bg="2">
+  <stage id="2" width="8" height="6" bg="2" grid="1">
     <row id="1" data="0_0_0_0_0_0_0_0"/>
 	<row id="2" data="0_0_1_0_0_1_0_0"/>
 	<row id="3" data="0_0_0_2_2_0_0_0"/>
@@ -17,7 +17,7 @@
 	<row id="5" data="0_0_1_0_0_1_0_0"/>
 	<row id="6" data="0_0_0_0_0_0_0_0"/>
   </stage>
-  <stage id="3" width="8" height="6" bg="1">
+  <stage id="3" width="8" height="6" bg="1" grid="1">
     <row id="1" data="0_0_0_0_0_0_0_0"/>
 	<row id="2" data="0_0_1_0_0_1_0_0"/>
 	<row id="3" data="0_0_2_2_2_2_0_0"/>

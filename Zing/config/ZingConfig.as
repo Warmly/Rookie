@@ -16,7 +16,7 @@ package config
 		
 		public static const CELL_WIDTH:int = 80;
 		public static const CELL_HEIGHT:int = 80;
-		public static const PATH_ELE_SIZE:int = 60;
+		public static const PATH_ELE_SIZE:int = 120;
 		
 		public function ZingConfig() 
 		{

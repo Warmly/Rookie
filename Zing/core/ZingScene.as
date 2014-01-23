@@ -2,6 +2,7 @@ package core
 {
 	import config.ZingConfig;
 	import config.ZingStageVO;
+	import define.ZingPathVO;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
@@ -17,6 +18,7 @@ package core
 	public class ZingScene extends Sprite 
 	{
 		private var _bg:Bitmap;
+		private var _grid:Bitmap;
 		//
 		private var _cellRef:Vector.<ZingCell>;
 		private var _cellLayer:Sprite;
@@ -30,6 +32,9 @@ package core
 		{
 			_bg = new Bitmap();
 			addChild(_bg);
+			
+			_grid = new Bitmap();
+			addChild(_grid);
 			
 			_cellRef = new Vector.<ZingCell>();
 			_cellLayer = new Sprite();
@@ -61,7 +66,9 @@ package core
 		private function initBg():void
 		{
 			var vo:ZingStageVO = ZingEntry.zingModel.getCurStageVO();
-			_bg.bitmapData = getZingBmd("bg"+vo.bg);
+			_bg.bitmapData = getZingBmd("bg" + vo.bg);
+			_grid.bitmapData = getZingBmd("grid" + vo.grid);
+			ZingAlignTool.alignToCenter(_grid);
 		}
 		
 		private function initCellLayer():void
@@ -111,7 +118,7 @@ package core
 			{
 				trace("MouseDown!");
 				ZingEntry.zingLogic.drawStart();
-				ZingEntry.zingLogic.tryAddToPath(tgtCell.logicX, tgtCell.logicY);
+				ZingEntry.zingLogic.tryAddToPath(tgtCell);
 			}
 		}
 		
@@ -131,19 +138,80 @@ package core
 				if (ZingMathTool.isInCellResponse(e.stageX, e.stageY, tgtCell))
 				{
 					trace("MouseMove!");
-					ZingEntry.zingLogic.tryAddToPath(tgtCell.logicX , tgtCell.logicY);
+					ZingEntry.zingLogic.tryAddToPath(tgtCell);
 				}
 			}
 		}
 		
 		public function drawPath(pt:Point):void
 		{
-			trace("draw at" + pt + "!");
-			var path:ZingPathEle = new ZingPathEle();
-			path.x = (pt.x + 0.5) * ZingConfig.CELL_WIDTH;
-			path.y = (pt.y + 0.5) * ZingConfig.CELL_HEIGHT;
-			_pathRef.push(path);
-			_pathLayer.addChild(path);
+			trace("draw path at" + pt + "!");
+			var pathEle:ZingPathEle = new ZingPathEle();
+			pathEle.x = (pt.x + 0.5) * ZingConfig.CELL_WIDTH;
+			pathEle.y = (pt.y + 0.5) * ZingConfig.CELL_HEIGHT;
+			_pathRef.push(pathEle);
+			_pathLayer.addChild(pathEle);
+			
+			//路径数据
+			var path:Vector.<Point> = ZingEntry.zingModel.path;
+			
+			//刷新这一格
+			var length:int = path.length;
+			var startIndex:int = length - 3;
+			if (startIndex < 0)
+			{
+				startIndex = 0;
+			}
+			var part:Vector.<Point> = path.slice(startIndex);
+			var pt1:Point;
+			var pt2:Point;
+			var pt3:Point;
+			if (part.length == 3)
+			{
+				pt1 = part[0];
+				pt2 = part[1];
+				pt3 = part[2];
+			}
+			else if (part.length == 2)
+			{
+				pt1 = part[0];
+				pt2 = part[1];
+				pt3 = null;
+			}
+			else if (part.length == 1)
+			{
+				pt1 = null;
+				pt2 = part[0];
+				pt3 = null;
+			}
+			var vo:ZingPathVO = ZingMathTool.getPathVO(pt1, pt2, pt3);
+			pathEle.setSource(vo);
+			
+			//刷新上一格
+			if (length > 1)
+			{
+				startIndex --;
+				if (startIndex < 0)
+				{
+					startIndex = 0;
+				}
+				part = path.slice(startIndex, startIndex + 3);
+				if (part.length == 3)
+				{
+					pt1 = part[0];
+					pt2 = part[1];
+					pt3 = part[2];
+				}
+				else if (part.length == 2)
+				{
+					pt1 = null;
+					pt2 = part[0];
+					pt3 = part[1];
+				}
+				vo = ZingMathTool.getPathVO(pt1, pt2, pt3);
+				pathEle = _pathRef[length - 2];
+				pathEle.setSource(vo);
+			}
 		}
 	}
 }

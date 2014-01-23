@@ -1,6 +1,7 @@
 package core 
 {
 	import config.ZingStageVO;
+	import define.ZingEleEnum;
 	import flash.geom.Point;
 	import rookie.tool.math.RookieMath;
 	import tool.ZingMathTool;
@@ -100,9 +101,9 @@ package core
 			return false;
 		}
 		
-		public function tryAddToPath(x:int, y:int):void
+		public function tryAddToPath(cell:ZingCell):void
 		{
-			var pt:Point = new Point(x, y);
+			var pt:Point = new Point(cell.logicX, cell.logicY);
 			var path:Vector.<Point> = ZingEntry.zingModel.path;
 			var num:int = path.length;
 			if (num != 0)
@@ -110,6 +111,11 @@ package core
 				var lastPt:Point = path[num - 1];
 				if (!ZingMathTool.isEqualPt(pt, lastPt))
 				{
+					//是障碍点
+					if (cell.type == ZingEleEnum.OBSTACLE)
+					{
+						return;
+					}
 					//与之前的路径交叉
 					if (isInPath(pt))
 					{

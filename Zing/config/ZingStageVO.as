@@ -12,6 +12,7 @@ package config
 		private var _width:int;
 		private var _height:int;
 		private var _bg:int;
+		private var _grid:int;
 		private var _data:Array = [];
 		private var _tgtPtVec:Vector.<Point> = new Vector.<Point>();
 		
@@ -21,6 +22,8 @@ package config
 			_width = xml.@width;
 			_height = xml.@height;
 			_bg = xml.@bg;
+			_grid = xml.@grid;
+			
 			
 			var xmlList:XMLList = xml.row;
 			
@@ -70,6 +73,11 @@ package config
 		public function get bg():int
 		{
 			return _bg;
+		}
+		
+		public function get grid():int
+		{
+			return _grid;
 		}
 		
 		public function get data():Array
