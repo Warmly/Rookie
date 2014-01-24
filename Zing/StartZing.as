@@ -31,6 +31,8 @@ package
 			
 			var mainResUrl:ResUrl = new ResUrl( -1, -1, "ZingRes", ResType.SWF);
 			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
+			
+			trace(Math.acos(-0.5) * 180 / Math.PI);
 		}
 		
 		private function onMainResLoaded():void

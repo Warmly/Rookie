@@ -157,7 +157,7 @@ package core
 			
 			//刷新这一格
 			var length:int = path.length;
-			var startIndex:int = length - 3;
+			var startIndex:int = length - 2;
 			if (startIndex < 0)
 			{
 				startIndex = 0;
@@ -166,13 +166,7 @@ package core
 			var pt1:Point;
 			var pt2:Point;
 			var pt3:Point;
-			if (part.length == 3)
-			{
-				pt1 = part[0];
-				pt2 = part[1];
-				pt3 = part[2];
-			}
-			else if (part.length == 2)
+			if (part.length == 2)
 			{
 				pt1 = part[0];
 				pt2 = part[1];
