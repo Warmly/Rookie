@@ -1,9 +1,12 @@
 package core 
 {
-	import flash.display.Bitmap;
+	import com.greensock.easing.Bounce;
+	import com.greensock.TweenNano;
 	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import gui.ZingBtn;
+	import gui.ZingLifeBoard;
+	import gui.ZingOverBoard;
+	import gui.ZingScoreBoard;
+	import gui.ZingTimeBar;
 	import tool.getZingBmd;
 	
 	/**
@@ -12,26 +15,40 @@ package core
 	 */
 	public class ZingGUI extends Sprite 
 	{
-		private var _bg:Bitmap;
-		private var _startBtn:ZingBtn;
+		private var _scoreBoard:ZingScoreBoard;
+		private var _lifeBoard:ZingLifeBoard;
+		private var _timeBar:ZingTimeBar;
+		private var _overBoard:ZingOverBoard;
 		
 		public function ZingGUI() 
 		{
-			_bg = new Bitmap();
-			_bg.bitmapData = getZingBmd("gui");
-			addChild(_bg);
+			_scoreBoard = new ZingScoreBoard();
+			addChild(_scoreBoard);
+            
+			_lifeBoard = new ZingLifeBoard();
+			_lifeBoard.x = 500;
+			addChild(_lifeBoard);
 			
-			_startBtn = new ZingBtn();
-			_startBtn.x = _bg.width - _startBtn.width - 120;
-			_startBtn.y = _bg.height - _startBtn.height - 60;
-			addChild(_startBtn);
+			_timeBar = new ZingTimeBar();
+			_timeBar.y = 90;
+			addChild(_timeBar);
 			
-			_startBtn.addEventListener(MouseEvent.CLICK, onClick);
+			_overBoard = new ZingOverBoard();
+			_overBoard.x = 60;
+			_overBoard.y = -600;
+			addChild(_overBoard);
 		}
 		
-		private function onClick(e:MouseEvent):void
+		public function popOver():void
 		{
-			ZingEntry.zingLogic.gameStart();
+			TweenNano.to(_overBoard, 1, {y:130, ease:Bounce.easeOut});
+		}
+		
+		public function syn():void
+		{
+			_scoreBoard.syn();
+			_lifeBoard.syn();
+			_timeBar.syn();
 		}
 	}
 }

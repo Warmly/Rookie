@@ -123,5 +123,11 @@ package rookie.core.time
 		{
 			return item != null;
 		}
+		
+		public function clearAllTimer():void
+		{
+			_timeIntervalVec.length = 0;
+			_timeOutVec.length = 0;
+		}
 	}
 }

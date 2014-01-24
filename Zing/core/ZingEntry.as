@@ -8,6 +8,7 @@ package core
 	public class ZingEntry 
 	{
 		private static var _root:ZingGame;
+		private static var _zingCover:ZingCover;
 		private static var _zingRes:ZingRes;
 		private static var _zingScene:ZingScene;
 		private static var _zingConfig:ZingConfig;
@@ -80,6 +81,15 @@ package core
 				_zingGUI = new ZingGUI();
 			}
 			return _zingGUI;
+		}
+		
+		public static function get zingCover():ZingCover
+		{
+			if (!_zingCover)
+			{
+				_zingCover = new ZingCover();
+			}
+			return _zingCover;
 		}
 	}
 }

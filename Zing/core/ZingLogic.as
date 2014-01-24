@@ -3,8 +3,11 @@ package core
 	import config.ZingStageVO;
 	import define.ZingEleEnum;
 	import flash.geom.Point;
+	import rookie.global.RookieEntry;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.functionHandler.FH;
 	import tool.ZingMathTool;
+	
 	/**
 	 * ...
 	 * @author Warmly
@@ -24,7 +27,6 @@ package core
 		
 		public function drawEnd():void
 		{
-			_isDrawing = false;
 			if (hasDrawAllTgt())
 			{
 				drawSuccess();
@@ -33,13 +35,16 @@ package core
 			{
 				drawFail();
 			}
-			ZingEntry.zingModel.path.length = 0;
-			ZingEntry.zingScene.resetPathLayer();
 		}
 		
 		public function drawSuccess():void
 		{
 			trace("Success!");
+			
+			_isDrawing = false;
+			ZingEntry.zingModel.path.length = 0;
+			ZingEntry.zingScene.resetPathLayer();
+			
 			var curStage:int = ZingEntry.zingModel.stage;
 			if (ZingEntry.zingConfig.getStageVO(curStage + 1))
 			{
@@ -56,7 +61,11 @@ package core
 		public function drawFail():void
 		{
 			trace("Fail!");
+			
 			_isDrawing = false;
+			ZingEntry.zingModel.path.length = 0;
+			ZingEntry.zingScene.resetPathLayer();
+			
 			ZingEntry.zingModel.life --;
 			if (ZingEntry.zingModel.life == 0)
 			{
@@ -72,15 +81,18 @@ package core
 		public function gameStart():void
 		{
 			trace("GameStart!");
-			ZingEntry.zingModel.stage = 1;
+			ZingEntry.zingModel.init();
 			ZingEntry.zingScene.init();
-			ZingEntry.zingGUI.visible = false;
+			ZingEntry.zingGUI.syn();
+			ZingEntry.zingCover.visible = false;
+			startClock();
 		}
 		
 		public function gameEnd():void
 		{
 			trace("GameEnd!");
-			ZingEntry.zingGUI.visible = true;
+			ZingEntry.zingGUI.popOver();
+			RookieEntry.timerManager.clearAllTimer();
 		}
 		
 		public function get isDrawing():Boolean
@@ -88,21 +100,29 @@ package core
 			return _isDrawing;
 		}
 		
-		private function isInPath(pt:Point):Boolean
+		public function startClock():void
 		{
-			var path:Vector.<Point> = ZingEntry.zingModel.path;
-			for each(var i:Point in path)
+			RookieEntry.timerManager.setInterval(1000, 1000 * 9999, false, onSecond);
+		}
+		
+		private function onSecond():void
+		{
+			trace("Interval!");
+			ZingEntry.zingModel.clock --;
+			ZingEntry.zingGUI.syn();
+			if (ZingEntry.zingModel.clock == 0)
 			{
-				if (ZingMathTool.isEqualPt(i, pt))
-				{
-					return true;
-				}
+				gameEnd();
 			}
-			return false;
 		}
 		
 		public function tryAddToPath(cell:ZingCell):void
 		{
+			//是障碍点
+			if (cell.type == ZingEleEnum.OBSTACLE)
+			{
+				return;
+			}
 			var pt:Point = new Point(cell.logicX, cell.logicY);
 			var path:Vector.<Point> = ZingEntry.zingModel.path;
 			var num:int = path.length;
@@ -111,26 +131,33 @@ package core
 				var lastPt:Point = path[num - 1];
 				if (!ZingMathTool.isEqualPt(pt, lastPt))
 				{
-					//是障碍点
-					if (cell.type == ZingEleEnum.OBSTACLE)
-					{
-						return;
-					}
-					//与之前的路径交叉
-					if (isInPath(pt))
-					{
-						drawFail();
-						return;
-					}
 					if (ZingMathTool.isNeighbourPt(pt, lastPt))
 					{
 						addToPath(pt);
+						RookieEntry.timerManager.setTimeOut(100, function():void
+						{
+							check(cell.type);
+							tryClearCellEle(cell);
+						});
 					}
 				}
 			}
 			else
 			{
 				addToPath(pt);
+				RookieEntry.timerManager.setTimeOut(100, function():void
+				{
+					check(cell.type);
+					tryClearCellEle(cell);
+				});
+			}
+		}
+		
+		private function tryClearCellEle(cell:ZingCell):void
+		{
+			if (cell.type != ZingEleEnum.TARGET)
+			{
+				cell.init(ZingEleEnum.EMPTY);
 			}
 		}
 		
@@ -139,6 +166,60 @@ package core
 			var path:Vector.<Point> = ZingEntry.zingModel.path;
 			path.push(pt);
 			ZingEntry.zingScene.drawPath(pt);
+		}
+		
+		private function check(type:int):void
+		{
+			if (isCross())
+			{
+				drawFail();
+			}
+			else
+			{
+				switch(type)
+				{
+					case ZingEleEnum.EMPTY:
+						break;
+					case ZingEleEnum.TARGET:
+						ZingEntry.zingModel.score += 100;
+						break;
+					case ZingEleEnum.OBSTACLE:
+						break;
+					case ZingEleEnum.BOMB:
+						drawFail();
+						break;
+					case ZingEleEnum.BONUS:
+						ZingEntry.zingModel.score += 100;
+						break;
+					case ZingEleEnum.CLOCK:
+						ZingEntry.zingModel.clock += 10;
+					    break;
+				}
+				ZingEntry.zingGUI.syn();
+			}
+			if (hasDrawAllTgt())
+			{
+				drawSuccess();
+			}
+		}
+		
+		private function isCross():Boolean
+		{
+			var path:Vector.<Point> = ZingEntry.zingModel.path;
+			var num:int = path.length;
+			if (num <= 1)
+			{
+				return false;
+			}
+			var pt:Point = path[num - 1];
+			for (var i:int = 0; i < num - 1; i++)
+			{
+				if (ZingMathTool.isEqualPt(path[i], pt))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		public function hasDrawAllTgt():Boolean

@@ -17,7 +17,7 @@ package
 	 * @author Warmly
 	 */
 	
-	[SWF(backgroundColor = "#ffffff", frameRate = "60", width = "800", height = "600")]
+	[SWF(backgroundColor = "#ffffff", frameRate = "60", width = "600", height = "800")]
 	public class StartZing extends Sprite 
 	{
 		public function StartZing() 
@@ -31,8 +31,6 @@ package
 			
 			var mainResUrl:ResUrl = new ResUrl( -1, -1, "ZingRes", ResType.SWF);
 			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
-			
-			trace(Math.acos(-0.5) * 180 / Math.PI);
 		}
 		
 		private function onMainResLoaded():void

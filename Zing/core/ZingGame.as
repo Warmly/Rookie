@@ -10,6 +10,7 @@ package core
 	{
 		private var _scene:ZingScene;
 		private var _gui:ZingGUI;
+		private var _cover:ZingCover;
 		
 		public function ZingGame() 
 		{
@@ -19,7 +20,8 @@ package core
 			_gui = ZingEntry.zingGUI;
 			addChild(_gui);
 			
-			_scene.init();
+			_cover = ZingEntry.zingCover;
+			addChild(_cover);
 		}
 	}
 }

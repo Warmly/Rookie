@@ -19,18 +19,16 @@ package core
 			var cellBgBmd:BitmapData = new cellBgCls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("cellBg", cellBgBmd);
 			
+			//背景
 			var bg1Cls:Class = getDefinitionByName("bg1") as Class;
 			var bg1Bmd:BitmapData = new bg1Cls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("bg1", bg1Bmd);
-			
-			var bg2Cls:Class = getDefinitionByName("bg2") as Class;
-			var bg2Bmd:BitmapData = new bg2Cls() as BitmapData;
-			RookieEntry.resManager.bmdData.insert("bg2", bg2Bmd);
 			
 			var grid1Cls:Class = getDefinitionByName("grid1") as Class;
 			var grid1Bmd:BitmapData = new grid1Cls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("grid1", grid1Bmd);
 			
+			//元素
 			var targetCls:Class = getDefinitionByName("target") as Class;
 			var targetBmd:BitmapData = new targetCls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("target", targetBmd);
@@ -39,10 +37,15 @@ package core
 			var obstacleBmd:BitmapData = new obstacleCls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("obstacle", obstacleBmd);
 			
-			var guiCls:Class = getDefinitionByName("gui") as Class;
-			var guiBmd:BitmapData = new guiCls() as BitmapData;
-			RookieEntry.resManager.bmdData.insert("gui", guiBmd);
+			var bombCls:Class = getDefinitionByName("bomb") as Class;
+			var bombBmd:BitmapData = new bombCls() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("bomb", bombBmd);
 			
+			var bonusCls:Class = getDefinitionByName("bonus") as Class;
+			var bonusBmd:BitmapData = new bonusCls() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("bonus", bonusBmd);
+			
+			//路径
 			var pathCls:Class = getDefinitionByName("path") as Class;
 			var pathBmd:BitmapData = new pathCls() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path", pathBmd);

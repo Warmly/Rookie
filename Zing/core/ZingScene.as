@@ -34,10 +34,13 @@ package core
 			addChild(_bg);
 			
 			_grid = new Bitmap();
+			_grid.y = 200;
+			//_grid.alpha = 0.6;
 			addChild(_grid);
 			
 			_cellRef = new Vector.<ZingCell>();
 			_cellLayer = new Sprite();
+			_cellLayer.y = 200;
 			addChild(_cellLayer);
 			
 			_pathRef = new Vector.<ZingPathEle>();
@@ -68,7 +71,7 @@ package core
 			var vo:ZingStageVO = ZingEntry.zingModel.getCurStageVO();
 			_bg.bitmapData = getZingBmd("bg" + vo.bg);
 			_grid.bitmapData = getZingBmd("grid" + vo.grid);
-			ZingAlignTool.alignToCenter(_grid);
+			//ZingAlignTool.alignToCenter(_grid);
 		}
 		
 		private function initCellLayer():void
@@ -96,7 +99,7 @@ package core
 				_cellLayer.addChild(cell);
 			}
 			
-			ZingAlignTool.alignToCenter(_cellLayer);
+			//ZingAlignTool.alignToCenter(_cellLayer);
 		}
 		
 		private function initPathLayer():void
