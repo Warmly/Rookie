@@ -21,7 +21,7 @@ package core
 			_bg.bitmapData = getZingBmd("cover");
 			addChild(_bg);
 			
-			_startBtn = new ZingBtn();
+			_startBtn = new ZingBtn("startBtn");
 			_startBtn.x = 320;
 			_startBtn.y = 480;
 			addChild(_startBtn);

@@ -1,5 +1,6 @@
 package tool 
 {
+	import config.ZingConfig;
 	import core.ZingCell;
 	import define.ZingPathEleEnum;
 	import define.ZingPathVO;
@@ -13,11 +14,11 @@ package tool
 	{
 		public static function isInCellResponse(stageX:Number, stageY:Number, cell:ZingCell):Boolean
 		{
-			var globalPt:Point = cell.localToGlobal(new Point(40, 40));
-			var xMin:Number = globalPt.x - 30;
-			var xMax:Number = globalPt.x + 30;
-			var yMin:Number = globalPt.y - 30;
-			var yMax:Number = globalPt.y + 30;
+			var globalPt:Point = cell.localToGlobal(new Point(ZingConfig.CELL_WIDTH * 0.5, ZingConfig.CELL_HEIGHT * 0.5));
+			var xMin:Number = globalPt.x - ZingConfig.CELL_INNER_RESPONSE_SIZE * 0.5;
+			var xMax:Number = globalPt.x + ZingConfig.CELL_INNER_RESPONSE_SIZE * 0.5;
+			var yMin:Number = globalPt.y - ZingConfig.CELL_INNER_RESPONSE_SIZE * 0.5;
+			var yMax:Number = globalPt.y + ZingConfig.CELL_INNER_RESPONSE_SIZE * 0.5;
 			return xMin <= stageX && stageX <= xMax && yMin <= stageY && stageY <= yMax;
 		}
 				

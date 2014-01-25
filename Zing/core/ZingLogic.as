@@ -42,20 +42,25 @@ package core
 			trace("Success!");
 			
 			_isDrawing = false;
-			ZingEntry.zingModel.path.length = 0;
-			ZingEntry.zingScene.resetPathLayer();
 			
-			var curStage:int = ZingEntry.zingModel.stage;
-			if (ZingEntry.zingConfig.getStageVO(curStage + 1))
+			RookieEntry.timerManager.setTimeOut(300, function():void
 			{
-				ZingEntry.zingModel.stage ++;
-				nextStage();
-			}
-			else
-			{
-				trace("Clear!");
-				gameEnd();
-			}
+				var curStage:int = ZingEntry.zingModel.stage;
+				if (ZingEntry.zingConfig.getStageVO(curStage + 1))
+				{
+					ZingEntry.zingModel.stage ++;
+					
+						ZingEntry.zingModel.path.length = 0;
+						ZingEntry.zingScene.resetPathLayer();
+						nextStage();
+					
+				}
+				else
+				{
+					trace("Clear!");
+					gameEnd();
+				}
+			});
 		}
 		
 		public function drawFail():void
@@ -64,8 +69,7 @@ package core
 			
 			_isDrawing = false;
 			ZingEntry.zingModel.path.length = 0;
-			ZingEntry.zingScene.resetPathLayer();
-			
+			ZingEntry.zingScene.init();
 			ZingEntry.zingModel.life --;
 			if (ZingEntry.zingModel.life == 0)
 			{
@@ -91,7 +95,7 @@ package core
 		public function gameEnd():void
 		{
 			trace("GameEnd!");
-			ZingEntry.zingGUI.popOver();
+			ZingEntry.zingGUI.popOverBoard();
 			RookieEntry.timerManager.clearAllTimer();
 		}
 		
@@ -155,9 +159,9 @@ package core
 		
 		private function tryClearCellEle(cell:ZingCell):void
 		{
-			if (cell.type != ZingEleEnum.TARGET)
+			if (cell.type != ZingEleEnum.TARGET && cell.type != ZingEleEnum.EMPTY)
 			{
-				cell.init(ZingEleEnum.EMPTY);
+				cell.clear();
 			}
 		}
 		
@@ -186,7 +190,10 @@ package core
 					case ZingEleEnum.OBSTACLE:
 						break;
 					case ZingEleEnum.BOMB:
-						drawFail();
+						RookieEntry.timerManager.setTimeOut(600, function():void
+						{
+							drawFail();
+						});
 						break;
 					case ZingEleEnum.BONUS:
 						ZingEntry.zingModel.score += 100;

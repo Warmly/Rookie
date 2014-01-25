@@ -14,6 +14,8 @@ package config
 		private var _stageConfigXML:XML;
 		private var _stageConfig:HashTable = new HashTable(int, ZingStageVO);
 		
+		public static const CELL_INNER_RESPONSE_SIZE:int = 40;
+		public static const DEFAULT_CLOCK:int = 60;
 		public static const CELL_WIDTH:int = 60;
 		public static const CELL_HEIGHT:int = 60;
 		public static const PATH_ELE_SIZE:int = 120;

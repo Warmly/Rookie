@@ -1,5 +1,6 @@
 package core 
 {
+	import config.ZingConfig;
 	import config.ZingStageVO;
 	import define.ZingState;
 	import flash.geom.Point;
@@ -32,7 +33,7 @@ package core
 			stage = 1;
 			life = 10;
 			score = 0;
-			clock = 60;
+			clock = ZingConfig.DEFAULT_CLOCK;
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package gui 
 {
+	import com.greensock.TweenNano;
+	import config.ZingConfig;
 	import core.ZingEntry;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
@@ -25,13 +27,13 @@ package gui
 			
 			_barBody = new Bitmap();
 			_barBody.bitmapData = getZingBmd("barBody");
-			_barBody.x = 8;
-			_barBody.y = 5;
+			_barBody.x = 7;
+			_barBody.y = 7;
 			addChild(_barBody);
 			
 			_barHead = new Bitmap();
 			_barHead.bitmapData = getZingBmd("barHead");
-			_barHead.x = 8;
+			_barHead.x = 7;
 			_barHead.y = 7;
 			addChild(_barHead);
 			
@@ -44,9 +46,13 @@ package gui
 		
 		public function syn():void
 		{
-			_txt.htmlText = "<font color='#ffffff'>时间：" + ZingEntry.zingModel.clock + "秒</font>";
-			_barBody.width = 570;
-			_barHead.x = _barBody.x + _barBody.width;
+			_txt.htmlText = "<font color='#ffffff'>" + ZingEntry.zingModel.clock + "秒</font>";
+			
+			var wi:Number = 575 * (ZingEntry.zingModel.clock / ZingConfig.DEFAULT_CLOCK);
+			TweenNano.to(_barBody, 0.6, { width:wi } );
+			
+			var xi:Number = _barBody.x + wi - 1;
+			TweenNano.to(_barHead, 0.6, { x:xi } );
 		}
 	}
 }

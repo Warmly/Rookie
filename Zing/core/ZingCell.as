@@ -1,10 +1,15 @@
 package core 
 {
+	import config.ZingConfig;
 	import define.ZingEleEnum;
 	import flash.display.Bitmap;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.geom.Point;
+	import flash.utils.getDefinitionByName;
+	import rookie.global.RookieEntry;
 	import tool.getZingBmd;
+	import tool.ZingAnimTool;
 	
 	/**
 	 * ...
@@ -36,6 +41,15 @@ package core
 		{
 			_type = type;
 			_ele.bitmapData = getZingBmd(ZingEleEnum.getBmdName(type));
+		}
+		
+		public function clear():void
+		{
+			var coor:Point = this.localToGlobal(new Point(ZingConfig.CELL_WIDTH * 0.5, ZingConfig.CELL_HEIGHT * 0.5)); 
+			var xCoor:Number = coor.x
+			var yCoor:Number = coor.y;
+			ZingAnimTool.addAnimAt("anim1", xCoor, yCoor, 600);
+			init(ZingEleEnum.EMPTY);
 		}
 		
 		public function set index(val:int):void

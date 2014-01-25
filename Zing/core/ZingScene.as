@@ -45,6 +45,7 @@ package core
 			
 			_pathRef = new Vector.<ZingPathEle>();
 			_pathLayer = new Sprite();
+			_pathLayer.y = _cellLayer.y;
 			_pathLayer.mouseEnabled = false;
 			_pathLayer.mouseChildren = false;
 			addChild(_pathLayer);
@@ -104,7 +105,7 @@ package core
 		
 		private function initPathLayer():void
 		{
-			ZingAlignTool.alignTo(_pathLayer, _cellLayer);
+			//ZingAlignTool.alignTo(_pathLayer, _cellLayer);
 			resetPathLayer();
 		}
 		
@@ -209,6 +210,16 @@ package core
 				pathEle = _pathRef[length - 2];
 				pathEle.setSource(vo);
 			}
+		}
+		
+		public function get animLayer():Sprite
+		{
+			return _animLayer;
+		}
+		
+		public function get cellLayer():Sprite
+		{
+			return _cellLayer;
 		}
 	}
 }

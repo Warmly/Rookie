@@ -12,9 +12,9 @@ package gui
 	{
 		private var _mc:MovieClip;
 		
-		public function ZingBtn() 
+		public function ZingBtn(res:String) 
 		{
-			var cls:Class = getDefinitionByName("startBtn") as Class;
+			var cls:Class = getDefinitionByName(res) as Class;
 			_mc = new cls() as MovieClip;
 			addChild(_mc)
 			
