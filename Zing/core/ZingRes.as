@@ -15,60 +15,87 @@ package core
 		
 		public function init():void
 		{
-			var cellBgCls:Class = getDefinitionByName("cellBg") as Class;
-			var cellBgBmd:BitmapData = new cellBgCls() as BitmapData;
+			//////普通
+			var cellBgBmd:BitmapData = new cellBg() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("cellBg", cellBgBmd);
 			
-			//背景
-			var bg1Cls:Class = getDefinitionByName("bg1") as Class;
-			var bg1Bmd:BitmapData = new bg1Cls() as BitmapData;
+			//////背景
+			var bg1Bmd:BitmapData = new bg1() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("bg1", bg1Bmd);
 			
-			var grid1Cls:Class = getDefinitionByName("grid1") as Class;
-			var grid1Bmd:BitmapData = new grid1Cls() as BitmapData;
+			var bg2Bmd:BitmapData = new bg2() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("bg2", bg2Bmd);
+			
+			var bg3Bmd:BitmapData = new bg3() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("bg3", bg3Bmd);
+			
+			var grid1Bmd:BitmapData = new grid1() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("grid1", grid1Bmd);
 			
-			//元素
-			var targetCls:Class = getDefinitionByName("target") as Class;
-			var targetBmd:BitmapData = new targetCls() as BitmapData;
+			var grid3Bmd:BitmapData = new grid3() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("grid3", grid3Bmd);
+			
+			//////元素
+			var targetBmd:BitmapData = new target() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("target", targetBmd);
 			
-			var obstacleCls:Class = getDefinitionByName("obstacle") as Class;
-			var obstacleBmd:BitmapData = new obstacleCls() as BitmapData;
+			var obstacleBmd:BitmapData = new obstacle() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("obstacle", obstacleBmd);
 			
-			var bombCls:Class = getDefinitionByName("bomb") as Class;
-			var bombBmd:BitmapData = new bombCls() as BitmapData;
+			var bombBmd:BitmapData = new bomb() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("bomb", bombBmd);
 			
-			var bonusCls:Class = getDefinitionByName("bonus") as Class;
-			var bonusBmd:BitmapData = new bonusCls() as BitmapData;
+			var bonusBmd:BitmapData = new bonus() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("bonus", bonusBmd);
 			
-			//路径
-			var pathCls:Class = getDefinitionByName("path") as Class;
-			var pathBmd:BitmapData = new pathCls() as BitmapData;
+			var clockBmd:BitmapData = new clock() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("clock", clockBmd);
+			
+			//////路径
+			var pathBmd:BitmapData = new path() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path", pathBmd);
 			
-			var path0Cls:Class = getDefinitionByName("path0") as Class;
-			var path0Bmd:BitmapData = new path0Cls() as BitmapData;
+			var path0Bmd:BitmapData = new path0() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path0", path0Bmd);
 			
-			var path45Cls:Class = getDefinitionByName("path45") as Class;
-			var path45Bmd:BitmapData = new path45Cls() as BitmapData;
+			var path45Bmd:BitmapData = new path45() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path45", path45Bmd);
 			
-			var path90Cls:Class = getDefinitionByName("path90") as Class;
-			var path90Bmd:BitmapData = new path90Cls() as BitmapData;
+			var path90Bmd:BitmapData = new path90() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path90", path90Bmd);
 			
-			var path135Cls:Class = getDefinitionByName("path135") as Class;
-			var path135Bmd:BitmapData = new path135Cls() as BitmapData;
+			var path135Bmd:BitmapData = new path135() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path135", path135Bmd);
 			
-			var path180Cls:Class = getDefinitionByName("path180") as Class;
-			var path180Bmd:BitmapData = new path180Cls() as BitmapData;
+			var path180Bmd:BitmapData = new path180() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("path180", path180Bmd);
+			
+			//////GUI
+			var scoreBmd:BitmapData = new score() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("score", scoreBmd);
+			
+			var overBmd:BitmapData = new over() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("over", overBmd);
+			
+			var coverBmd:BitmapData = new cover() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("cover", coverBmd);
+			
+			var chanceBmd:BitmapData = new chance() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("chance", chanceBmd);
+			
+			var stageBmd:BitmapData = new stage() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("stage", stageBmd);
+			
+			var barHeadBmd:BitmapData = new barHead() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("barHead", barHeadBmd);
+			
+			var barBodyBmd:BitmapData = new barBody() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("barBody", barBodyBmd);
+			
+			var barBgBmd:BitmapData = new barBg() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("barBg", barBgBmd);
+			
+			//////声音
 		}
 	}
 }

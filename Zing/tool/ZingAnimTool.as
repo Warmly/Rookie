@@ -2,6 +2,7 @@ package tool
 {
 	import config.ZingConfig;
 	import core.ZingEntry;
+	import define.ZingEleEnum;
 	import flash.display.MovieClip;
 	import flash.utils.getDefinitionByName;
 	import rookie.global.RookieEntry;
@@ -12,20 +13,34 @@ package tool
 	 */
 	public class ZingAnimTool 
 	{
-		public static function addAnimAt(name:String, xCoor:Number, yCoor:Number, time:Number = 300):void
+		public static function addAnimAt(type:int, xCoor:Number, yCoor:Number, time:Number = 300):void
 		{
-			var mcCls:Class = getDefinitionByName("anim1") as Class;
-			var mc:MovieClip = new mcCls();
-			mc.x = xCoor;
-			mc.y = yCoor;
-			ZingEntry.zingScene.animLayer.addChild(mc);
-			RookieEntry.timerManager.setTimeOut(600, function():void
+			var mc:MovieClip;
+			switch(type)
 			{
-				if (mc.parent)
+				case ZingEleEnum.BOMB:
+					mc = new animExplode();
+					break;
+				case ZingEleEnum.BONUS:
+					mc = new animShine();
+					break;
+				case ZingEleEnum.CLOCK:
+					mc = new animShine();
+					break;
+			}
+			if (mc)
+			{
+				mc.x = xCoor;
+				mc.y = yCoor;
+				ZingEntry.zingScene.animLayer.addChild(mc);
+				RookieEntry.timerManager.setTimeOut(600, function():void
 				{
-					mc.parent.removeChild(mc);
-				}
-			});
+					if (mc.parent)
+					{
+						mc.parent.removeChild(mc);
+					}
+				});
+			}
 		}
 	}
 }

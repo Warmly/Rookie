@@ -25,12 +25,13 @@ package
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
 			
-			Inspector.getInstance().init(this);
+			//Inspector.getInstance().init(this);
 			
 			RookieEntry.mainLoop.init(this.stage);
 			
 			var mainResUrl:ResUrl = new ResUrl( -1, -1, "ZingRes", ResType.SWF);
-			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
+			//RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
+			onMainResLoaded();
 		}
 		
 		private function onMainResLoaded():void

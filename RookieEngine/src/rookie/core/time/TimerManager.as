@@ -78,12 +78,18 @@ package rookie.core.time
 			var needFilterNull : Boolean;
 			for (var i : int = 0;i < num;i++)
 			{
-				timerVO = _timeOutVec[i];
-				if (curTime >= timerVO.outTime)
+				if (i < _timeOutVec.length)
 				{
-					timerVO.fun.apply(timerVO.fun, timerVO.args);
-					_timeOutVec[i] = null;
-					needFilterNull = true;
+					timerVO = _timeOutVec[i];
+					if (timerVO && curTime >= timerVO.outTime)
+					{
+						timerVO.fun.apply(timerVO.fun, timerVO.args);
+						if (i < _timeOutVec.length)
+				        {
+							_timeOutVec[i] = null;
+						}
+						needFilterNull = true;
+					}
 				}
 			}
 			if (needFilterNull)
@@ -101,7 +107,7 @@ package rookie.core.time
 			for (var i : int = 0;i < num;i++)
 			{
 				timerVO = _timeIntervalVec[i];
-				if (curTime >= timerVO.outTime)
+				if (timerVO && curTime >= timerVO.outTime)
 				{
 					timerVO.fun.apply(timerVO.fun, timerVO.args);
 					_timeIntervalVec[i] = null;

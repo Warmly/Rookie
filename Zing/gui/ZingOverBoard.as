@@ -13,6 +13,7 @@ package gui
 	public class ZingOverBoard extends Sprite 
 	{
 		private var _bg:Bitmap;
+		private var _bg1:Bitmap;
 		private var _curScore:ZingNumber;
 		private var _return:ZingBtn;
 		
@@ -22,12 +23,18 @@ package gui
 			_bg.bitmapData = getZingBmd("over");
 			addChild(_bg);
 			
+			_bg1 = new Bitmap();
+			_bg1.bitmapData = getZingBmd("score");
+			_bg1.x = 130;
+			_bg1.y = 270;
+			addChild(_bg1);
+			
 			_curScore = new ZingNumber();
-			_curScore.x = 270;
-			_curScore.y = 260;
+			_curScore.x = _bg1.x + _bg1.width + 20;
+			_curScore.y = 270;
 			addChild(_curScore);
 			
-			_return = new ZingBtn("returnBtn");
+			_return = new ZingBtn(new returnBtn());
 			_return.x = 200;
 			_return.y = 390;
 			addChild(_return);

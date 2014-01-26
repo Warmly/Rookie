@@ -26,6 +26,7 @@ package core
 		{
 			var str:String = vo.type >= 0 ? ("path" + vo.type):"path";
 			_bmp.bitmapData = getZingBmd(str);
+			_bmp.smoothing = true
 			this.rotation = vo.rotation;
 		}
 	}

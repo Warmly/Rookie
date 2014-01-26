@@ -12,10 +12,11 @@ package gui
 	{
 		private var _mc:MovieClip;
 		
-		public function ZingBtn(res:String) 
+		public function ZingBtn(mc:*) 
 		{
-			var cls:Class = getDefinitionByName(res) as Class;
-			_mc = new cls() as MovieClip;
+			//var cls:Class = getDefinitionByName(res) as Class;
+			//_mc = new cls() as MovieClip;
+			_mc = mc as MovieClip;
 			addChild(_mc)
 			
 			addEventListener(MouseEvent.ROLL_OVER, onOver);

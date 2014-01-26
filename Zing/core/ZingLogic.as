@@ -2,11 +2,13 @@ package core
 {
 	import config.ZingStageVO;
 	import define.ZingEleEnum;
+	import define.ZingSoundEnum;
 	import flash.geom.Point;
 	import rookie.global.RookieEntry;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.functionHandler.FH;
 	import tool.ZingMathTool;
+	import tool.ZingSoundTool;
 	
 	/**
 	 * ...
@@ -39,25 +41,24 @@ package core
 		
 		public function drawSuccess():void
 		{
-			trace("Success!");
-			
 			_isDrawing = false;
-			
+			ZingEntry.zingModel.path.length = 0;
+			var curStage:int = ZingEntry.zingModel.stage;
+			var vo:ZingStageVO = ZingEntry.zingConfig.getStageVO(curStage + 1);
+			if (vo)
+			{
+				ZingSoundTool.playSoundEff(ZingSoundEnum.PASS);
+			}
 			RookieEntry.timerManager.setTimeOut(300, function():void
 			{
-				var curStage:int = ZingEntry.zingModel.stage;
-				if (ZingEntry.zingConfig.getStageVO(curStage + 1))
+				if (vo)
 				{
 					ZingEntry.zingModel.stage ++;
-					
-						ZingEntry.zingModel.path.length = 0;
-						ZingEntry.zingScene.resetPathLayer();
-						nextStage();
-					
+					ZingEntry.zingScene.resetPathLayer();
+					nextStage();
 				}
 				else
 				{
-					trace("Clear!");
 					gameEnd();
 				}
 			});
@@ -65,36 +66,37 @@ package core
 		
 		public function drawFail():void
 		{
-			trace("Fail!");
-			
 			_isDrawing = false;
 			ZingEntry.zingModel.path.length = 0;
-			ZingEntry.zingScene.init();
-			ZingEntry.zingModel.life --;
-			if (ZingEntry.zingModel.life == 0)
+			RookieEntry.timerManager.setTimeOut(300, function():void
 			{
-				gameEnd();
-			}
+				ZingEntry.zingScene.init();
+				ZingEntry.zingModel.life --;
+				if (ZingEntry.zingModel.life == 0)
+				{
+					gameEnd();
+				}
+			});
 		}
 		
 		private function nextStage():void
 		{
 			ZingEntry.zingScene.init();
+			ZingEntry.zingGUI.init();
 		}
 		
 		public function gameStart():void
 		{
-			trace("GameStart!");
 			ZingEntry.zingModel.init();
 			ZingEntry.zingScene.init();
-			ZingEntry.zingGUI.syn();
+			ZingEntry.zingGUI.init();
 			ZingEntry.zingCover.visible = false;
 			startClock();
 		}
 		
 		public function gameEnd():void
 		{
-			trace("GameEnd!");
+			ZingEntry.zingGUI.init();
 			ZingEntry.zingGUI.popOverBoard();
 			RookieEntry.timerManager.clearAllTimer();
 		}
@@ -111,7 +113,6 @@ package core
 		
 		private function onSecond():void
 		{
-			trace("Interval!");
 			ZingEntry.zingModel.clock --;
 			ZingEntry.zingGUI.syn();
 			if (ZingEntry.zingModel.clock == 0)
@@ -138,22 +139,14 @@ package core
 					if (ZingMathTool.isNeighbourPt(pt, lastPt))
 					{
 						addToPath(pt);
-						RookieEntry.timerManager.setTimeOut(100, function():void
-						{
-							check(cell.type);
-							tryClearCellEle(cell);
-						});
+						check(cell);
 					}
 				}
 			}
 			else
 			{
 				addToPath(pt);
-				RookieEntry.timerManager.setTimeOut(100, function():void
-				{
-					check(cell.type);
-					tryClearCellEle(cell);
-				});
+				check(cell);
 			}
 		}
 		
@@ -172,10 +165,18 @@ package core
 			ZingEntry.zingScene.drawPath(pt);
 		}
 		
-		private function check(type:int):void
+		private function check(cell:ZingCell):void
 		{
+			if (hasDrawAllTgt())
+			{
+				drawSuccess();
+				return;
+			}
+			var type:int = cell.type;
 			if (isCross())
 			{
+				cell.addAnimEff(ZingEleEnum.BOMB);
+				cell.addSoundEff(10);
 				drawFail();
 			}
 			else
@@ -186,14 +187,12 @@ package core
 						break;
 					case ZingEleEnum.TARGET:
 						ZingEntry.zingModel.score += 100;
+						cell.addSoundEff(ZingEleEnum.TARGET);
 						break;
 					case ZingEleEnum.OBSTACLE:
 						break;
 					case ZingEleEnum.BOMB:
-						RookieEntry.timerManager.setTimeOut(600, function():void
-						{
-							drawFail();
-						});
+						drawFail();
 						break;
 					case ZingEleEnum.BONUS:
 						ZingEntry.zingModel.score += 100;
@@ -204,10 +203,7 @@ package core
 				}
 				ZingEntry.zingGUI.syn();
 			}
-			if (hasDrawAllTgt())
-			{
-				drawSuccess();
-			}
+			tryClearCellEle(cell);
 		}
 		
 		private function isCross():Boolean

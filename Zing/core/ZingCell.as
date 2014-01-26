@@ -10,6 +10,7 @@ package core
 	import rookie.global.RookieEntry;
 	import tool.getZingBmd;
 	import tool.ZingAnimTool;
+	import tool.ZingSoundTool;
 	
 	/**
 	 * ...
@@ -45,11 +46,26 @@ package core
 		
 		public function clear():void
 		{
-			var coor:Point = this.localToGlobal(new Point(ZingConfig.CELL_WIDTH * 0.5, ZingConfig.CELL_HEIGHT * 0.5)); 
-			var xCoor:Number = coor.x
-			var yCoor:Number = coor.y;
-			ZingAnimTool.addAnimAt("anim1", xCoor, yCoor, 600);
+			addEff(_type);
 			init(ZingEleEnum.EMPTY);
+		}
+		
+		public function addEff(type:int):void
+		{
+			addAnimEff(type);
+			addSoundEff(type);
+		}
+		
+		public function addAnimEff(type:int):void
+		{
+			var xCoor:Number = this.x + ZingConfig.CELL_WIDTH * 0.5;
+			var yCoor:Number = 200 + this.y + ZingConfig.CELL_HEIGHT * 0.5;
+			ZingAnimTool.addAnimAt(type, xCoor, yCoor, 600);
+		}
+		
+		public function addSoundEff(type:int):void
+		{
+			ZingSoundTool.playSoundEff(type);
 		}
 		
 		public function set index(val:int):void

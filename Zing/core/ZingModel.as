@@ -30,10 +30,11 @@ package core
 		
 		public function init():void
 		{
-			stage = 1;
-			life = 10;
-			score = 0;
 			clock = ZingConfig.DEFAULT_CLOCK;
+			score = 0;
+			life = ZingConfig.DEFAULT_LIFT;
+			stage = 1;
+			path.length = 0;
 		}
 	}
 }

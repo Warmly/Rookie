@@ -11,11 +11,11 @@ package gui
 	public class ZingNumber extends Sprite 
 	{
 		private var _number:Number;
-		private var _cls:Class;
+		//private var _cls:Class;
 			
 		public function ZingNumber() 
 		{
-			_cls = getDefinitionByName("digit") as Class;
+			//_cls = getDefinitionByName("digit") as Class;
 		}
 		
 		public function set number(val:Number):void
@@ -26,9 +26,9 @@ package gui
 			for (var i:int = 0; i < length; i++)
 			{
 				var index:int = int(arr[i]) + 1;
-				var mc:MovieClip = new _cls() as MovieClip;
+				var mc:MovieClip = new digit() as MovieClip;
 				mc.gotoAndStop(index);
-				mc.x = i * 30;
+				mc.x = i * 20;
 				addChild(mc);
 			}
 		}

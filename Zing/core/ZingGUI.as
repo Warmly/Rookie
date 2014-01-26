@@ -2,6 +2,7 @@ package core
 {
 	import com.greensock.easing.Bounce;
 	import com.greensock.TweenNano;
+	import define.ZingSoundEnum;
 	import flash.display.Sprite;
 	import gui.ZingLifeBoard;
 	import gui.ZingOverBoard;
@@ -9,6 +10,7 @@ package core
 	import gui.ZingStageBoard;
 	import gui.ZingTimeBar;
 	import tool.getZingBmd;
+	import tool.ZingSoundTool;
 	
 	/**
 	 * ...
@@ -25,14 +27,18 @@ package core
 		public function ZingGUI() 
 		{
 			_scoreBoard = new ZingScoreBoard();
+			_scoreBoard.x = 30;
+			_scoreBoard.y = 20;
 			addChild(_scoreBoard);
 			
 			_stageBoard = new ZingStageBoard();
-			_stageBoard.x = 300;
+			_stageBoard.x = 245;
+			_stageBoard.y = 20;
 			addChild(_stageBoard);
             
 			_lifeBoard = new ZingLifeBoard();
-			_lifeBoard.x = 500;
+			_lifeBoard.x = 435;
+			_lifeBoard.y = 20;
 			addChild(_lifeBoard);
 			
 			_timeBar = new ZingTimeBar();
@@ -41,14 +47,24 @@ package core
 			
 			_overBoard = new ZingOverBoard();
 			_overBoard.x = 60;
-			_overBoard.y = -600;
+			_overBoard.visible = false;
 			addChild(_overBoard);
+		}
+		
+		public function init():void
+		{
+			_overBoard.y = 0;
+			_overBoard.visible = false;
+			syn();
 		}
 		
 		public function popOverBoard():void
 		{
+			_overBoard.y = -600;
+			_overBoard.visible = true;
 			_overBoard.syn();
-			TweenNano.to(_overBoard, 1, {y:130, ease:Bounce.easeOut});
+			TweenNano.to(_overBoard, 1, { y:130, ease:Bounce.easeOut } );
+			ZingSoundTool.playSoundEff(ZingSoundEnum.OVER);
 		}
 		
 		public function syn():void

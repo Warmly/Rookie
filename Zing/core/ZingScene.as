@@ -65,6 +65,7 @@ package core
 			initBg();
 			initCellLayer();
 			initPathLayer();
+			initAnimLayer();
 		}
 		
 		private function initBg():void
@@ -107,6 +108,11 @@ package core
 		{
 			//ZingAlignTool.alignTo(_pathLayer, _cellLayer);
 			resetPathLayer();
+		}
+		
+		public function initAnimLayer():void
+		{
+			_animLayer.removeChildren();
 		}
 		
 		public function resetPathLayer():void
