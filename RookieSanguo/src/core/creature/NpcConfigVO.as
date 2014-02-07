@@ -20,6 +20,7 @@ package core.creature
 		private var _atkFlag:uint;
 		private var _visitFlag:uint;
 		private var _moveRange:uint;
+		private var _reward:uint;
 
 		public function NpcConfigVO(byteArr:ByteArray)
 		{
@@ -33,6 +34,7 @@ package core.creature
 			_atkFlag = byteArr.readUnsignedByte();
 			_visitFlag = byteArr.readUnsignedByte();
 			_moveRange = byteArr.readByte();
+			_reward = byteArr.readUnsignedInt();
 		}
 
 		public function get pic():uint
