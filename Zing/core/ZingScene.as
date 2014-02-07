@@ -1,12 +1,16 @@
 package core 
 {
+	import com.greensock.TweenNano;
 	import config.ZingConfig;
 	import config.ZingStageVO;
 	import define.ZingPathVO;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	import tool.ZingAlignTool;
 	import tool.getZingBmd;
 	import tool.ZingMathTool;
@@ -19,6 +23,7 @@ package core
 	{
 		private var _bg:Bitmap;
 		private var _grid:Bitmap;
+		private var _hint:Bitmap;
 		//
 		private var _cellRef:Vector.<ZingCell>;
 		private var _cellLayer:Sprite;
@@ -55,9 +60,21 @@ package core
 			_animLayer.mouseChildren = false;
 			addChild(_animLayer);
 			
+			_hint = new Bitmap();
+			addChild(_hint);
+			
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+		}
+		
+		private function onAddToStage(e:Event):void
+		{
+			if (ZingConfig.DEBUG_MODE)
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			}
 		}
 		
 		public function init():void
@@ -73,6 +90,28 @@ package core
 			var vo:ZingStageVO = ZingEntry.zingModel.getCurStageVO();
 			_bg.bitmapData = getZingBmd("bg" + vo.bg);
 			_grid.bitmapData = getZingBmd("grid" + vo.grid);
+			if (vo.hint)
+			{
+				_hint.alpha = 1;
+				_hint.bitmapData = getZingBmd("hint" + vo.hint);
+				_hint.x = 130;
+				_hint.y = 320;
+				TweenNano.to(_hint, 0.6, { alpha: 0.3, onComplete:function():void
+				{
+					TweenNano.to(_hint, 0.6, { alpha: 0.8, onComplete:function():void
+					{
+						TweenNano.to(_hint, 0.4, { alpha: 0, onComplete:function():void
+						{
+							_hint.visible = false;
+							_hint.alpha = 1;
+						}});
+					}});
+				}});
+			}
+			else
+			{
+				_hint.bitmapData = null;
+			}
 			//ZingAlignTool.alignToCenter(_grid);
 		}
 		
@@ -215,6 +254,37 @@ package core
 				vo = ZingMathTool.getPathVO(pt1, pt2, pt3);
 				pathEle = _pathRef[length - 2];
 				pathEle.setSource(vo);
+			}
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void
+		{
+			switch(e.keyCode)
+			{
+				case Keyboard.LEFT:
+					ZingEntry.zingModel.stage --;
+					if (ZingEntry.zingModel.getCurStageVO())
+					{
+						init();
+						ZingEntry.zingGUI.syn();
+					}
+					else
+					{
+						ZingEntry.zingModel.stage ++;
+					}
+					break;
+				case Keyboard.RIGHT:
+					ZingEntry.zingModel.stage ++;
+					if (ZingEntry.zingModel.getCurStageVO())
+					{
+						init();
+						ZingEntry.zingGUI.syn();
+					}
+					else
+					{
+						ZingEntry.zingModel.stage --;
+					}
+					break;
 			}
 		}
 		

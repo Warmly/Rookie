@@ -5,6 +5,7 @@ package core
 	import flash.events.MouseEvent;
 	import gui.ZingBtn;
 	import tool.getZingBmd;
+	import tool.ZingAlignTool;
 	
 	/**
 	 * 开始界面
@@ -22,8 +23,8 @@ package core
 			addChild(_bg);
 			
 			_startBtn = new ZingBtn(new startBtn());
-			_startBtn.x = 320;
-			_startBtn.y = 480;
+			_startBtn.x = 220;
+			_startBtn.y = 280; 
 			addChild(_startBtn);
 			
 			_startBtn.addEventListener(MouseEvent.CLICK, onClick);

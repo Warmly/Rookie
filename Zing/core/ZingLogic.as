@@ -1,5 +1,6 @@
 package core 
 {
+	import config.ZingConfig;
 	import config.ZingStageVO;
 	import define.ZingEleEnum;
 	import define.ZingSoundEnum;
@@ -35,6 +36,7 @@ package core
 			}
 			else
 			{
+				ZingSoundTool.playSoundEff(ZingSoundEnum.CROSS);
 				drawFail();
 			}
 		}
@@ -42,13 +44,19 @@ package core
 		public function drawSuccess():void
 		{
 			_isDrawing = false;
-			ZingEntry.zingModel.path.length = 0;
+			
+			//播放下一关过场音效
 			var curStage:int = ZingEntry.zingModel.stage;
 			var vo:ZingStageVO = ZingEntry.zingConfig.getStageVO(curStage + 1);
 			if (vo)
 			{
 				ZingSoundTool.playSoundEff(ZingSoundEnum.PASS);
 			}
+			
+			ZingEntry.zingModel.score += ZingEntry.zingModel.getCurStageScore();
+			ZingEntry.zingModel.path.length = 0;
+			ZingEntry.zingGUI.syn();
+			
 			RookieEntry.timerManager.setTimeOut(300, function():void
 			{
 				if (vo)
@@ -186,7 +194,7 @@ package core
 					case ZingEleEnum.EMPTY:
 						break;
 					case ZingEleEnum.TARGET:
-						ZingEntry.zingModel.score += 100;
+						//ZingEntry.zingModel.score += 100;
 						cell.addSoundEff(ZingEleEnum.TARGET);
 						break;
 					case ZingEleEnum.OBSTACLE:
@@ -195,7 +203,7 @@ package core
 						drawFail();
 						break;
 					case ZingEleEnum.BONUS:
-						ZingEntry.zingModel.score += 100;
+						ZingEntry.zingModel.score += ZingConfig.DEFAULT_UNIT_SCORE;
 						break;
 					case ZingEleEnum.CLOCK:
 						ZingEntry.zingModel.clock += 10;

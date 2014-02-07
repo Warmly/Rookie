@@ -49,14 +49,19 @@ package gui
 			_txt.height = 20;
 			_txt.x = 290;
 			_txt.y = 5;
-			addChild(_txt);
+			//addChild(_txt);
 		}
 		
 		public function syn():void
 		{
 			_txt.htmlText = "<font color='#000000'>" + ZingEntry.zingModel.clock + "</font>";
 			
-			var wi:Number = 575 * (ZingEntry.zingModel.clock / ZingConfig.DEFAULT_CLOCK);
+			var ratio:Number = ZingEntry.zingModel.clock / ZingConfig.DEFAULT_CLOCK;
+			if (ratio > 1)
+			{
+				ratio = 1;
+			}
+			var wi:Number = 575 * ratio;
 			TweenNano.to(_barBody, 0.6, { width:wi } );
 			
 			var xi:Number = _barBody.x + wi - 1;

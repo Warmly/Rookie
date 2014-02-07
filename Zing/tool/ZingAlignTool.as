@@ -7,12 +7,16 @@ package tool
 	 */
 	public class ZingAlignTool 
 	{
-		public static function alignToCenter(tgt:DisplayObject):void
+		public static function alignToCenter(tgt:DisplayObject, ref:DisplayObject = null):void
 		{
-			if (tgt.parent)
+			if (ref == null)
 			{
-				tgt.x = int((tgt.parent.width - tgt.width) * 0.5);
-				tgt.y = int((tgt.parent.height - tgt.height) * 0.5);
+				ref = tgt.parent;
+			}
+			if (ref)
+			{
+				tgt.x = int((ref.width - tgt.width) * 0.5);
+				tgt.y = int((ref.height - tgt.height) * 0.5);
 			}
 		}
 		

@@ -14,6 +14,7 @@ package config
 		private var _stageConfigXML:XML;
 		private var _stageConfig:HashTable = new HashTable(int, ZingStageVO);
 		
+		public static const DEBUG_MODE:Boolean = false;
 		//默认客户端宽
 		public static const DEFAULT_CLIENT_WIDTH:int = 600;
 		//默认客户端高
@@ -21,9 +22,11 @@ package config
 		//客户端宽高比
 		public static const CLIENT_RATIO:Number = DEFAULT_CLIENT_WIDTH / DEFAULT_CLIENT_HEIGHT;
 		//初始生命
-		public static const DEFAULT_LIFT:int = 10;
+		public static const DEFAULT_LIFT:int = 9;
 		//初始时间
 		public static const DEFAULT_CLOCK:int = 360;
+		//初始单位分数
+		public static const DEFAULT_UNIT_SCORE:int = 10;
 		
 		//客户端缩放比例
 		public static var CLIENT_SCALE:Number = 1;

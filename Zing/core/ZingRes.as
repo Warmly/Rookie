@@ -95,6 +95,8 @@ package core
 			var barBgBmd:BitmapData = new barBg() as BitmapData;
 			RookieEntry.resManager.bmdData.insert("barBg", barBgBmd);
 			
+			var hint1Bmd:BitmapData = new hint1() as BitmapData;
+			RookieEntry.resManager.bmdData.insert("hint1", hint1Bmd);
 			//////声音
 		}
 	}

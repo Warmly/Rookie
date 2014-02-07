@@ -13,6 +13,7 @@ package config
 		private var _height:int;
 		private var _bg:int;
 		private var _grid:int;
+		private var _hint:int;
 		private var _data:Array = [];
 		private var _tgtPtVec:Vector.<Point> = new Vector.<Point>();
 		
@@ -23,7 +24,7 @@ package config
 			_height = xml.@height;
 			_bg = xml.@bg;
 			_grid = xml.@grid;
-			
+			_hint = xml.@hint;
 			
 			var xmlList:XMLList = xml.row;
 			
@@ -78,6 +79,11 @@ package config
 		public function get grid():int
 		{
 			return _grid;
+		}
+		
+		public function get hint():int
+		{
+			return _hint;
 		}
 		
 		public function get data():Array

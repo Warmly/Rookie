@@ -36,5 +36,12 @@ package core
 			stage = 1;
 			path.length = 0;
 		}
+		
+		public function getCurStageScore():int
+		{
+			var numPath:int = path.length;
+			var score:int = (getCurStageVO().data.length - numPath) * ZingConfig.DEFAULT_UNIT_SCORE;
+			return score;
+		}
 	}
 }

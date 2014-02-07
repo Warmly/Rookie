@@ -26,17 +26,17 @@ package gui
 			_bg1 = new Bitmap();
 			_bg1.bitmapData = getZingBmd("score");
 			_bg1.x = 130;
-			_bg1.y = 270;
+			_bg1.y = 160;
 			addChild(_bg1);
 			
 			_curScore = new ZingNumber();
-			_curScore.x = _bg1.x + _bg1.width + 20;
-			_curScore.y = 270;
+			_curScore.x = _bg1.x + _bg1.width + 30;
+			_curScore.y = 160;
 			addChild(_curScore);
 			
 			_return = new ZingBtn(new returnBtn());
 			_return.x = 200;
-			_return.y = 390;
+			_return.y = 330;
 			addChild(_return);
 			
 			_return.addEventListener(MouseEvent.CLICK, onReturn);
