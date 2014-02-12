@@ -11,10 +11,10 @@ package rookie.algorithm.pathFinding.aStar
 		private var _hValue:Number = 0;
 		private var _update:Boolean;
 		private var _parentNode:AStarNode;
-		public var type:int = AStarNodeTypeEnum.NORMAL;
-		public var index:int;
-		public var x:int;
-		public var y:int;
+		private var _type:int = AStarNodeTypeEnum.NORMAL;
+		private var _index:int;
+		private var _x:int;
+		private var _y:int;
 		
 		public function AStarNode() 
 		{
@@ -23,13 +23,13 @@ package rookie.algorithm.pathFinding.aStar
 		public function set parentNode(node:AStarNode):void
 		{
 			_parentNode = node;
-			
-			gValue = node.fValue + getCostFromParent();
+			_gValue = node.gValue + getCostFromParent();
+			_update = true;
 		}
 		
-		private function getCostFromParent():Number
+		public function getCostFromNodeAround(node:AStarNode):Number
 		{
-			if (_parentNode.x == this.x || _parentNode.y == this.y)
+			if (node.x == this.x || node.y == this.y)
 			{
 				return 1;
 			}
@@ -39,13 +39,14 @@ package rookie.algorithm.pathFinding.aStar
 			}
 		}
 		
-		public function set gValue(val:Number):void
+		private function getCostFromParent():Number
 		{
-			if (val != _gValue)
-			{
-				_gValue = val;
-				_update = true;
-			}
+			getCostFromNodeAround(_parentNode);
+		}
+		
+		public function get gValue():Number
+		{
+			return _gValue;
 		}
 		
 		public function set hValue(val:Number):void
@@ -70,6 +71,16 @@ package rookie.algorithm.pathFinding.aStar
 		public function equal(node:AStarNode):Boolean
 		{
 			return this.x == node.x && this.y == node.y;
+		}
+		
+		public function get index():int
+		{
+			return _index;
+		}
+		
+		public function get type():int
+		{
+			return _type;
 		}
 	}
 }
