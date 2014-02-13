@@ -91,11 +91,6 @@ package rookie.algorithm.pathFinding.aStar
 			return _index;
 		}
 		
-		public function set type(val:int):void
-		{
-			_type = val;
-		}
-		
 		public function get type():int
 		{
 			return _type;

@@ -75,8 +75,8 @@ package
 			endNode.init(8, 6, 8 + 6 * 10, 0);
 			
 			var aStar:AStar = new AStar();
-			aStar.initMap(aStar.parseArrToMap(aStarTestArr));
-			aStar.init(startNode, endNode);
+			aStar.parseArrToMap(aStarTestArr, 10, 10);
+			aStar.init(1, 1, 8, 6);
 			aStar.findPath();
 		}
 	}

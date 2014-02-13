@@ -28,10 +28,10 @@ package rookie.algorithm.pathFinding.aStar
 			_map = map;
 		}
 		
-		public function init(startNode:AStarNode, endNode:AStarNode):void
+		public function init(startX:int, startY:int, endX:int, endY:int):void
 		{
-			_startNode = startNode;
-			_endNode = endNode;
+			_startNode = _map[startX + startY * _width];
+			_endNode = _map[endX + endY * _width];
 		}
 		
 		public function findPath():Boolean
@@ -40,6 +40,7 @@ package rookie.algorithm.pathFinding.aStar
 			while (_openList.length)
 			{
 				_curNode = getMinFValueNodeInOpenList();
+				log(_curNode.x + "," + _curNode.y);
 				switchToCloseList(_curNode);
 				if (_curNode.equal(_endNode))
 				{
@@ -207,16 +208,21 @@ package rookie.algorithm.pathFinding.aStar
 			return hValue;
 		}
 		
-		public function parseArrToMap(arr:Array):Vector.<AStarNode>
+		public function parseArrToMap(arr:Array, width:int, height:int):void
 		{
-			var vec:Vector.<AStarNode> = new Vector.<AStarNode>();
-			for each(var i:int in arr)
+			_width = width;
+			_height = height;
+			_map.length = 0;
+			var length:int = arr.length;
+			for (var j:int = 0; j < height; j++)
 			{
-				var node:AStarNode = new AStarNode();
-				node.type = i;
-				vec.push(node);
+				for (var i:int = 0; i < width; i++)
+				{
+					var node:AStarNode = new AStarNode();
+					node.init(i, j, i + j * width, arr[i + j * width]);
+					_map.push(node);
+				}
 			}
-			return vec;
 		}
 		
 		private function traceResult():void
