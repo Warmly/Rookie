@@ -20,11 +20,24 @@ package rookie.algorithm.pathFinding.aStar
 		{
 		}
 		
+		public function init(x:int, y:int, index:int, type:int):void
+		{
+			_x = x;
+			_y = y;
+			_index = index;
+			_type = type;
+		}
+		
 		public function set parentNode(node:AStarNode):void
 		{
 			_parentNode = node;
 			_gValue = node.gValue + getCostFromParent();
 			_update = true;
+		}
+		
+		public function get parentNode():AStarNode
+		{
+			return _parentNode;
 		}
 		
 		public function getCostFromNodeAround(node:AStarNode):Number
@@ -41,7 +54,7 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function getCostFromParent():Number
 		{
-			getCostFromNodeAround(_parentNode);
+			return getCostFromNodeAround(_parentNode);
 		}
 		
 		public function get gValue():Number
@@ -78,9 +91,24 @@ package rookie.algorithm.pathFinding.aStar
 			return _index;
 		}
 		
+		public function set type(val:int):void
+		{
+			_type = val;
+		}
+		
 		public function get type():int
 		{
 			return _type;
+		}
+		
+		public function get x():int
+		{
+			return _x;
+		}
+		
+		public function get y():int
+		{
+			return _y;
 		}
 	}
 }

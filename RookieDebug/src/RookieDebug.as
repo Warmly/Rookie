@@ -2,6 +2,8 @@ package
 {
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import rookie.algorithm.pathFinding.aStar.AStar;
+	import rookie.algorithm.pathFinding.aStar.AStarNode;
 	import rookie.core.resource.LoadPriority;
 	import tool.UserFactory;
 	import core.creature.UserCpu;
@@ -45,32 +47,7 @@ package
 		{
 			RookieEntry.resManager.init();
 
-			var scene:SanguoScene = new SanguoScene();
-			scene.parent = this;
-
 			ModelEntry.staticDataModel;
-
-			/*for (var i:int = 0 ;i < 10;i++)
-			{
-				var npc:NpcCpu = NpcFactory.getTestNpcCpu();
-				npc.parent = scene;
-				npc.x = 100 + Math.random() * 600;
-				npc.y = 100 + Math.random() * 600;
-				npc.synAction(ActionEnum.RUN);
-				npc.synDirection(DirectionEnum.LEFT);
-			}*/
-			
-			for (var ii:int = 0 ;ii < 2;ii++)
-			{
-				var user:UserCpu = UserFactory.getTestUserCpu();
-				user.parent = this;
-				user.x = 100 + Math.random() * 600;
-				user.y = 100 + Math.random() * 600;
-				user.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.RIGHT);
-			}
-
-			ModelEntry.mapModel.curMapId = 2005;
-			ModelEntry.mapModel.loadMap();
 
 			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
 			anim.x = 200;
@@ -78,6 +55,29 @@ package
 			anim.parent = this;
 			
 			new Test();
+			
+			var aStarTestArr:Array = [
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+			];
+			
+			var startNode:AStarNode = new AStarNode();
+			startNode.init(1, 1, 1 + 1 * 10, 0);
+			var endNode:AStarNode = new AStarNode();
+			endNode.init(8, 6, 8 + 6 * 10, 0);
+			
+			var aStar:AStar = new AStar();
+			aStar.initMap(aStar.parseArrToMap(aStarTestArr));
+			aStar.init(startNode, endNode);
+			aStar.findPath();
 		}
 	}
 }

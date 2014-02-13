@@ -1,6 +1,8 @@
 package rookie.algorithm.pathFinding.aStar 
 {
+	import flash.utils.Dictionary;
 	import rookie.dataStruct.HashTable;
+	import rookie.tool.log.log;
 	/**
 	 * ...
 	 * @author Warmly
@@ -21,6 +23,17 @@ package rookie.algorithm.pathFinding.aStar
 		{
 		}
 		
+		public function initMap(map:Vector.<AStarNode>):void
+		{
+			_map = map;
+		}
+		
+		public function init(startNode:AStarNode, endNode:AStarNode):void
+		{
+			_startNode = startNode;
+			_endNode = endNode;
+		}
+		
 		public function findPath():Boolean
 		{
 			addToOpenList(_startNode);
@@ -31,6 +44,7 @@ package rookie.algorithm.pathFinding.aStar
 				if (_curNode.equal(_endNode))
 				{
 					generatePath();
+					traceResult();
 					return true;
 				}
 				checkNodeAround(_curNode);
@@ -56,7 +70,7 @@ package rookie.algorithm.pathFinding.aStar
 		private function switchToCloseList(node:AStarNode):void
 		{
 			_openList.del(node.index);
-			_closeList.insert(node.index);
+			_closeList.insert(node.index, node);
 		}
 		
 		private function generatePath():void
@@ -72,9 +86,10 @@ package rookie.algorithm.pathFinding.aStar
 		private function getMinFValueNodeInOpenList():AStarNode
 		{
 			var rt:AStarNode;
-			for each(var i:AStarNode in _openList)
+			var content:Dictionary = _openList.content;
+			for each(var i:AStarNode in content)
 			{
-				if (rt && i.fValue < rt.fValue)
+				if (!rt || i.fValue < rt.fValue)
 				{
 					rt = i;
 				}
@@ -190,6 +205,60 @@ package rookie.algorithm.pathFinding.aStar
 			var yDis:int = nodeA.y - nodeB.y;
 			var hValue:Number = Math.sqrt(xDis * xDis + yDis * yDis);
 			return hValue;
+		}
+		
+		public function parseArrToMap(arr:Array):Vector.<AStarNode>
+		{
+			var vec:Vector.<AStarNode> = new Vector.<AStarNode>();
+			for each(var i:int in arr)
+			{
+				var node:AStarNode = new AStarNode();
+				node.type = i;
+				vec.push(node);
+			}
+			return vec;
+		}
+		
+		private function traceResult():void
+		{
+			log("======本次寻路======");
+			for (var j:int = 0; j < _height;j++)
+			{
+				var rowStr:String = "";
+				for (var i:int = 0; i < _width; i++)
+				{
+					var node:AStarNode = _map[i + j * _width];
+					if (node.equal(_startNode))
+					{
+						rowStr += "S ";
+					}
+					else if (node.equal(_endNode))
+					{
+						rowStr += "E ";
+					}
+					else if (isInPath(node))
+					{
+						rowStr += "P "
+					}
+					else
+					{
+						rowStr += node.type + " ";
+					}
+				}
+				log(rowStr);
+			}
+		}
+		
+		private function isInPath(node:AStarNode):Boolean
+		{
+			for each(var i:AStarNode in _path)
+			{
+				if (i.equal(node))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
