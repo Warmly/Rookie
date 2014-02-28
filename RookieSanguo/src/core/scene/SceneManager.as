@@ -10,6 +10,7 @@ package core.scene
 	import flash.ui.Keyboard;
 	import global.ModelEntry;
 	import global.MyselfModel;
+	import rookie.algorithm.pathFinding.aStar.AStar;
 	import tool.SanguoCoorTool;
 	import tool.SanguoTimeTool;
 
@@ -26,6 +27,7 @@ package core.scene
 		private var _mapModel:MapModel;
 		private var _myself:MyselfCpu;
 		private var _myselfModel:MyselfModel;
+		private var _pathFind:AStar;
 
 		public function SceneManager()
 		{
@@ -33,6 +35,21 @@ package core.scene
 			_mapModel = ModelEntry.mapModel;
 			_myself = SanguoEntry.scene.myself;
 			_myselfModel = ModelEntry.myselfModel;
+			_pathFind = new AStar();
+		}
+		
+		public function onMapLoaded():void
+		{
+			var vo:MapVO = _mapModel.curMapVO;
+			var w:int = vo.numCellW + MapModel.MAP_W_ADD_CELL;
+			var h:int = vo.numCellH + MapModel.MAP_H_ADD_CELL;
+			var numCell:int = w * h;
+			var arr:Array = [];
+			for (var i:int = 0; i < numCell; i++)
+			{
+				arr.push(i);
+			}
+			_pathFind.parseArrToMap(arr, w, h);
 		}
 		
 		public function handleMouseDown(event:MouseEvent):void
@@ -62,16 +79,18 @@ package core.scene
 		
 		public function createMoveProcess(targetCell:Point):void
 		{
-			var dir:int = DirectionEnum.getDirection(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
-			_myself.synAction(ActionEnum.RUN, dir);
-			var startTime:int = SanguoTimeTool.getCurTime();
-			var cellDis:int = SanguoCoorTool.calCellDictance(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
-			var cost:int = cellDis * _myselfModel.costPerCell;
-			var endTime:int = startTime + cost;
-			var startPoint:Point = new Point(_myselfModel.cellX, _myselfModel.cellY);
-			var endPoint:Point = targetCell;
-			var newActProcess:ActProcess = new ActProcess(ActionEnum.RUN, startTime, endTime, startPoint, endPoint);
-			_myself.setNewActProcess(newActProcess);
+			_pathFind.init(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
+			if (_pathFind.findPath())
+			{
+				var dir:int = DirectionEnum.getDirection(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
+				_myself.synAction(ActionEnum.RUN, dir);
+				if (!_myself.actProcess)
+				{
+					_myself.initActProcess();
+				}
+				_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell, new Point(_myselfModel.cellX, _myselfModel.cellY));
+				_myself.actProcess.nextStep();
+			}
 		}
 	}
 }

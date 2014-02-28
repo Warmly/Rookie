@@ -3,6 +3,7 @@ package rookie.algorithm.pathFinding.aStar
 	import flash.utils.Dictionary;
 	import rookie.dataStruct.HashTable;
 	import rookie.tool.log.log;
+	import rookie.tool.math.RookieMath;
 	/**
 	 * ...
 	 * @author Warmly
@@ -40,12 +41,12 @@ package rookie.algorithm.pathFinding.aStar
 			while (_openList.length)
 			{
 				_curNode = getMinFValueNodeInOpenList();
-				log(_curNode.x + "," + _curNode.y);
+				//log(_curNode.x + "," + _curNode.y);
 				switchToCloseList(_curNode);
 				if (_curNode.equal(_endNode))
 				{
 					generatePath();
-					traceResult();
+					//traceResult();
 					return true;
 				}
 				checkNodeAround(_curNode);
@@ -90,7 +91,7 @@ package rookie.algorithm.pathFinding.aStar
 			var content:Dictionary = _openList.content;
 			for each(var i:AStarNode in content)
 			{
-				if (!rt || i.fValue < rt.fValue)
+				if (!rt || i.fValue <= rt.fValue)
 				{
 					rt = i;
 				}
@@ -202,9 +203,9 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function calHValue(nodeA:AStarNode, nodeB:AStarNode):Number
 		{
-			var xDis:int = nodeA.x - nodeB.x;
-			var yDis:int = nodeA.y - nodeB.y;
-			var hValue:Number = Math.sqrt(xDis * xDis + yDis * yDis);
+			var xDis:int = RookieMath.abs(nodeA.x - nodeB.x);
+			var yDis:int = RookieMath.abs(nodeA.y - nodeB.y);
+			var hValue:Number = xDis + yDis;
 			return hValue;
 		}
 		

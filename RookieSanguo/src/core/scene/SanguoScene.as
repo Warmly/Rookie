@@ -3,6 +3,7 @@ package core.scene
 	import core.creature.MyselfCpu;
 	import core.creature.UserCpu;
 	import flash.events.KeyboardEvent;
+	import flash.geom.Point;
 	import global.ManagerEntry;
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
@@ -12,6 +13,7 @@ package core.scene
 	import flash.events.MouseEvent;
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
+	import tool.SanguoCoorTool;
 	import tool.UserFactory;
     use namespace Rookie;
 	/**
@@ -30,9 +32,10 @@ package core.scene
 			
 			_itemLayer = new ItemLayerCpu();
 			_itemLayer.parent = this;
-			
-			initMyself();
 
+			_myself = UserFactory.getMyselfCpu();
+			_myself.parent = _itemLayer;
+			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
 
@@ -41,8 +44,21 @@ package core.scene
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
-			onScreenResize();
+			init();
 			RookieEntry.renderManager.addToQueue(this);
+		}
+		
+		private function init():void
+		{
+			var meDedaultPos:Point = new Point(20, 20);
+			ModelEntry.myselfModel.cellX = meDedaultPos.x;
+			ModelEntry.myselfModel.cellY = meDedaultPos.y;
+			_myself.synScenePixelPos(SanguoCoorTool.cellToScene(meDedaultPos.x, meDedaultPos.y));
+			
+			SanguoEntry.camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
+			this.x = -SanguoEntry.camera.xInScene;
+			this.y = -SanguoEntry.camera.yInScene;
+			_mapLayer.onScreenResize();
 		}
 
 		private function onMouseDown(e:MouseEvent):void
@@ -57,22 +73,11 @@ package core.scene
 
 		private function onScreenResize(e:Event = null):void
 		{
-			var xDis:int = 256 * 8;
-			var yDis:int = 256 * 6;
-			SanguoEntry.camera.setup(xDis, yDis, stage.stageWidth, stage.stageHeight);
-			this.x = -xDis;
-			this.y = -yDis;
+			var focus:Point = SanguoEntry.camera.focus.clone();
+			SanguoEntry.camera.setup(focus.x - stage.stageWidth * 0.5, focus.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
+			this.x = -SanguoEntry.camera.xInScene;
+			this.y = -SanguoEntry.camera.yInScene;
 			_mapLayer.onScreenResize();
-		}
-		
-		private function initMyself():void
-		{
-			_myself = UserFactory.getMyselfCpu();
-			_myself.parent = _itemLayer;
-			_myself.x = 256 * 9;
-			_myself.y = 256 * 7;
-			ModelEntry.myselfModel.cellX = _myself.x / MapModel.CELL_WIDTH;
-			ModelEntry.myselfModel.cellY = _myself.y / MapModel.CELL_HEIGHT;
 		}
 		
 		public function render():void

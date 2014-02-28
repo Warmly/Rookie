@@ -21,7 +21,7 @@ package core.creature
 			if (_actDirNumConfig.length == 0)
 			{
 				var model:StaticDataModel = ModelEntry.staticDataModel;
-				var xmlList:XMLList = model.Action.action;
+				var xmlList:XMLList = model.getXmlConfig("action.xml").action;
 				for each (var i : XML in xmlList)
 				{
 					var vo:ActDirNumVO = new ActDirNumVO(i);

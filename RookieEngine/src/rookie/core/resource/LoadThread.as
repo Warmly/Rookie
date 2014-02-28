@@ -135,6 +135,14 @@ package rookie.core.resource
 				_curLoadingItem.onLoaded();
 				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
 			}
+			else if (_curLoadingItem.resType == ResType.SPK)
+			{
+				_isLoading = false;
+				RookieEntry.loadManager.setItemLoadedToken(_curLoadingItem.url);
+				RookieEntry.resManager.byteArrData.insert(_curLoadingItem.url, _urlLoader.data);
+				_curLoadingItem.onLoaded();
+				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
+			}
 		}
 
 		private function onProgress(event:ProgressEvent):void

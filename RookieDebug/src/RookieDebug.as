@@ -2,9 +2,11 @@ package
 {
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.text.TextField;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
 	import rookie.core.resource.LoadPriority;
+	import tool.TextTool;
 	import tool.UserFactory;
 	import core.creature.UserCpu;
 	import tool.NpcFactory;
@@ -58,26 +60,24 @@ package
 			
 			var aStarTestArr:Array = [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 			];
 			
-			var startNode:AStarNode = new AStarNode();
-			startNode.init(1, 1, 1 + 1 * 10, 0);
-			var endNode:AStarNode = new AStarNode();
-			endNode.init(8, 6, 8 + 6 * 10, 0);
-			
 			var aStar:AStar = new AStar();
 			aStar.parseArrToMap(aStarTestArr, 10, 10);
-			aStar.init(1, 1, 8, 6);
+			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
+			
+			var text:TextField = TextTool.getLightTextField(200, true, 20, true);
+			text.htmlText = TextTool.getHtmlText("么么么么么", );
 		}
 	}
 }

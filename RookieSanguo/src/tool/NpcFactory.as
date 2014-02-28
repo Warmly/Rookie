@@ -13,7 +13,7 @@ package tool
 		public static function getTestNpcVO():NpcVO
 		{
 			var vo:NpcVO = new NpcVO();
-			vo.detail = ModelEntry.staticDataModel.npcConfig.search(256) as NpcConfigVO;
+			vo.detail = ModelEntry.staticDataModel.getNpcConfigVO(256) as NpcConfigVO;
 			return vo;
 		}
 		

@@ -1,5 +1,6 @@
 package rookie.algorithm.pathFinding.aStar 
 {
+	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author Warmly
@@ -84,6 +85,11 @@ package rookie.algorithm.pathFinding.aStar
 		public function equal(node:AStarNode):Boolean
 		{
 			return this.x == node.x && this.y == node.y;
+		}
+		
+		public function toPoint():Point
+		{
+			return new Point(_x, _y);
 		}
 		
 		public function get index():int

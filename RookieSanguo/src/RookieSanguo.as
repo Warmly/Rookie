@@ -5,6 +5,7 @@ package
 	import flash.display.StageScaleMode;
 	import global.ModelEntry;
 	import global.SanguoEntry;
+	import global.SanguoGlobal;
 	import rookie.core.resource.LoadPriority;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
@@ -19,14 +20,18 @@ package
 		{
 			RookieEntry.mainLoop.init(this.stage);
 			
-			var mainResUrl:ResUrl = new ResUrl( -1, -1, "resource_debug", ResType.PACK_SWF, "");
-			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded))
+			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
 			
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
 		}
 		
 		private function onMainResLoaded():void
+		{
+			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, FH(onConfigResLoaded));
+		}
+		
+		private function onConfigResLoaded():void
 		{
 			RookieEntry.resManager.init();
 			

@@ -32,10 +32,14 @@ package core.scene
 		public static const CELL_WIDTH:int = 64;
 		// 格子高
 		public static const CELL_HEIGHT:int = 32;
+		// 地图水平附加格子数
+		public static const MAP_W_ADD_CELL:int = 20;
+		// 地图竖直附加格子数
+		public static const MAP_H_ADD_CELL:int = 20;
 		// 地图水平附加长度
-		public static const MAP_W_ADD:int = 20 * CELL_WIDTH;
+		public static const MAP_W_ADD:int = MAP_W_ADD_CELL * CELL_WIDTH;
 		// 地图竖直附加长度
-		public static const MAP_H_ADD:int = 20 * CELL_HEIGHT;
+		public static const MAP_H_ADD:int = MAP_H_ADD_CELL * CELL_HEIGHT;
 		private var _sceneMapInfoConfig:HashTable = new HashTable(int, MapInfoVO);
 		private var _curMapInfoVO:MapInfoVO;
 		private var _mapVoConfig:HashTable = new HashTable(int, MapVO);
@@ -85,6 +89,7 @@ package core.scene
 				_mapVoConfig.insert(_curMapInfoVO.id, mapVO);
 			}
 			_curMapVO = mapVO;
+			ManagerEntry.sceneManager.onMapLoaded();
 		}
 
 		public function getMapImgUrl(index:int):ResUrl
@@ -151,7 +156,7 @@ package core.scene
 		{
 			if (_sceneMapInfoConfig.length == 0)
 			{
-				var xmlList:XMLList = _staticDataModel.sceneMapInfoConfig.mapinfo.map;
+				var xmlList:XMLList = _staticDataModel.getXmlConfig("sceneMapInfoConfig_client.xml").mapinfo.map;
 				for each (var i : XML in xmlList)
 				{
 					var vo:MapInfoVO = new MapInfoVO(i);

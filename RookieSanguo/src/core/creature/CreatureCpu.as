@@ -63,15 +63,15 @@ package core.creature
 			}
 		}
 		
-		public function setScenePixelPos(pt:Point):void
+		public function synScenePixelPos(pt:Point):void
 		{
 			this.x = pt.x;
 			this.y = pt.y;
 		}
 
-		public function setNewActProcess(ap:ActProcess):void
+		public function initActProcess():void
 		{
-			_actProcess = ap;
+			_actProcess = new ActProcess();
 		}
 		
 		public function get actProcess():ActProcess

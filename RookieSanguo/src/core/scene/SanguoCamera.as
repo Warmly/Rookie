@@ -1,5 +1,6 @@
 package core.scene
 {
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
 	/**
@@ -12,6 +13,7 @@ package core.scene
 		private var _yInScene:Number;
 		private var _width:Number;
 		private var _height:Number;
+		private var _focus:Point;
 
 		public function SanguoCamera()
 		{
@@ -24,6 +26,7 @@ package core.scene
 			_yInScene = y;
 			_width = width;
 			_height = height;
+			_focus = new Point(_xInScene + _width * 0.5, _yInScene +_height * 0.5);
 		}
 
 		public function get rect():Rectangle
@@ -49,6 +52,11 @@ package core.scene
 		public function get height():Number
 		{
 			return _height;
+		}
+		
+		public function get focus():Point
+		{
+			return _focus;
 		}
 	}
 }
