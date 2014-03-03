@@ -33,6 +33,18 @@ package rookie.algorithm.pathFinding.aStar
 		{
 			_startNode = _map[startX + startY * _width];
 			_endNode = _map[endX + endY * _width];
+			reset();
+		}
+		
+		private function reset():void
+		{
+			for each(var i:AStarNode in _map)
+			{
+				i.parentNode = null;
+			}
+			_openList.clear();
+			_closeList.clear();
+			_path.length = 0;
 		}
 		
 		public function findPath():Boolean

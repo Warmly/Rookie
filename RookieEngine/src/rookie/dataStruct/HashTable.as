@@ -60,6 +60,15 @@ package rookie.dataStruct
 			}
 			return ret;
 		}
+		
+		public function clear():void
+		{
+			if (_length)
+			{
+				_items = new Dictionary();
+				_length = 0;
+			}
+		}
 
 		public function has(key:*):Boolean
 		{

@@ -32,7 +32,14 @@ package rookie.algorithm.pathFinding.aStar
 		public function set parentNode(node:AStarNode):void
 		{
 			_parentNode = node;
-			_gValue = node.gValue + getCostFromParent();
+			if (node)
+			{
+				_gValue = node.gValue + getCostFromParent();
+			}
+			else
+			{
+				_gValue = 0;
+			}
 			_update = true;
 		}
 		
