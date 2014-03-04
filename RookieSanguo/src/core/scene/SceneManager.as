@@ -34,6 +34,7 @@ package core.scene
 			_scene = SanguoEntry.scene;
 			_mapModel = ModelEntry.mapModel;
 			_myself = SanguoEntry.scene.myself;
+			_myself.initActProcess();
 			_myselfModel = ModelEntry.myselfModel;
 			_pathFind = new AStar();
 		}
@@ -79,17 +80,27 @@ package core.scene
 		
 		public function createMoveProcess(targetCell:Point):void
 		{
-			_pathFind.init(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
+			//当前寻路未走完时，要走完这一格，再从这一格开始计算寻路
+			var ap:ActProcess = _myself.actProcess;
+			if (ap.isFinish)
+			{
+				_pathFind.init(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
+			}
+			else
+			{
+				_pathFind.init(ap.curTgtPos.x, ap.curTgtPos.y, targetCell.x, targetCell.y);
+			}
 			if (_pathFind.findPath())
 			{
-				var dir:int = DirectionEnum.getDirection(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
-				_myself.synAction(ActionEnum.RUN, dir);
-				if (!_myself.actProcess)
+				if (ap.isFinish)
 				{
-					_myself.initActProcess();
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell, new Point(_myselfModel.cellX, _myselfModel.cellY));
+					_myself.actProcess.nextStep();
 				}
-				_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell, new Point(_myselfModel.cellX, _myselfModel.cellY));
-				_myself.actProcess.nextStep();
+				else
+				{
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell);
+				}
 			}
 		}
 	}

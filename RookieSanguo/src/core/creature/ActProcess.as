@@ -27,6 +27,7 @@ package core.creature
 		
 		public function ActProcess() 
 		{
+			_isFinish = true;
 		}
 		
 		public function reset(action:int, path:Vector.<AStarNode>, costPerCell:Number, startPos:Point = null):void
@@ -47,10 +48,9 @@ package core.creature
 			_curTgtPos = _path.shift().toPoint();
 			_curTgtPixelPos = SanguoCoorTool.cellToScene(_curTgtPos.x, _curTgtPos.y);
 			_curStartTime = SanguoTimeTool.getCurTime();
-			trace(_curTgtPos);
 		}
 		
-		public function checkStepFinish(curPixelX:Number, curPixelY:Number):void
+		public function checkStepFinish():Boolean
 		{
 			if (SanguoTimeTool.getCurTime() - _curStartTime >= _costPerCell)
 			{
@@ -64,12 +64,19 @@ package core.creature
 				{
 					_isFinish = true;
 				}
+				return true;
 			}
+			return false
 		}
 		
 		public function get isFinish():Boolean
 		{
 			return _isFinish;
+		}
+		
+		public function get curTgtPos():Point
+		{
+			return _curTgtPos;
 		}
 		
 		public function getCurDirection():int

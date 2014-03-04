@@ -25,9 +25,9 @@ package core.creature
 		// 动作ID为键，包含所有方向的配置为值的哈希表
 		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);
 		// 动作ID
-		private var _action:uint = ActionEnum.DEFAULT;
+		private var _action:int = ActionEnum.DEFAULT;
 		// 动作方向
-		private var _direction:uint = DirectionEnum.DEFAULT;
+		private var _direction:int = DirectionEnum.DEFAULT;
 		// 使用的图片资源的方向
 		private var _resDir:uint;
 		// 图片资源包含几个方向
@@ -49,7 +49,7 @@ package core.creature
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 
-		public function synAction(action:uint, direction:uint = 5):void
+		public function synAction(action:int, direction:int):void
 		{
 			_action = action;
 			_imgConfigVO = _imgConfigVoTable.search(action);
@@ -58,7 +58,7 @@ package core.creature
 			synDirection(direction);
 		}
 
-		public function synDirection(direction:uint):void
+		public function synDirection(direction:int):void
 		{
 			_direction = direction;
 			synResDirAndReverse();

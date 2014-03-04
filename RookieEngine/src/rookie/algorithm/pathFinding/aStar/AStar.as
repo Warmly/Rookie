@@ -66,6 +66,9 @@ package rookie.algorithm.pathFinding.aStar
 			return false;
 		}
 		
+		/**
+		 * 不包含起点，包含终点 
+	     */
 		public function get path():Vector.<AStarNode>
 		{
 			return _path;

@@ -37,7 +37,11 @@ package definition
 			var degree:Number = Math.atan2(relative.y, relative.x) * 180 / Math.PI;
 			var unit:Number = 22.5;
 			var direction:int;
-			if (-unit <= degree && degree <= unit)
+			if (fromX == toX && fromY == toY)
+			{
+				direction = -1;
+			}
+			else if (-unit <= degree && degree <= unit)
 			{
 				direction = RIGHT;
 			}

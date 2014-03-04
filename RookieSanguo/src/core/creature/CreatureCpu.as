@@ -15,8 +15,8 @@ package core.creature
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
-		protected var _direction:uint;
-		protected var _action:uint;
+		protected var _action:int;
+		protected var _direction:int;
 		protected var _actProcess:ActProcess;
 
 		public function CreatureCpu()
@@ -27,36 +27,37 @@ package core.creature
 
 		public function reset():void
 		{
-			_direction = DirectionEnum.DEFAULT;
-			_action = ActionEnum.DEFAULT;
+			_action = 0;
+			_direction = 0;
 			_partsContainer.reset();
 		}
-
+        
+		/**
+	     * 动作改变
+	     */
 		public function synAction(action:int, direction:int = -1):void
 		{
-			if (action != _action)
+			if (action != _action && action > 0)
 			{
 				_action = action;
 				if (direction > 0)
 				{
 					_direction = direction;
-					_partsContainer.synAction(action, direction);
 				}
-				else
-				{
-					_partsContainer.synAction(action, _direction);
-				}
+				_partsContainer.synAction(action, _direction);
 			}
-			else if(direction != _direction && direction > 0)
+			else 
 			{
-				_direction = direction;
-				_partsContainer.synDirection(direction);
+				synDirection(direction);
 			}
 		}
-
-		public function synDirection(direction:uint):void
+        
+		/**
+	     * 动作不变，方向改变
+	     */
+		public function synDirection(direction:int):void
 		{
-			if (direction != _direction)
+			if (direction != _direction && direction > 0)
 			{
 				_direction = direction;
 				_partsContainer.synDirection(direction);
