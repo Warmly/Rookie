@@ -22,19 +22,26 @@ package core.scene
 	public class SanguoScene extends RichSprite implements IRenderItem
 	{
 		private var _mapLayer:MapLayerCpu;
+		private var _mapDebugLayer:MapDebugLayerCpu;
 		private var _itemLayer:ItemLayerCpu;
 		private var _myself:MyselfCpu;
+		private var _camera:SanguoCamera;
 
 		public function SanguoScene()
 		{
 			_mapLayer = new MapLayerCpu();
 			_mapLayer.parent = this;
 			
+			_mapDebugLayer = new MapDebugLayerCpu();
+			//_mapDebugLayer.parent = this;
+			
 			_itemLayer = new ItemLayerCpu();
 			_itemLayer.parent = this;
 
 			_myself = UserFactory.getMyselfCpu();
 			_myself.parent = _itemLayer;
+			
+			_camera = SanguoEntry.camera;
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
@@ -50,15 +57,11 @@ package core.scene
 		
 		private function init():void
 		{
-			var meDedaultPos:Point = new Point(20, 20);
+			var meDedaultPos:Point = new Point(40, 40);
 			ModelEntry.myselfModel.cellX = meDedaultPos.x;
 			ModelEntry.myselfModel.cellY = meDedaultPos.y;
 			_myself.synScenePixelPos(SanguoCoorTool.cellToScene(meDedaultPos.x, meDedaultPos.y));
-			
-			SanguoEntry.camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
-			this.x = -SanguoEntry.camera.xInScene;
-			this.y = -SanguoEntry.camera.yInScene;
-			_mapLayer.onScreenResize();
+			onScreenResize();
 		}
 
 		private function onMouseDown(e:MouseEvent):void
@@ -73,17 +76,26 @@ package core.scene
 
 		private function onScreenResize(e:Event = null):void
 		{
-			var focus:Point = SanguoEntry.camera.focus.clone();
-			SanguoEntry.camera.setup(focus.x - stage.stageWidth * 0.5, focus.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
-			this.x = -SanguoEntry.camera.xInScene;
-			this.y = -SanguoEntry.camera.yInScene;
+			_camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
+			this.x = -_camera.xInScene;
+			this.y = -_camera.yInScene;
 			_mapLayer.onScreenResize();
+			_mapDebugLayer.onScreenResize();
 		}
 		
 		public function render():void
 		{
 			_mapLayer.refresh();
 			_myself.refresh();
+			_mapDebugLayer.refresh();
+			moveScene();
+		}
+		
+		private function moveScene():void
+		{
+			_camera.move(_myself.x - _camera.width * 0.5, _myself.y - _camera.height * 0.5);
+			this.x = - _camera.xInScene
+			this.y = - _camera.yInScene;
 		}
 		
 		public function dispose():void

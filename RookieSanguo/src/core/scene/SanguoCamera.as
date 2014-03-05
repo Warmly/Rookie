@@ -29,6 +29,12 @@ package core.scene
 			_focus = new Point(_xInScene + _width * 0.5, _yInScene +_height * 0.5);
 		}
 
+		public function move(x:Number, y:Number):void
+		{
+			_xInScene = x;
+			_yInScene = y;
+		}
+		
 		public function get rect():Rectangle
 		{
 			return _rect;

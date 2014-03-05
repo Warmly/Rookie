@@ -15,9 +15,9 @@ package rookie.tool.text
 		{
 		}
 		
-		public static function getLightTextField(fixWidth:Number = 0, isCenter:Boolean = false, leading:Number = 4, defaultFilter:Boolean = true, font:String = ""):TextField
+		public static function getLightTextField(fixWidth:Number = 0, isCenter:Boolean = false, leading:Number = 4, defaultFilter:Boolean = true, font:String = ""):RookieTextField
 		{
-			var textfield:TextField = new TextField();
+			var textfield:RookieTextField = new RookieTextField();
 			textfield.mouseEnabled = false;
 			textfield.selectable = false;
 			var textFormat:TextFormat = new TextFormat();
@@ -42,7 +42,7 @@ package rookie.tool.text
 			}
 			if (defaultFilter)
 			{
-				textfield.filters = new GlowFilter(0x000000, 0.7, 2, 2, 17, 1, false, false);
+				textfield.filters = [new GlowFilter(0x000000, 0.7, 2, 2, 17, 1, false, false)];
 			}
 			if (font)
 			{
@@ -52,7 +52,7 @@ package rookie.tool.text
 			return textfield;
 		}
 		
-		public static function getHtmlText(content:String, colorStr:String = "#DCDCDC", size = 12):String
+		public static function getHtmlText(content:String, colorStr:String = "#DCDCDC", size:int = 12):String
 		{
 			return "<font size='" + size + "' color='" + colorStr + "'>" + content + "</font>";
 		}

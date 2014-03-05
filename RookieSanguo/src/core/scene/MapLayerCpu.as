@@ -1,5 +1,6 @@
 package core.scene
 {
+	import flash.geom.Point;
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RichSprite;
@@ -25,7 +26,26 @@ package core.scene
 		{
 			_mapModel = ModelEntry.mapModel;
 		}
+		
+		public function getFirstBlockPos():Point
+		{
+			if (_blocks.length)
+			{
+				return new Point(_blocks[0].x, _blocks[0].y);
+			}
+			return null;
+		}
 
+		public function get numBlockW():int
+		{
+			return _numBlockW;
+		}
+		
+		public function get numBlockH():int
+		{
+			return _numBlockH
+		}
+		
 		public function refresh():void
 		{
 			if (_mapModel.curMapVO)

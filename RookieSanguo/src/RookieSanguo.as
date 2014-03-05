@@ -13,7 +13,7 @@ package
     import rookie.tool.functionHandler.FH;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="30", width="1200", height="800")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
