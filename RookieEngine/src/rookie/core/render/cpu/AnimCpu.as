@@ -1,5 +1,6 @@
-package rookie.core.render
+package rookie.core.render.cpu
 {
+	import rookie.core.render.IRenderItem;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;

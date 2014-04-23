@@ -1,4 +1,4 @@
-package rookie.core.render
+package rookie.core.render.cpu
 {
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.resource.ResUrl;

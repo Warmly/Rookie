@@ -2,12 +2,16 @@ package core.scene
 {
 	import core.creature.MyselfCpu;
 	import core.creature.UserCpu;
+	import core.scene.cpu.ItemLayerCpu;
+	import core.scene.cpu.MapDebugLayerCpu;
+	import core.scene.cpu.MapLayerCpu;
+	import core.scene.gpu.MapLayerGpu;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	import global.ManagerEntry;
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	import global.SanguoEntry;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -21,6 +25,7 @@ package core.scene
 	 */
 	public class SanguoScene extends RichSprite implements IRenderItem
 	{
+		private var _mapLayerGpu:MapLayerGpu;
 		private var _mapLayer:MapLayerCpu;
 		private var _mapDebugLayer:MapDebugLayerCpu;
 		private var _itemLayer:ItemLayerCpu;
@@ -29,6 +34,8 @@ package core.scene
 
 		public function SanguoScene()
 		{
+			_mapLayerGpu = new MapLayerGpu();
+			
 			_mapLayer = new MapLayerCpu();
 			_mapLayer.parent = this;
 			

@@ -1,10 +1,12 @@
-package core.scene 
+package core.scene.cpu 
 {
+	import core.scene.MapModel;
+	import core.scene.SanguoCamera;
 	import flash.display.Shape;
 	import flash.geom.Point;
 	import global.ModelEntry;
 	import global.SanguoEntry;
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	import rookie.tool.common.Color;
 	/**
 	 * ...
@@ -65,7 +67,7 @@ package core.scene
 
 import flash.display.Shape;
 import flash.text.TextField;
-import rookie.core.render.RichSprite;
+import rookie.core.render.cpu.RichSprite;
 import rookie.tool.common.Color;
 import rookie.tool.text.RookieTextField;
 import rookie.tool.text.TextTool;

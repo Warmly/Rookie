@@ -1,9 +1,11 @@
-package core.scene
+package core.scene.cpu
 {
+	import core.scene.MapModel;
+	import core.scene.SanguoCamera;
 	import flash.geom.Point;
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.log.log;

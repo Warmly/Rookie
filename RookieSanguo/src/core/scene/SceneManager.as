@@ -56,7 +56,7 @@ package core.scene
 		public function handleMouseDown(event:MouseEvent):void
 		{	
 			var targetSceneCellCoor:Point = SanguoCoorTool.cameraToCell(event.stageX, event.stageY);
-			createMoveProcess(targetSceneCellCoor);
+			//createMoveProcess(targetSceneCellCoor);
 		}
 		
 		public function handleKeyDown(event:KeyboardEvent):void

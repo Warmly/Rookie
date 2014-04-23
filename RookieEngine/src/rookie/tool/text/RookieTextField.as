@@ -2,7 +2,7 @@ package rookie.tool.text
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.text.TextField;
-	import rookie.core.render.IParent;
+	import rookie.core.render.cpu.IParent;
 	
 	/**
 	 * ...

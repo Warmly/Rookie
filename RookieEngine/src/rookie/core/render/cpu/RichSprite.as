@@ -1,4 +1,4 @@
-package rookie.core.render
+package rookie.core.render.cpu
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;

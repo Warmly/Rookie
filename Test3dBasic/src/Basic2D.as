@@ -118,7 +118,7 @@ package
 			//
 			0, 1, 2,
 			// 
-			0, 2, 3]);
+			2, 3, 0]);
 		}
 
 		private function initBuffer():void
@@ -163,8 +163,8 @@ package
 			_pMatrix.identity();
 		}
 		
-		private static const SCREEN_X:int = 25;
-		private static const SCREEN_Y:int = 25;
+		private static const SCREEN_X:int = 400;
+		private static const SCREEN_Y:int = 200;
 
 		private function onEnterFrame(e:Event):void
 		{
@@ -178,9 +178,10 @@ package
 			_context3D.setProgram(_shader);
 
 			_mvpMatrix.identity();
-			_mvpMatrix.appendScale(256/SWF_WIDTH, 256/SWF_HEIGHT, 1);
-			_mvpMatrix.appendTranslation(-1+256/SWF_WIDTH, 1-256/SWF_HEIGHT, 0);
-			_mvpMatrix.appendTranslation(2*SCREEN_X/SWF_WIDTH, -2*SCREEN_Y/SWF_HEIGHT, 0);
+			_mvpMatrix.appendScale(256 / SWF_WIDTH, 256 / SWF_HEIGHT, 1);
+			var xVal:Number = (SCREEN_X - SWF_WIDTH * 0.5) / SWF_WIDTH * 2;
+			var yVal:Number = (SWF_HEIGHT * 0.5 - SCREEN_Y) / SWF_HEIGHT * 2;
+			//_mvpMatrix.appendTranslation(xVal, yVal, 0);
 
 			// 设置vc0 
 			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _mvpMatrix, true);

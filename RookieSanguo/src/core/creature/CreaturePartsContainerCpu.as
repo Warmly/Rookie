@@ -1,6 +1,6 @@
 package core.creature
 {
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	import definition.CreaturePartEnum;
 
 	import rookie.core.resource.ResUrl;

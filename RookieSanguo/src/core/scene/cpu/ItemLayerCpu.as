@@ -1,6 +1,6 @@
-package core.scene 
+package core.scene.cpu 
 {
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	
 	/**
 	 * ...

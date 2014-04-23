@@ -1,8 +1,13 @@
 package rookie.core.render
 {
+	import flash.display.Stage;
+	import flash.display.Stage3D;
+	import flash.display3D.Context3D;
+	import flash.events.Event;
 	import flash.utils.Dictionary;
 	import rookie.dataStruct.HashTable;
 	import rookie.namespace.Rookie;
+	import rookie.tool.log.error;
 
 	import rookie.core.IMainLoop;
 
@@ -11,8 +16,15 @@ package rookie.core.render
 	 */
 	public class RenderManager implements IMainLoop
 	{
-		public static const FRAME_RATE:Number = 30;
 		private var _renderQueue:HashTable = new HashTable(String, IRenderItem);
+		private var _context3D:Context3D;
+		private var _stage:Stage;
+		
+		public function init3DRenderComponent(stage:Stage):void
+		{
+			_stage = stage;
+			_stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
+		}
 
 		public function onEnterFrame():void
 		{
@@ -23,6 +35,19 @@ package rookie.core.render
 			}
 		}
 
+		private function onContext3DCreate(e:Event):void
+		{
+			_context3D = (e.target as Stage3D).context3D;
+			
+			if (!_context3D)
+			{
+				error("未获取到3D设备！");
+				return;
+			}
+			
+			_context3D.enableErrorChecking = true;
+		}
+		
 		Rookie function addToQueue(renderItem:IRenderItem):void
 		{
 			if(!_renderQueue.has(renderItem.key))

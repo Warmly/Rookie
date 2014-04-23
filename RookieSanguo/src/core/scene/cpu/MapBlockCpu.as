@@ -1,9 +1,9 @@
-package core.scene
+package core.scene.cpu
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import rookie.core.render.ImgCpuBase;
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.ImgCpuBase;
+	import rookie.core.render.cpu.RichSprite;
 	import rookie.core.resource.LoadPriority;
 	import rookie.global.RookieEntry;
 
@@ -11,7 +11,7 @@ package core.scene
 
 	import rookie.core.resource.ResUrl;
 	import rookie.tool.objectPool.IObjPoolItem;
-	import rookie.core.render.ImgCpu;
+	import rookie.core.render.cpu.ImgCpu;
 	import rookie.tool.functionHandler.FH;
 	import rookie.tool.log.log;
 

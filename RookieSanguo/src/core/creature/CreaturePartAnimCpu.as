@@ -8,7 +8,7 @@ package core.creature
 
 	import global.ModelEntry;
 
-	import rookie.core.render.AnimCpu;
+	import rookie.core.render.cpu.AnimCpu;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.core.vo.ImgFrameConfigVO;
@@ -45,7 +45,7 @@ package core.creature
 		{
 			_type = type;
 			super(resUrl, false);
-			//frequency = 12;
+			frequency = 16;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 

@@ -1,4 +1,4 @@
-package rookie.core.render
+package rookie.core.render.cpu
 {
 	import rookie.core.resource.LoadPriority;
 	import rookie.core.vo.ImgFrameConfigVO;

@@ -1,7 +1,7 @@
 package core.creature
 {
 	import flash.geom.Point;
-	import rookie.core.render.RichSprite;
+	import rookie.core.render.cpu.RichSprite;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 

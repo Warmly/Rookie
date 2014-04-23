@@ -1,8 +1,10 @@
 package
 {
+	import cn.itamt.utils.Inspector;
 	import core.scene.SanguoScene;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.Event;
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import global.SanguoGlobal;
@@ -13,17 +15,34 @@ package
     import rookie.tool.functionHandler.FH;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="30", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
 		{
-			RookieEntry.mainLoop.init(this.stage);
-			
-			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
-			
+			if (stage)
+			{
+				onAddToStage();
+			}
+			else
+			{
+				addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+			}
+			Inspector.getInstance().init(this);
+		}
+		
+		private function onAddToStage(e:Event = null):void
+		{
+			if (hasEventListener(Event.ADDED_TO_STAGE))
+			{
+				removeEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
+			RookieEntry.mainLoop.init(this.stage);
+			RookieEntry.renderManager.init3DRenderComponent(this.stage);
+			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
+			addChild(new Stats());
 		}
 		
 		private function onMainResLoaded():void
@@ -39,8 +58,6 @@ package
 			scene.parent = this;
 			
 			ModelEntry.staticDataModel;
-			
-			addChild(new Stats());
 			
 			ModelEntry.mapModel.curMapId = 2005;
 			ModelEntry.mapModel.loadMap();
