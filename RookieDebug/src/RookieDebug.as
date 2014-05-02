@@ -1,12 +1,18 @@
 package
 {
+	import core.scene.SanguoCamera;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.Event;
 	import flash.text.TextField;
+	import global.SanguoEntry;
+	import global.SanguoGlobal;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
+	import rookie.core.render.gpu.factory.RookieBufferFactory;
+	import rookie.core.render.gpu.ImgGpu;
 	import rookie.core.resource.LoadPriority;
-	import tool.TextTool;
+	import rookie.tool.text.TextTool;
 	import tool.UserFactory;
 	import core.creature.UserCpu;
 	import tool.NpcFactory;
@@ -20,11 +26,11 @@ package
 
 	import global.ModelEntry;
 
-	import rookie.core.render.AnimCpu;
+	import rookie.core.render.cpu.AnimCpu;
 	import rookie.tool.functionHandler.FH;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
-	import rookie.core.render.ImgCpu;
+	import rookie.core.render.cpu.ImgCpu;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.global.RookieEntry;
 
@@ -35,22 +41,48 @@ package
 	{
 		public function RookieDebug()
 		{
-			RookieEntry.mainLoop.init(this.stage);
-
-			var mainResUrl:ResUrl = new ResUrl(-1, -1, "resource_debug", ResType.PACK_SWF, "");
-			RookieEntry.loadManager.load(mainResUrl, LoadPriority.HIGH, FH(onMainResLoaded));
-			addChild(new Stats());
-			
+			if (stage)
+			{
+				onAddToStage();
+			}
+			else
+			{
+				addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+			}
+		}
+		
+		private function onAddToStage(e:Event = null):void 
+		{
+			if (hasEventListener(Event.ADDED_TO_STAGE))
+			{
+				removeEventListener(Event.ADDED_TO_STAGE, onAddToStage);
+			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
+			RookieEntry.mainLoop.init(this.stage);
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
+			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
 		}
-
+		
+		private function on3DRenderComponentReady():void 
+		{
+			var camera:SanguoCamera = SanguoEntry.camera.setup(0, 0, stage.stageWidth, stage.stageHeight);
+			RookieEntry.renderManager.configBackBuffer(camera.width, camera.height);
+		}
+		
 		private function onMainResLoaded():void
 		{
+			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, FH(onConfigResLoaded));
+		}
+		
+		private function onConfigResLoaded():void 
+		{
 			RookieEntry.resManager.init();
-
+	
 			ModelEntry.staticDataModel;
-
+	
+			addChild(new Stats());
+			
 			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
 			anim.x = 200;
 			anim.y = 200;
@@ -77,7 +109,11 @@ package
 			aStar.findPath();
 			
 			var text:TextField = TextTool.getLightTextField(200, true, 20, true);
-			text.htmlText = TextTool.getHtmlText("么么么么么", );
+			text.htmlText = TextTool.getHtmlText("么么么么么");
+			
+			var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 305));
+			imgGpu.x = 300;
+			imgGpu.y = 300;
 		}
 	}
 }

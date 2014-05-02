@@ -40,9 +40,13 @@ package
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage);
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, on3DRenderComponentReady);
 			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
-			addChild(new Stats());
+		}
+		
+		private function on3DRenderComponentReady():void 
+		{
+			
 		}
 		
 		private function onMainResLoaded():void
@@ -56,6 +60,8 @@ package
 			
 			var scene:SanguoScene = SanguoEntry.scene;
 			scene.parent = this;
+			
+			addChild(new Stats());
 			
 			ModelEntry.staticDataModel;
 			

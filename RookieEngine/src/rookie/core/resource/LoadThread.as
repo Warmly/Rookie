@@ -3,7 +3,7 @@ package rookie.core.resource
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 
-	import com.utils.LZMA;
+	import com.adobe.utils.LZMA;
 
 	import flash.display.Bitmap;
 	import flash.display.Loader;

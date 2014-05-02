@@ -4,11 +4,8 @@ package rookie.core.render.cpu
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
-	import rookie.namespace.Rookie;
-
+	import rookie.tool.functionHandler.FunHandler;
 	import flash.utils.getTimer;
-
-	use namespace Rookie;
 	/**
 	 * @author Warmly
 	 */
@@ -27,7 +24,8 @@ package rookie.core.render.cpu
 		protected var _intervalTime:Number;
 		// 播放次数，默认一直播放
 		protected var _loop:int = -1;
-		protected var _curLoop:int = 1;
+		protected var _curLoop:int = 0;
+		protected var _loopEndCallBack:FunHandler;
 		// 基准点
 		protected var _originX:Number = 0;
 		protected var _originY:Number = 0;
@@ -61,11 +59,6 @@ package rookie.core.render.cpu
 			if (_curTime - _lastTime >= _intervalTime)
 			{
 				setCurFrameBmd();
-				if (_curLoop == _loop)
-				{
-					stopPlay();
-					return;
-				}
 				_lastTime = _curTime;
 				if (_curFrame < _endFrame)
 				{
@@ -75,6 +68,15 @@ package rookie.core.render.cpu
 				{
 					_curLoop++;
 					_curFrame = _startFrame;
+				}
+				if (_curLoop == _loop)
+				{
+					stopPlay();
+					if (_loopEndCallBack)
+					{
+						_loopEndCallBack.execute();
+					}
+					return;
 				}
 			}
 		}
@@ -127,8 +129,8 @@ package rookie.core.render.cpu
 		public function stopPlay():void
 		{
 			dispose();
-			deleteParent();
-			_curLoop = 1;
+			//deleteParent();
+			_curLoop = 0;
 		}
 
 		protected function hardSetPos(xValue:Number, yValue:Number):void
@@ -166,6 +168,16 @@ package rookie.core.render.cpu
 		{
 			_frequency = val;
 			_intervalTime = 1000 / _frequency;
+		}
+		
+		public function get loopEndCallBack():FunHandler 
+		{
+			return _loopEndCallBack;
+		}
+		
+		public function set loopEndCallBack(value:FunHandler):void 
+		{
+			_loopEndCallBack = value;
 		}
 	}
 }

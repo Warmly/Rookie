@@ -19,7 +19,7 @@ package core.scene
 		{
 		}
 
-		public function setup(x:Number, y:Number, width:Number, height:Number):void
+		public function setup(x:Number, y:Number, width:Number, height:Number):SanguoCamera
 		{
 			_rect = new Rectangle(x, y, width, height);
 			_xInScene = x;
@@ -27,6 +27,7 @@ package core.scene
 			_width = width;
 			_height = height;
 			_focus = new Point(_xInScene + _width * 0.5, _yInScene +_height * 0.5);
+			return this;
 		}
 
 		public function move(x:Number, y:Number):void

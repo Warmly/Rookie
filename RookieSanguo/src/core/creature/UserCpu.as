@@ -32,7 +32,7 @@ package core.creature
 			}
 		}
 		
-		override public function synAction(action:int, direction:int = -1):void
+		override public function synAction(action:int, direction:int = -1, loop:int = -1):void
 		{
 			if (userVO.horse)
 			{
@@ -45,7 +45,7 @@ package core.creature
 					action = ActionEnum.RUN_ON_HORSE;
 				}
 			}
-			super.synAction(action, direction);
+			super.synAction(action, direction, loop);
 		}
 		
 		public function get userVO():UserVO

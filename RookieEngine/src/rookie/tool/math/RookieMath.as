@@ -23,5 +23,26 @@ package rookie.tool.math
 			}
 			return val;
 		}
+	    
+		/**
+		 * 获取下一个2次幂
+		 * http://goo.gl/D9kPj
+		 */		
+		public static function nextPowerOfTwo(val:uint):uint
+		{
+			if (val > 0 && (val & (val - 1)) == 0)
+			{
+				return val;
+			}
+			else
+			{
+				var result:int = 1;
+				while (result < val)
+				{
+					result <<= 1;
+				}
+				return result;
+			}
+		}
 	}
 }

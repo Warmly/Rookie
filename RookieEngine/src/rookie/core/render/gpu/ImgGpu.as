@@ -1,0 +1,44 @@
+package rookie.core.render.gpu 
+{
+	import flash.display.BitmapData;
+	import rookie.core.render.gpu.factory.RookieBufferFactory;
+	import rookie.core.render.gpu.factory.RookieShaderFactory;
+	import rookie.core.render.gpu.factory.RookieTextureFactory;
+	import rookie.core.render.gpu.ImgGpuBase;
+	import rookie.core.render.RenderManager;
+	import rookie.core.resource.ResUrl;
+	import rookie.global.RookieEntry;
+	/**
+	 * ...
+	 * @author Warmly
+	 */
+	public class ImgGpu extends ImgGpuBase
+	{	
+		public function ImgGpu(resUrl:ResUrl) 
+		{
+			super(resUrl);
+		}
+		
+		override protected function onImgDataLoaded():void
+		{
+			super.onImgDataLoaded();
+			var bmd:BitmapData = _imgConfigVO.getFrames(0).bitmapData;
+			_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer(_width, _height);
+			_indexBuffer = RookieBufferFactory.createBasicIndexBuffer();
+			_shader = RookieShaderFactory.createBasicShader();
+			_texture = RookieTextureFactory.createBasicTexture(bmd);
+			RookieEntry.renderManager.addToQueue(this);
+		}
+		
+		override public function render():void
+		{
+			var renderManager:RenderManager = RookieEntry.renderManager;
+			renderManager.setVertexBuffer(_vertexBuffer);
+			renderManager.setIndexBuffer(_indexBuffer);
+			renderManager.setShader(_shader);
+			renderManager.setTextureAt(0, _texture);
+			renderManager.setRenderPos(_x, _y);
+			renderManager.draw();
+		}
+	}
+}

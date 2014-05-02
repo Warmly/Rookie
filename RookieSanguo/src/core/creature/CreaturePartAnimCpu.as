@@ -60,6 +60,7 @@ package core.creature
 
 		public function synDirection(direction:int):void
 		{
+			_curLoop = 0;
 			_direction = direction;
 			synResDirAndReverse();
 			synPlayRange();

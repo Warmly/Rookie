@@ -39,6 +39,7 @@ package core.creature
 				else
 				{
 					synAction(ActionEnum.STAND);
+					clearActProcess();
 				}
 			}
 		}

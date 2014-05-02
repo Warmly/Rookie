@@ -34,7 +34,6 @@ package core.scene
 			_scene = SanguoEntry.scene;
 			_mapModel = ModelEntry.mapModel;
 			_myself = SanguoEntry.scene.myself;
-			_myself.initActProcess();
 			_myselfModel = ModelEntry.myselfModel;
 			_pathFind = new AStar();
 		}
@@ -56,7 +55,7 @@ package core.scene
 		public function handleMouseDown(event:MouseEvent):void
 		{	
 			var targetSceneCellCoor:Point = SanguoCoorTool.cameraToCell(event.stageX, event.stageY);
-			//createMoveProcess(targetSceneCellCoor);
+			createMoveProcess(targetSceneCellCoor);
 		}
 		
 		public function handleKeyDown(event:KeyboardEvent):void
@@ -75,11 +74,15 @@ package core.scene
 				case Keyboard.D:
 					_myself.synAction(ActionEnum.RUN, DirectionEnum.RIGHT);
 					break;
+				case Keyboard.SPACE:
+					_myself.synAction(ActionEnum.ATK, -1, 1);
+					break;
 			}
 		}
 		
 		public function createMoveProcess(targetCell:Point):void
 		{
+			_myself.initActProcess();
 			//当前寻路未走完时，要走完这一格，再从这一格开始计算寻路
 			var ap:ActProcess = _myself.actProcess;
 			if (ap.isFinish)

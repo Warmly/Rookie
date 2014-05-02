@@ -39,13 +39,14 @@ package core.creature
 			}
 		}
 
-		public function synAction(action:int, direction:int):void
+		public function synAction(action:int, direction:int, loop:int):void
 		{
 			_action = action;
 			_direction = direction;
 			for each (var i : CreaturePartAnimCpu in _ref)
 			{
 				i.synAction(action, direction);
+				i.loop = loop;
 			}
 			updatePartsDepth();
 		}

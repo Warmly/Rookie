@@ -1,10 +1,11 @@
-package rookie.core.render.gpu.2d 
+package rookie.core.render.gpu 
 {
-	import dzb.base.funHandler.FH;
-	import flash.display3D.IndexBuffer3D;
-	import flash.display3D.Program3D;
-	import flash.display3D.textures.Texture;
-	import flash.display3D.VertexBuffer3D;
+	import rookie.tool.functionHandler.FH
+	import rookie.core.render.gpu.base.RookieIndexBuffer;
+	import rookie.core.render.gpu.base.RookieShader;
+	import rookie.core.render.gpu.base.RookieTexture;
+	import rookie.core.render.gpu.base.RookieVertexBuffer;
+	import rookie.core.render.IRenderItem;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.core.vo.ImgFrameConfigVO;
@@ -14,19 +15,20 @@ package rookie.core.render.gpu.2d
 	 * ...
 	 * @author Warmly
 	 */
-	public class ImgGpuBase 
-	{
+	public class ImgGpuBase implements IRenderItem
+	{	
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
-		protected var _width:Number;
-		protected var _height:Number;
+		protected var _width:Number = 0;
+		protected var _height:Number = 0;
 		
-		protected var _vertexData:Vector.<Number>;
-		protected var _indexData:Vector.<Number>;
-		protected var _vertexBuffer:VertexBuffer3D;
-		protected var _indexBuffer:IndexBuffer3D;
-		protected var _shader:Program3D;
-		protected var _texture:Texture;
+		protected var _x:Number = 0;
+		protected var _y:Number = 0;
+		
+		protected var _vertexBuffer:RookieVertexBuffer;
+		protected var _indexBuffer:RookieIndexBuffer;
+		protected var _shader:RookieShader;
+		protected var _texture:RookieTexture;
 		
 		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0) 
 		{
@@ -64,6 +66,20 @@ package rookie.core.render.gpu.2d
 			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
 		}
 		
+		public function render():void
+		{
+		}
+		
+		public function get key():String
+		{
+			return _resUrl.url + "[" + "111" + "]";
+		}
+		
+		public function dispose():void
+		{
+			RookieEntry.renderManager.removeFromQueue(this);
+		}
+		
 		public function get width():Number 
 		{
 			return _width;
@@ -72,6 +88,26 @@ package rookie.core.render.gpu.2d
 		public function get height():Number 
 		{
 			return _height;
+		}
+		
+		public function get x():Number 
+		{
+			return _x;
+		}
+		
+		public function set x(value:Number):void 
+		{
+			_x = value;
+		}
+		
+		public function get y():Number 
+		{
+			return _y;
+		}
+		
+		public function set y(value:Number):void 
+		{
+			_y = value;
 		}
 	}
 }

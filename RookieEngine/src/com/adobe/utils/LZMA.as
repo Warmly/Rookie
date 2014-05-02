@@ -1,4 +1,4 @@
-package com.utils
+package com.adobe.utils
 {
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;

@@ -31,11 +31,11 @@ package core.creature
 			_direction = 0;
 			_partsContainer.reset();
 		}
-        
+		
 		/**
 	     * 动作改变
 	     */
-		public function synAction(action:int, direction:int = -1):void
+		public function synAction(action:int, direction:int = -1, loop:int = -1):void
 		{
 			if (action != _action && action > 0)
 			{
@@ -44,7 +44,7 @@ package core.creature
 				{
 					_direction = direction;
 				}
-				_partsContainer.synAction(action, _direction);
+				_partsContainer.synAction(action, _direction, loop);
 			}
 			else 
 			{
@@ -72,7 +72,15 @@ package core.creature
 
 		public function initActProcess():void
 		{
-			_actProcess = new ActProcess();
+			if (!_actProcess)
+			{
+				_actProcess = new ActProcess();
+			}
+		}
+		
+		public function clearActProcess():void
+		{
+			_actProcess = null;
 		}
 		
 		public function get actProcess():ActProcess

@@ -15,8 +15,12 @@ package core.creature
 		private var _type:uint;
 		private var _quality:uint;
 		private var _level:uint;
+		//npc图片
 		private var _pic:uint;
+		//头像
 		private var _face:uint;
+		//胸像
+		private var _bust:uint;
 		private var _atkFlag:uint;
 		private var _visitFlag:uint;
 		private var _moveRange:uint;
@@ -31,9 +35,10 @@ package core.creature
 			_level = byteArr.readUnsignedShort();
 			_pic = byteArr.readUnsignedShort();
 			_face = byteArr.readUnsignedShort();
+			_bust = byteArr.readUnsignedShort();
 			_atkFlag = byteArr.readUnsignedByte();
 			_visitFlag = byteArr.readUnsignedByte();
-			_moveRange = byteArr.readByte();
+			//_moveRange = byteArr.readByte();
 			_reward = byteArr.readUnsignedInt();
 		}
 
