@@ -19,17 +19,17 @@ package rookie.core.render.gpu.factory
 		* |___|
 		* 3   2
 		*/
-		public static function createBasicVertexBuffer(width:Number, height:Number):RookieVertexBuffer
+		public static function createBasicVertexBuffer():RookieVertexBuffer
 		{
 			var vertexData:Vector.<Number> = Vector.<Number>([
 			//x, y, u, v
-			-width,  height,  0,  0,
+			-1,  1,  0,  0,
 			//
-			 width,  height,  1,  0,
+			 1,  1,  1,  0,
 			//
-			 width, -height,  1,  1,
+			 1, -1,  1,  1,
 			//
-			-width, -height,  0,  1]);
+			-1, -1,  0,  1]);
 			var buffer:RookieVertexBuffer = new RookieVertexBuffer(4);
 			buffer.data = vertexData;
 			buffer.upload();

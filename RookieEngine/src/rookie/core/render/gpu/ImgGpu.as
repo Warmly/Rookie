@@ -13,32 +13,48 @@ package rookie.core.render.gpu
 	 * @author Warmly
 	 */
 	public class ImgGpu extends ImgGpuBase
-	{	
+	{
+		protected var _renderReady:Boolean;
+		
 		public function ImgGpu(resUrl:ResUrl) 
 		{
+			_renderReady = false;
 			super(resUrl);
+		}
+		
+		public function selfStartRender():void
+		{
+			RookieEntry.renderManager.addToQueue(this);
 		}
 		
 		override protected function onImgDataLoaded():void
 		{
 			super.onImgDataLoaded();
+			renderConfig();
+		}
+		
+		protected function renderConfig():void
+		{
 			var bmd:BitmapData = _imgConfigVO.getFrames(0).bitmapData;
-			_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer(_width, _height);
+			_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer();
 			_indexBuffer = RookieBufferFactory.createBasicIndexBuffer();
 			_shader = RookieShaderFactory.createBasicShader();
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
-			RookieEntry.renderManager.addToQueue(this);
+			_renderReady = true;
 		}
 		
 		override public function render():void
 		{
-			var renderManager:RenderManager = RookieEntry.renderManager;
-			renderManager.setVertexBuffer(_vertexBuffer);
-			renderManager.setIndexBuffer(_indexBuffer);
-			renderManager.setShader(_shader);
-			renderManager.setTextureAt(0, _texture);
-			renderManager.setRenderPos(_x, _y);
-			renderManager.draw();
+			if (_renderReady)
+			{
+				var renderManager:RenderManager = RookieEntry.renderManager;
+				renderManager.setVertexBuffer(_vertexBuffer);
+				renderManager.setIndexBuffer(_indexBuffer);
+				renderManager.setShader(_shader);
+				renderManager.setTextureAt(0, _texture);
+				renderManager.setRenderPos(_x, _y, _texture.width, _texture.height);
+				renderManager.draw();
+			}
 		}
 	}
 }

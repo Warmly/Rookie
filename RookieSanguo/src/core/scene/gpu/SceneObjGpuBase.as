@@ -1,37 +1,18 @@
 package core.scene.gpu
 {
+	import rookie.core.render.gpu.ImgGpu;
+	import rookie.core.resource.ResUrl;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class SceneObjGpuBase
+	public class SceneObjGpuBase extends ImgGpu
 	{
-		private var _x:Number;
-		private var _y:Number;
 		private var _depth:int;
 		
-		public function SceneObjGpuBase()
+		public function SceneObjGpuBase(resUrl:ResUrl)
 		{
-		}
-		
-		public function get x():Number 
-		{
-			return _x;
-		}
-		
-		public function set x(value:Number):void 
-		{
-			_x = value;
-		}
-		
-		public function get y():Number 
-		{
-			return _y;
-		}
-		
-		public function set y(value:Number):void 
-		{
-			_y = value;
+			super(resUrl);
 		}
 		
 		public function get depth():int 

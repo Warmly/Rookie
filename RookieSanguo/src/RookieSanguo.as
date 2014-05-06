@@ -15,7 +15,7 @@ package
     import rookie.tool.functionHandler.FH;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
@@ -39,14 +39,7 @@ package
 			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
-			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, on3DRenderComponentReady);
 			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
-		}
-		
-		private function on3DRenderComponentReady():void 
-		{
-			
 		}
 		
 		private function onMainResLoaded():void
@@ -58,8 +51,13 @@ package
 		{
 			RookieEntry.resManager.init();
 			
+			SanguoGlobal.GPU_RENDER_MAP = true;
+			
 			var scene:SanguoScene = SanguoEntry.scene;
 			scene.parent = this;
+			
+			RookieEntry.mainLoop.init(this.stage);
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
 			
 			addChild(new Stats());
 			
@@ -67,6 +65,10 @@ package
 			
 			ModelEntry.mapModel.curMapId = 2005;
 			ModelEntry.mapModel.loadMap();
+		}
+		
+		private function on3DRenderComponentReady():void 
+		{
 		}
 	}
 }

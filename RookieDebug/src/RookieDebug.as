@@ -9,6 +9,7 @@ package
 	import global.SanguoGlobal;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
+	import rookie.core.render.gpu.blend.RookieBlendMode;
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.ImgGpu;
 	import rookie.core.resource.LoadPriority;
@@ -59,8 +60,6 @@ package
 			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
-			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
 			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
 		}
 		
@@ -81,12 +80,15 @@ package
 	
 			ModelEntry.staticDataModel;
 	
+			RookieEntry.mainLoop.init(this.stage);
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
+
 			addChild(new Stats());
 			
-			var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			anim.x = 200;
-			anim.y = 200;
-			anim.parent = this;
+			//var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			//anim.x = 200;
+			//anim.y = 200;
+			//anim.parent = this;
 			
 			new Test();
 			
@@ -111,9 +113,18 @@ package
 			var text:TextField = TextTool.getLightTextField(200, true, 20, true);
 			text.htmlText = TextTool.getHtmlText("么么么么么");
 			
-			var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 305));
+			RookieEntry.renderManager.setBlendMode(RookieBlendMode.ALPHA);
+			
+			var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 310));
 			imgGpu.x = 300;
 			imgGpu.y = 300;
+			
+			var imgGpu1:ImgGpu = new ImgGpu(new ResUrl(311, 26, 300));
+			imgGpu1.x = 330;
+			imgGpu1.y = 330;
+			
+			imgGpu.selfStartRender();
+			imgGpu1.selfStartRender();
 		}
 	}
 }

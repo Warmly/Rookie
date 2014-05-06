@@ -24,6 +24,11 @@ package rookie.tool.math
 			return val;
 		}
 	    
+		public static function random():Number
+		{
+			return Math.random();
+		}
+		
 		/**
 		 * 获取下一个2次幂
 		 * http://goo.gl/D9kPj

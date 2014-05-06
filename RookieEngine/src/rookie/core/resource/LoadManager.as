@@ -4,6 +4,7 @@ package rookie.core.resource
 	import rookie.dataStruct.HashTable;
 	import rookie.namespace.Rookie;
 	import rookie.tool.functionHandler.FunHandler;
+	import rookie.tool.log.log;
 	import rookie.tool.objectPool.ObjectPool;
 
 	import flash.events.EventDispatcher;
@@ -42,6 +43,10 @@ package rookie.core.resource
 			{
 				return;
 			}
+			if (isResAlreadyInWaitQueue(resUrl.url))
+			{
+				return;
+			}
 			if (isResAlreadyLoading(resUrl.url))
 			{
 				return;
@@ -54,6 +59,7 @@ package rookie.core.resource
 				}
 				return;
 			}
+			log("Start load process [" + resUrl.url + "]");
 			var loadItem:LoadItem = ObjectPool.getObject(LoadItem) as LoadItem;
 			loadItem.init(resUrl, priority, callBack);
 			addToWaitToLoadQueue(loadItem);
@@ -134,6 +140,21 @@ package rookie.core.resource
 				if (i.curUrl && i.curUrl == url)
 				{
 					return true;
+				}
+			}
+			return false;
+		}
+		
+		private function isResAlreadyInWaitQueue(url:String):Boolean
+		{
+			for each (var sub:Vector.<LoadItem> in _waitToLoadQueue) 
+			{
+				for each (var item:LoadItem in sub) 
+				{
+					if (item.url == url)
+					{
+						return true;
+					}
 				}
 			}
 			return false;

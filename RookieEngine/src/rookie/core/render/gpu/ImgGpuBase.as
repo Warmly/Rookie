@@ -11,6 +11,7 @@ package rookie.core.render.gpu
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
 	import rookie.tool.log.error;
+	import rookie.tool.math.RookieMath;
 	/**
 	 * ...
 	 * @author Warmly
@@ -21,7 +22,7 @@ package rookie.core.render.gpu
 		protected var _resUrl:ResUrl;
 		protected var _width:Number = 0;
 		protected var _height:Number = 0;
-		
+		//舞台坐标
 		protected var _x:Number = 0;
 		protected var _y:Number = 0;
 		
@@ -30,37 +31,48 @@ package rookie.core.render.gpu
 		protected var _shader:RookieShader;
 		protected var _texture:RookieTexture;
 		
+		protected var _name:String;
+		protected var _resLoaded:Boolean;
+		
 		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0) 
 		{
 			_resUrl = resUrl;
-			if (loadImmediately)
+			_resLoaded = false;
+			if (resUrl && loadImmediately)
 			{
 				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
+				if (!_imgConfigVO)
+				{
+					error("没有" + _resUrl.url + "的配置！");
+					return;
+				}
 				_width = _imgConfigVO.imgWidth;
 				_height = _imgConfigVO.imgHeight;
 				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded));
 			}
+			_name = "3Dinstance" + RookieMath.random();
 		}
 		
 		protected function onImgDataLoaded():void 
 		{
-			if (!_imgConfigVO)
-			{
-				error("没有" + _resUrl.url + "的配置！");
-				return;
-			}
 			var frameLength:uint = _imgConfigVO.frameLength;
 			for (var i:int = 0; i < frameLength; i++) 
 			{
 				var frame:ImgFrameConfigVO = _imgConfigVO.getFrames(i);
 				frame.onImgFrameDataLoaded();
 			}
+			_resLoaded = true;
 		}
 		
 		public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
 		{
 			_resUrl = resUrl;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
+			if (!_imgConfigVO)
+			{
+				error("没有" + _resUrl.url + "的配置！");
+				return;
+			}
 			_width = _imgConfigVO.imgWidth;
 			_height = _imgConfigVO.imgHeight;
 			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
@@ -72,7 +84,7 @@ package rookie.core.render.gpu
 		
 		public function get key():String
 		{
-			return _resUrl.url + "[" + "111" + "]";
+			return _resUrl.url + "[" + _name + "]";
 		}
 		
 		public function dispose():void
@@ -83,6 +95,12 @@ package rookie.core.render.gpu
 		public function get width():Number 
 		{
 			return _width;
+		}
+		
+		public function setPosition(posX:Number, posY:Number):void
+		{
+			_x = posX;
+			_y = posY;
 		}
 		
 		public function get height():Number 

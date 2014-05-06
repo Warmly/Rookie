@@ -7,7 +7,7 @@ package rookie.core.render
 	{
 		function render():void
 
-		function dispose():void
+		//function dispose():void
 
 		function get key():String
 	}

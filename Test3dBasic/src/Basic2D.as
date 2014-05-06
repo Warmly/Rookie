@@ -1,5 +1,6 @@
 package
 {
+	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DVertexBufferFormat;
 
 	import com.adobe.utils.PerspectiveMatrix3D;
@@ -18,7 +19,7 @@ package
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 
-	import com.adobe.utils.Stats;
+	//import com.adobe.utils.Stats;
 
 	import flash.display.StageScaleMode;
 	import flash.display.StageAlign;
@@ -31,7 +32,7 @@ package
 	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class Basic2D extends Sprite
 	{
-		[Embed(source="art/map.jpg")]
+		[Embed(source="art/leaf.png")]
 		private var bmdClass:Class;
 		//
 		private static const SWF_WIDTH:int = 800;
@@ -163,14 +164,14 @@ package
 			_pMatrix.identity();
 		}
 		
-		private static const SCREEN_X:int = 400;
-		private static const SCREEN_Y:int = 200;
+		private static const SCREEN_X:int = 100;
+		private static const SCREEN_Y:int = 100;
 
 		private function onEnterFrame(e:Event):void
 		{
 			_context3D.clear(255, 255, 255);
 
-			// _context3D.setBlendFactors(sourceFactor, destinationFactor)
+			_context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA)
 
 			// 设置fs0
 			_context3D.setTextureAt(0, _texture);
@@ -179,8 +180,8 @@ package
 
 			_mvpMatrix.identity();
 			_mvpMatrix.appendScale(1 / SWF_WIDTH, 1 / SWF_HEIGHT, 1);
-			var xVal:Number = (SCREEN_X - SWF_WIDTH * 0.5) / SWF_WIDTH * 2;
-			var yVal:Number = (SWF_HEIGHT * 0.5 - SCREEN_Y) / SWF_HEIGHT * 2;
+			var xVal:Number = (SCREEN_X - SWF_WIDTH * 0.5 + 128) / SWF_WIDTH * 2;
+			var yVal:Number = (SWF_HEIGHT * 0.5 - SCREEN_Y - 128) / SWF_HEIGHT * 2;
 			_mvpMatrix.appendTranslation(xVal, yVal, 0);
 
 			// 设置vc0 

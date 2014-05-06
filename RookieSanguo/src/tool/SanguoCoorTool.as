@@ -62,11 +62,23 @@ package tool
 			return validCoor;
 		}
 		
+		/**
+	     * 计算格子距离
+	     */
 		public static function calCellDictance(x1:int, y1:int, x2:int, y2:int):int
 		{
 			var disX:int = RookieMath.abs(x1 - x2);
 			var disY:int = RookieMath.abs(y1 - y2);
 			return Math.max(disX, disY);
+		}
+		
+		/**
+	     * 场景像素坐标到屏幕像素坐标
+	     */
+		public static function sceneToCamera(x:Number, y:Number):Point
+		{
+			var camera:SanguoCamera = SanguoEntry.camera;
+			return new Point(x - camera.xInScene, y - camera.yInScene);
 		}
 	}
 }

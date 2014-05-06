@@ -19,6 +19,8 @@ package rookie.core.render.gpu.base
 		private var _context3D:Context3D;
 		private var _width:Number;
 		private var _height:Number;
+		private var _innerWidth:Number;
+		private var _innerHeight:Number;
 		
 		public function RookieTexture() 
 		{
@@ -33,9 +35,11 @@ package rookie.core.render.gpu.base
 		public function set bitmapData(value:BitmapData):void 
 		{
 			_bitmapData = value;
-			_width = value.width;
-			_height = value.height;
-			_texture = _context3D.createTexture(RookieMath.nextPowerOfTwo(_width), RookieMath.nextPowerOfTwo(_height), Context3DTextureFormat.BGRA, true);
+			_innerWidth = value.width;
+			_innerHeight = value.height;
+			_width = RookieMath.nextPowerOfTwo(_innerWidth);
+			_height = RookieMath.nextPowerOfTwo(_innerHeight);
+			_texture = _context3D.createTexture(_width, _height, Context3DTextureFormat.BGRA, true);
 		}
 		
 		public function get texture():Texture 
@@ -51,6 +55,16 @@ package rookie.core.render.gpu.base
 		public function get height():Number 
 		{
 			return _height;
+		}
+		
+		public function get innerWidth():Number 
+		{
+			return _innerWidth;
+		}
+		
+		public function get innerHeight():Number 
+		{
+			return _innerHeight;
 		}
 	}
 }

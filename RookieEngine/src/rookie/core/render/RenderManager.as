@@ -3,6 +3,7 @@ package rookie.core.render
 	import flash.display.Stage;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
+	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DVertexBufferFormat;
 	import flash.display3D.IndexBuffer3D;
@@ -10,11 +11,14 @@ package rookie.core.render
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
+	import global.SanguoEntry;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.base.RookieVertexBuffer;
+	import rookie.core.render.gpu.blend.RookieBlendMode;
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
+	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.render.gpu.factory.RookieShaderFactory;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.dataStruct.HashTable;
@@ -48,8 +52,11 @@ package rookie.core.render
 		private var _curRenderPosY:Number = 0;
 		//当前贴图
 		private var _curTexture:RookieTexture;
-		//镜头矩阵
+		//当前镜头矩阵
 		private var _curCameraMatrix:Matrix3D = new Matrix3D();
+		//当前混合模式
+		private var _curBlendMode:int;
+		private var _3DRenderComponentReady:Boolean;
 		
 		public function init3DRenderComponent(stage:Stage, callBack:FunHandler):void
 		{
@@ -58,6 +65,9 @@ package rookie.core.render
 			{
 				onContext3DCreate(e);
 				callBack.execute();
+				configBackBuffer(SanguoEntry.camera.width, SanguoEntry.camera.height);
+				_3DRenderComponentReady = true;
+				RookieRenderFactory.setBasicRenderState();
 			});
 			_stage.stage3Ds[0].requestContext3D();
 			_curCameraMatrix.identity();
@@ -65,14 +75,35 @@ package rookie.core.render
 
 		public function onEnterFrame():void
 		{
-			clear()
+			GpuRender();
+			CpuRender();
+		}
+		
+		private function GpuRender():void 
+		{
+			clear();
+			Gpu3DRender();
+			Gpu2DRender();
+			_context3D.present();
+		}
+		
+		private function Gpu3DRender():void 
+		{
+		}
+		
+		private function Gpu2DRender():void 
+		{
 			var items:Dictionary = _renderQueue.content;
 			for each (var i : IRenderItem in items)
 			{
 				i.render();
 			}
 		}
-
+		
+		private function CpuRender():void 
+		{
+		}
+		
 		private function onContext3DCreate(e:Event):void
 		{
 			_context3D = (e.target as Stage3D).context3D;
@@ -109,6 +140,19 @@ package rookie.core.render
 			_context3D.clear(255, 255, 255);
 		}
 		
+		public function setBlendMode(mode:int):void
+		{
+			_curBlendMode = mode;
+			var src:String = RookieBlendMode.BLEND_MODES[mode][0];
+			var dst:String = RookieBlendMode.BLEND_MODES[mode][1];
+			_context3D.setBlendFactors(src, dst);
+		}
+		
+		public function setDepthTest(depthMask:Boolean = true, passCompareMode:String = Context3DCompareMode.ALWAYS):void
+		{
+			_context3D.setDepthTest(depthMask, passCompareMode);
+		}
+		
 		public function setVertexBuffer(buffer:RookieVertexBuffer):void
 		{
 			_curVertexBuffer = buffer;
@@ -133,14 +177,14 @@ package rookie.core.render
 			_context3D.setTextureAt(sampler, texture.texture);
 		}
 		
-		public function setRenderPos(x:Number, y:Number):void
+		public function setRenderPos(x:Number, y:Number, width:Number, height:Number):void
 		{
 			_curRenderPosX = x;
 			_curRenderPosY = y;
 			var xValue:Number = (x - _backBufferWidth * 0.5 + _curTexture.width * 0.5) / _backBufferWidth * 2;
 			var yValue:Number = (_backBufferHeight * 0.5 - y - _curTexture.height * 0.5) / _backBufferHeight * 2;
 			_curCameraMatrix.identity();
-			_curCameraMatrix.appendScale(1/_backBufferWidth, 1/_backBufferHeight, 1);
+			_curCameraMatrix.appendScale(width/_backBufferWidth, height/_backBufferHeight, 1);
 			_curCameraMatrix.appendTranslation(xValue, yValue, 0);
 			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _curCameraMatrix, true);
 		}
@@ -148,7 +192,6 @@ package rookie.core.render
 		public function draw():void
 		{
 			_context3D.drawTriangles(_curIndexBuffer.buffer, 0, _curIndexBuffer.length / 3);
-			_context3D.present();
 		}
 		
 		public function addToQueue(renderItem:IRenderItem):void

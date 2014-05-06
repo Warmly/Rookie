@@ -1,5 +1,6 @@
 package rookie.dataStruct
 {
+	import flash.utils.getQualifiedClassName;
 	import rookie.tool.log.warning;
 
 	import flash.utils.Dictionary;
@@ -38,8 +39,15 @@ package rookie.dataStruct
 		{
 			if (!has(key))
 			{
-				_items[key] = value;
-				_length++;
+				if (value is _valueType)
+				{
+					_items[key] = value;
+					_length++;
+				}
+				else
+				{
+					warning("Try to insert a value of different type '" + getQualifiedClassName(value) + "'into HashTable!");
+				}
 			}
 			else
 			{
@@ -74,7 +82,10 @@ package rookie.dataStruct
 		{
 			return _items[key] != undefined;
 		}
-
+        
+		/**
+		 * 仅用于遍历，不要修改内容！
+		 */
 		public function get content():Dictionary
 		{
 			return _items;

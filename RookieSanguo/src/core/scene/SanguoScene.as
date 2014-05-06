@@ -10,6 +10,7 @@ package core.scene
 	import flash.geom.Point;
 	import global.ManagerEntry;
 	import global.ModelEntry;
+	import global.SanguoGlobal;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
 	import global.SanguoEntry;
@@ -34,13 +35,18 @@ package core.scene
 
 		public function SanguoScene()
 		{
-			_mapLayerGpu = new MapLayerGpu();
-			
-			_mapLayer = new MapLayerCpu();
-			_mapLayer.parent = this;
-			
-			_mapDebugLayer = new MapDebugLayerCpu();
-			//_mapDebugLayer.parent = this;
+			if (SanguoGlobal.GPU_RENDER_MAP)
+			{
+				_mapLayerGpu = new MapLayerGpu();
+			}
+			else
+			{
+				_mapLayer = new MapLayerCpu();
+				_mapLayer.parent = this;
+				
+				_mapDebugLayer = new MapDebugLayerCpu();
+				//_mapDebugLayer.parent = this;
+			}
 			
 			_itemLayer = new ItemLayerCpu();
 			_itemLayer.parent = this;
@@ -86,15 +92,29 @@ package core.scene
 			_camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
 			this.x = -_camera.xInScene;
 			this.y = -_camera.yInScene;
-			_mapLayer.onScreenResize();
-			_mapDebugLayer.onScreenResize();
+			if (SanguoGlobal.GPU_RENDER_MAP)
+			{
+				_mapLayerGpu.onScreenResize();
+			}
+			else
+			{
+				_mapLayer.onScreenResize();
+				//_mapDebugLayer.onScreenResize();
+			}
 		}
 		
 		public function render():void
 		{
-			_mapLayer.refresh();
+			if (SanguoGlobal.GPU_RENDER_MAP)
+			{
+				_mapLayerGpu.refresh();
+			}
+			else
+			{
+				_mapLayer.refresh();
+				//_mapDebugLayer.refresh();
+			}
 			_myself.refresh();
-			_mapDebugLayer.refresh();
 			moveScene();
 		}
 		
