@@ -27,27 +27,24 @@ package core.scene.gpu
 		
 		public function set index(value:int):void 
 		{
-			if (_index != value)
+			_index = value;
+			var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(value);
+			if (_resUrl && _resUrl.equal(resUrl))
 			{
-				_index = value;
-				_resUrl = ModelEntry.mapModel.getMapImgUrl(value);
-				RookieEntry.loadManager.load(_resUrl, 0, FH(onImgDataLoaded));
+				return;
 			}
+			_resUrl = resUrl;
+			RookieEntry.loadManager.load(_resUrl, 0, FH(onImgDataLoaded, _resUrl));
 		}
 		
-		override protected function onImgDataLoaded():void
+		override protected function onImgDataLoaded(resUrl:ResUrl):void
 		{
-			renderConfig();
+			renderInit(resUrl);
 		}
 		
-		override protected function renderConfig():void
+		override protected function renderInit(resUrl:ResUrl):void
 		{
-			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(_resUrl.url);
-			//_width = bmd.width;
-			//_height = bmd.height;
-			//_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer(_width, _height);
-			//_indexBuffer = RookieBufferFactory.createBasicIndexBuffer();
-			//_shader = RookieShaderFactory.createBasicShader();
+			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(resUrl.url);
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
 			_renderReady = true;
 		}

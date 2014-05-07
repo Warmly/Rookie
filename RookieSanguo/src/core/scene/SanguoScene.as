@@ -105,6 +105,8 @@ package core.scene
 		
 		public function render():void
 		{
+			_myself.refresh();
+			moveScene();
 			if (SanguoGlobal.GPU_RENDER_MAP)
 			{
 				_mapLayerGpu.refresh();
@@ -114,8 +116,6 @@ package core.scene
 				_mapLayer.refresh();
 				//_mapDebugLayer.refresh();
 			}
-			_myself.refresh();
-			moveScene();
 		}
 		
 		private function moveScene():void

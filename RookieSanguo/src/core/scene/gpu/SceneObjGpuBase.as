@@ -1,12 +1,12 @@
 package core.scene.gpu
 {
-	import rookie.core.render.gpu.ImgGpu;
+	import rookie.core.render.gpu.ImgGpuBase;
 	import rookie.core.resource.ResUrl;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class SceneObjGpuBase extends ImgGpu
+	public class SceneObjGpuBase extends ImgGpuBase
 	{
 		private var _depth:int;
 		

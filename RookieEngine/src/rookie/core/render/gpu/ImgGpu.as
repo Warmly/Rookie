@@ -14,11 +14,8 @@ package rookie.core.render.gpu
 	 */
 	public class ImgGpu extends ImgGpuBase
 	{
-		protected var _renderReady:Boolean;
-		
 		public function ImgGpu(resUrl:ResUrl) 
 		{
-			_renderReady = false;
 			super(resUrl);
 		}
 		
@@ -27,13 +24,13 @@ package rookie.core.render.gpu
 			RookieEntry.renderManager.addToQueue(this);
 		}
 		
-		override protected function onImgDataLoaded():void
+		override protected function onImgDataLoaded(resUrl:ResUrl):void
 		{
 			super.onImgDataLoaded();
-			renderConfig();
+			renderInit();
 		}
 		
-		protected function renderConfig():void
+		protected function renderInit():void
 		{
 			var bmd:BitmapData = _imgConfigVO.getFrames(0).bitmapData;
 			_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer();

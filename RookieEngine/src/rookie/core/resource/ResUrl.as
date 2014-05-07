@@ -30,6 +30,14 @@ package rookie.core.resource
 			_url += ResType.getTailByType(resType);
 		}
 
+		public function equal(resUrl:ResUrl):Boolean
+		{
+			return _packId == resUrl.packId &&
+			       _groupId == resUrl.groupId &&
+				   _fileName == resUrl.fileName &&
+				   _url == resUrl.url;
+		}
+		
 		public function manualSetUrl(url:String, resType:int = 0):void
 		{
 			_url = _ROOT_PATH + url;

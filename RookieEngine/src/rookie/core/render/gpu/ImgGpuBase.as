@@ -25,19 +25,23 @@ package rookie.core.render.gpu
 		//舞台坐标
 		protected var _x:Number = 0;
 		protected var _y:Number = 0;
-		
+		//渲染配置
 		protected var _vertexBuffer:RookieVertexBuffer;
 		protected var _indexBuffer:RookieIndexBuffer;
 		protected var _shader:RookieShader;
 		protected var _texture:RookieTexture;
-		
+		//名字(键)
 		protected var _name:String;
+		//资源是否加载完毕
 		protected var _resLoaded:Boolean;
+		//渲染就绪
+		protected var _renderReady:Boolean;
 		
 		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0) 
 		{
 			_resUrl = resUrl;
 			_resLoaded = false;
+			_renderReady = false;
 			if (resUrl && loadImmediately)
 			{
 				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
@@ -48,12 +52,12 @@ package rookie.core.render.gpu
 				}
 				_width = _imgConfigVO.imgWidth;
 				_height = _imgConfigVO.imgHeight;
-				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded));
+				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded, _resUrl));
 			}
 			_name = "3Dinstance" + RookieMath.random();
 		}
 		
-		protected function onImgDataLoaded():void 
+		protected function onImgDataLoaded(resUrl:ResUrl):void 
 		{
 			var frameLength:uint = _imgConfigVO.frameLength;
 			for (var i:int = 0; i < frameLength; i++) 
@@ -78,6 +82,16 @@ package rookie.core.render.gpu
 			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
 		}
 		
+		/**
+		 * to be override
+		 */
+		protected function renderInit(resUrl:ResUrl):void
+		{
+		}
+		
+		/**
+		 * to be override
+		 */
 		public function render():void
 		{
 		}

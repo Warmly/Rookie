@@ -42,6 +42,12 @@ package rookie.core.render.gpu.base
 			_texture = _context3D.createTexture(_width, _height, Context3DTextureFormat.BGRA, true);
 		}
 		
+		public function dispose():void
+		{
+			_texture.dispose();
+			_bitmapData.dispose();
+		}
+		
 		public function get texture():Texture 
 		{
 			return _texture;
