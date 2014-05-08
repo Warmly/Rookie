@@ -1,6 +1,7 @@
 package rookie.core.render.cpu
 {
 	import rookie.core.render.IRenderItem;
+	import rookie.core.render.RenderType;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
@@ -35,6 +36,7 @@ package rookie.core.render.cpu
 		protected var _endFrame:uint;
 		// 当前帧数据
 		protected var _curFrameVO:ImgFrameConfigVO;
+		protected var _isRendering:Boolean;
 
 		public function AnimCpu(resUrl:ResUrl, isAutoPlay:Boolean = true)
 		{
@@ -122,8 +124,12 @@ package rookie.core.render.cpu
 
 		public function startPlay():void
 		{
-			_lastTime = getTimer();
-			RookieEntry.renderManager.addToQueue(this);
+			if (!_isRendering)
+			{
+				_lastTime = getTimer();
+				RookieEntry.renderManager.addToCpuRenderQueue(this);
+				_isRendering = true;
+			}
 		}
 
 		public function stopPlay():void
@@ -146,7 +152,13 @@ package rookie.core.render.cpu
 
 		public function dispose():void
 		{
-			RookieEntry.renderManager.removeFromQueue(this);
+			RookieEntry.renderManager.removeFromCpuRenderQueue(this);
+			_isRendering = false;
+		}
+		
+		public function get renderType():int
+		{
+			return RenderType.CPU
 		}
 
 		public function get key():String

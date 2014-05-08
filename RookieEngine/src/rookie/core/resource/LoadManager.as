@@ -59,7 +59,7 @@ package rookie.core.resource
 				}
 				return;
 			}
-			log("Start load process [" + resUrl.url + "]");
+			//log("Start load process [" + resUrl.url + "]");
 			var loadItem:LoadItem = ObjectPool.getObject(LoadItem) as LoadItem;
 			loadItem.init(resUrl, priority, callBack);
 			addToWaitToLoadQueue(loadItem);

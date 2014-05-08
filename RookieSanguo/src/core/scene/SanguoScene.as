@@ -17,6 +17,7 @@ package core.scene
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import rookie.core.render.RenderManager;
+	import rookie.core.render.RenderType;
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 	import tool.SanguoCoorTool;
@@ -28,10 +29,13 @@ package core.scene
 	public class SanguoScene extends RichSprite implements IRenderItem
 	{
 		private var _mapLayerGpu:MapLayerGpu;
-		private var _mapLayer:MapLayerCpu;
+		private var _mapLayerCpu:MapLayerCpu;
 		private var _mapDebugLayer:MapDebugLayerCpu;
+		
 		private var _itemLayer:ItemLayerCpu;
+		
 		private var _myself:MyselfCpu;
+		
 		private var _camera:SanguoCamera;
 		private var _renderManager:RenderManager;
 
@@ -43,8 +47,8 @@ package core.scene
 			}
 			else
 			{
-				_mapLayer = new MapLayerCpu();
-				_mapLayer.parent = this;
+				_mapLayerCpu = new MapLayerCpu();
+				_mapLayerCpu.parent = this;
 				
 				_mapDebugLayer = new MapDebugLayerCpu();
 				//_mapDebugLayer.parent = this;
@@ -64,15 +68,24 @@ package core.scene
 
 		private function onAddToStage(e:Event):void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(Event.RESIZE, onScreenResize);
 			init();
-			RookieEntry.renderManager.addToQueue(this);
+			RookieEntry.renderManager.addToCpuRenderQueue(this);
+			if (SanguoGlobal.GPU_RENDER_MAP)
+			{
+				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
+			}
+			else
+			{
+				RookieEntry.renderManager.addToCpuRenderQueue(_mapLayerCpu);
+			}
 		}
 		
 		private function init():void
 		{
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			stage.addEventListener(Event.RESIZE, onScreenResize);
+			
 			var meDedaultPos:Point = new Point(40, 40);
 			ModelEntry.myselfModel.cellX = meDedaultPos.x;
 			ModelEntry.myselfModel.cellY = meDedaultPos.y;
@@ -102,7 +115,7 @@ package core.scene
 			}
 			else
 			{
-				_mapLayer.onScreenResize();
+				_mapLayerCpu.onScreenResize();
 				//_mapDebugLayer.onScreenResize();
 			}
 		}
@@ -111,15 +124,6 @@ package core.scene
 		{
 			_myself.refresh();
 			moveScene();
-			if (SanguoGlobal.GPU_RENDER_MAP)
-			{
-				_mapLayerGpu.refresh();
-			}
-			else
-			{
-				_mapLayer.refresh();
-				//_mapDebugLayer.refresh();
-			}
 		}
 		
 		private function moveScene():void
@@ -131,17 +135,21 @@ package core.scene
 		
 		public function dispose():void
 		{
-			RookieEntry.renderManager.removeFromQueue(this);
+		}
+		
+		public function get renderType():int
+		{
+			return RenderType.GPU;
 		}
 		
 		public function get key():String
 		{
-			return "SanguoScene" + "[" + name + "]";
+			return "SanguoScene";
 		}
 
 		public function get mapLayer():MapLayerCpu
 		{
-			return _mapLayer;
+			return _mapLayerCpu;
 		}
 		
 		public function get itemLayer():ItemLayerCpu

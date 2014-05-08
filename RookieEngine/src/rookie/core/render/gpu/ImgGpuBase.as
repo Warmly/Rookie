@@ -1,5 +1,6 @@
 package rookie.core.render.gpu 
 {
+	import rookie.core.render.RenderType;
 	import rookie.tool.functionHandler.FH
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
@@ -96,6 +97,11 @@ package rookie.core.render.gpu
 		{
 		}
 		
+		public function get renderType():int
+		{
+			return RenderType.GPU;
+		}
+		
 		public function get key():String
 		{
 			return _resUrl.url + "[" + _name + "]";
@@ -103,7 +109,6 @@ package rookie.core.render.gpu
 		
 		public function dispose():void
 		{
-			RookieEntry.renderManager.removeFromQueue(this);
 		}
 		
 		public function get width():Number 

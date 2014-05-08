@@ -6,6 +6,7 @@ package core.scene.cpu
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
+	import rookie.core.render.RenderType;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.log.log;
@@ -15,7 +16,7 @@ package core.scene.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class MapLayerCpu extends RichSprite
+	public class MapLayerCpu extends RichSprite implements IRenderItem
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
@@ -50,7 +51,7 @@ package core.scene.cpu
 			return _numBlockH;
 		}
 		
-		public function refresh():void
+		public function render():void
 		{
 			if (_mapModel.curMapVO)
 			{
@@ -72,6 +73,16 @@ package core.scene.cpu
 					}
 				}
 			}
+		}
+		
+		public function get key():String
+		{
+			return "SanguoScene[MapLayerCpu]";
+		}
+		
+		public function get renderType():int
+		{
+			return RenderType.CPU;
 		}
 
 		public function onScreenResize():void

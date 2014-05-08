@@ -9,7 +9,7 @@ package rookie.dataStruct
 	public class Queue 
 	{
 		private var _type:Class;
-		private var _items:Vector.<_type> = new Vector.<_type>();
+		private var _items:Vector.<*> = new Vector.<*>();
 		
 		public function Queue(type:Class) 
 		{
@@ -37,7 +37,7 @@ package rookie.dataStruct
 		/**
 		 * 仅用于遍历，不要修改内容！
 		 */
-		public function get content():Vector.<_type>
+		public function get content():Vector.<*>
 		{
 			return _items;
 		}

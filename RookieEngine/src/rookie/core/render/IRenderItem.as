@@ -10,5 +10,7 @@ package rookie.core.render
 		//function dispose():void
 
 		function get key():String
+		
+		function get renderType():int
 	}
 }

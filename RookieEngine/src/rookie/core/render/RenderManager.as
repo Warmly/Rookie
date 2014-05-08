@@ -11,7 +11,6 @@ package rookie.core.render
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
-	import global.SanguoEntry;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
 	import rookie.core.render.gpu.base.RookieTexture;
@@ -20,6 +19,7 @@ package rookie.core.render
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.render.gpu.factory.RookieShaderFactory;
+	import rookie.dataStruct.Queue;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieGlobal;
@@ -34,8 +34,10 @@ package rookie.core.render
 	 */
 	public class RenderManager implements IMainLoop
 	{
-		//渲染队列
-		private var _renderQueue:HashTable = new HashTable(String, IRenderItem);
+		//CPU渲染队列
+		private var _cpuRenderQueue:HashTable = new HashTable(String, IRenderItem);
+		//GPU渲染队列
+		private var _gpuRenderQueue:Queue = new Queue(IRenderItem);
 		private var _context3D:Context3D;
 		private var _stage:Stage;
 		//后台缓冲区宽高
@@ -57,20 +59,30 @@ package rookie.core.render
 		//当前混合模式
 		private var _curBlendMode:int;
 		private var _3DRenderComponentReady:Boolean;
+		private var _3DRenderComponentReadyCallBack:FunHandler;
 		
 		public function init3DRenderComponent(stage:Stage, callBack:FunHandler):void
 		{
 			_stage = stage;
-			_stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE, function(e:Event):void
-			{
-				onContext3DCreate(e);
-				callBack.execute();
-				configBackBuffer(SanguoEntry.camera.width, SanguoEntry.camera.height);
-				_3DRenderComponentReady = true;
-				RookieRenderFactory.setBasicRenderState();
-			});
+			_3DRenderComponentReadyCallBack = callBack;
+			_stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
 			_stage.stage3Ds[0].requestContext3D();
 			_curCameraMatrix.identity();
+		}
+		
+		private function onContext3DCreate(e:Event):void
+		{
+			_context3D = (e.target as Stage3D).context3D;
+			
+			if (!_context3D)
+			{
+				error("未获取到3D设备！");
+				return;
+			}
+			
+			_3DRenderComponentReady = true;
+			_3DRenderComponentReadyCallBack.execute();
+			_context3D.enableErrorChecking = true;
 		}
 
 		public function onEnterFrame():void
@@ -93,28 +105,20 @@ package rookie.core.render
 		
 		private function Gpu2DRender():void 
 		{
-			var items:Dictionary = _renderQueue.content;
-			for each (var i : IRenderItem in items)
+			var items:Vector.<*> = _gpuRenderQueue.content;
+			for each (var item:IRenderItem in items) 
 			{
-				i.render();
+				item.render();
 			}
 		}
 		
 		private function CpuRender():void 
 		{
-		}
-		
-		private function onContext3DCreate(e:Event):void
-		{
-			_context3D = (e.target as Stage3D).context3D;
-			
-			if (!_context3D)
+			var items:Dictionary = _cpuRenderQueue.content;
+			for each (var i : IRenderItem in items)
 			{
-				error("未获取到3D设备！");
-				return;
+				i.render();
 			}
-			
-			_context3D.enableErrorChecking = true;
 		}
 		
 		public function configBackBuffer(width:Number, height:Number, antiAlias:int = 0, enableDepthAndStencil:Boolean = false):void
@@ -194,22 +198,23 @@ package rookie.core.render
 			_context3D.drawTriangles(_curIndexBuffer.buffer, 0, _curIndexBuffer.length / 3);
 		}
 		
-		public function addToQueue(renderItem:IRenderItem):void
+		public function addToGpuRenderQueue(renderItem:IRenderItem):void
 		{
-			if(!_renderQueue.has(renderItem.key))
-			{
-				_renderQueue.insert(renderItem.key, renderItem);
-			}
-		}
-
-		public function removeFromQueue(renderItem:IRenderItem):void
-		{
-			_renderQueue.del(renderItem.key);
+			_gpuRenderQueue.push(renderItem);
 		}
 		
-		public function isInRenderQueue(renderItem:IRenderItem):Boolean
+		public function removeFromGpuRenderQueue(renderItem:IRenderItem):void
 		{
-			return _renderQueue.has(renderItem.key);
+		}
+		
+		public function addToCpuRenderQueue(renderItem:IRenderItem):void
+		{
+			_cpuRenderQueue.insert(renderItem.key, renderItem);
+		}
+
+		public function removeFromCpuRenderQueue(renderItem:IRenderItem):void
+		{
+			_cpuRenderQueue.del(renderItem.key);
 		}
 		
 		public function get context3D():Context3D 

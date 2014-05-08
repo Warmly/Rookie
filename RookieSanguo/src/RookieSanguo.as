@@ -8,6 +8,7 @@ package
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import global.SanguoGlobal;
+	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.resource.LoadPriority;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
@@ -15,7 +16,7 @@ package
     import rookie.tool.functionHandler.FH;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="400", height="300")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
@@ -69,6 +70,8 @@ package
 		
 		private function on3DRenderComponentReady():void 
 		{
+			RookieEntry.renderManager.configBackBuffer(SanguoEntry.camera.width, SanguoEntry.camera.height);
+			RookieRenderFactory.setBasicRenderState();
 		}
 	}
 }
