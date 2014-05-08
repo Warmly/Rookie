@@ -16,6 +16,7 @@ package core.scene
 	import global.SanguoEntry;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import rookie.core.render.RenderManager;
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 	import tool.SanguoCoorTool;
@@ -32,6 +33,7 @@ package core.scene
 		private var _itemLayer:ItemLayerCpu;
 		private var _myself:MyselfCpu;
 		private var _camera:SanguoCamera;
+		private var _renderManager:RenderManager;
 
 		public function SanguoScene()
 		{
@@ -55,6 +57,7 @@ package core.scene
 			_myself.parent = _itemLayer;
 			
 			_camera = SanguoEntry.camera;
+			_renderManager = RookieEntry.renderManager;
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
@@ -94,6 +97,7 @@ package core.scene
 			this.y = -_camera.yInScene;
 			if (SanguoGlobal.GPU_RENDER_MAP)
 			{
+				_renderManager.configBackBuffer(_camera.width, _camera.height);
 				_mapLayerGpu.onScreenResize();
 			}
 			else

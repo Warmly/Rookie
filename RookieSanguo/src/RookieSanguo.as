@@ -15,7 +15,7 @@ package
     import rookie.tool.functionHandler.FH;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="400", height="300")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
@@ -51,7 +51,7 @@ package
 		{
 			RookieEntry.resManager.init();
 			
-			SanguoGlobal.GPU_RENDER_MAP = false;
+			SanguoGlobal.GPU_RENDER_MAP = true;
 			
 			var scene:SanguoScene = SanguoEntry.scene;
 			scene.parent = this;
