@@ -8,6 +8,7 @@ package rookie.core.resource
 	public class ResUrl
 	{
 		private static const _ROOT_PATH:String = "E:/SanguoTX/Res/";
+		//private static const _ROOT_PATH:String = "";
 		private var _packId:int;
 		private var _groupId:int;
 		private var _fileName:*;

@@ -3,7 +3,7 @@ package rookie.core.render.cpu
 	import rookie.core.resource.LoadPriority;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.vo.ImgConfigVO;
-	import rookie.tool.functionHandler.FH;
+	import rookie.tool.functionHandler.fh;
 	import rookie.core.resource.ResType;
 	import rookie.global.RookieEntry;
 	import rookie.core.resource.ResUrl;
@@ -27,7 +27,7 @@ package rookie.core.render.cpu
 			if (loadImmediately)
 			{
 				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
-				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded));
+				RookieEntry.loadManager.load(_resUrl, loadPriority, fh(onImgDataLoaded));
 		    }
 		}
 
@@ -50,7 +50,7 @@ package rookie.core.render.cpu
 		{
 			_resUrl = resUrl;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
-			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
 		}
 
 		public function set parent(prt:DisplayObjectContainer):void

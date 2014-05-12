@@ -2,6 +2,7 @@ package rookie.dataStruct
 {
 	import flash.utils.getQualifiedClassName;
 	import rookie.tool.log.warning;
+	import rookie.tool.namer.IName;
 
 	import flash.utils.Dictionary;
 
@@ -11,12 +12,13 @@ package rookie.dataStruct
 	 * 2.适用于查找
 	 * @author Warmly
 	 */
-	public class HashTable
+	public class HashTable implements IName
 	{
 		private var _keyType:Class;
 		private var _valueType:Class;
 		private var _items:Dictionary = new Dictionary();
 		private var _length:int;
+		private var _name:String;
 
 		public function HashTable(keyType:Class, valueType:Class)
 		{
@@ -51,7 +53,7 @@ package rookie.dataStruct
 			}
 			else
 			{
-				warning("Try to insert a key '" + String(key) + "'already exists into HashTable!");
+				warning("Try to insert a key '" + String(key) + "'already exists into HashTable" + _name + "!");
 			}
 		}
 
@@ -94,6 +96,16 @@ package rookie.dataStruct
 		public function get length():int
 		{
 			return _length;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
+		
+		public function get name():String 
+		{
+			return _name;
 		}
 	}
 }

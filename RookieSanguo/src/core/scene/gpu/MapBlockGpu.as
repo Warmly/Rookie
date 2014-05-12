@@ -10,7 +10,7 @@ package core.scene.gpu
 	import rookie.core.render.RenderManager;
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
-	import rookie.tool.functionHandler.FH;
+	import rookie.tool.functionHandler.fh;
 	import rookie.tool.objectPool.IObjPoolItem;
 	/**
 	 * ...
@@ -34,7 +34,7 @@ package core.scene.gpu
 				return;
 			}
 			_resUrl = resUrl;
-			RookieEntry.loadManager.load(_resUrl, 0, FH(onImgDataLoaded, _resUrl));
+			RookieEntry.loadManager.load(_resUrl, 0, fh(onImgDataLoaded, _resUrl));
 		}
 		
 		override protected function onImgDataLoaded(resUrl:ResUrl):void

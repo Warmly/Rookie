@@ -1,139 +1,120 @@
 package rookie.core.time
 {
+	import flash.utils.Dictionary;
 	import rookie.core.IMainLoop;
-
+	import rookie.dataStruct.HashTable;
+	import rookie.tool.functionHandler.FunHandler;
+	
 	import flash.utils.getTimer;
-
+	
 	/**
 	 * @author Warmly
 	 */
 	public class TimerManager implements IMainLoop
 	{
-		private var _timeOutVec : Vector.<TimerVO>;
-		private var _timeIntervalVec : Vector.<TimerVO>;
-
+		private var _timeOutTable:HashTable = new HashTable(String, TimerVO); 
+		private var _timeIntervalTable:HashTable = new HashTable(String, TimerVO);
+		
 		public function TimerManager()
 		{
-			_timeOutVec = new Vector.<TimerVO>();
-			_timeIntervalVec = new Vector.<TimerVO>();
 		}
-
+		
 		/**
 		 * @param time(ms)    总时间
+		 * @param name        键名称，最好用全局函数namer生成
 		 */
-		public function setTimeOut(time : uint, callBack : Function, ...args) : TimerVO
+		public function setTimeOut(time:uint, name:String, outFun:FunHandler):TimerVO
 		{
 			if (time == 0)
 			{
-				callBack.apply(callBack, args);
+				outFun.execute();
 				return null;
 			}
-			var t : int = getTimer();
-			var timerVO : TimerVO = new TimerVO();
-			timerVO.outTime = t + time;
-			timerVO.fun = callBack;
-			timerVO.args = args;
-			_timeOutVec.push(timerVO);
-			return timerVO;
+			var t:int = getTimer();
+			var vo:TimerVO = new TimerVO();
+			vo.outTime = t + time;
+			vo.name = name;
+			vo.outFun = outFun;
+			_timeOutTable.insert(name, vo);
+			return vo;
 		}
-
+		
+		public function clearTimeOut(vo:TimerVO):void
+		{
+			_timeOutTable.del(vo.name);
+		}
+		
 		/**
-		 * @param executeImmediately 是否调用时立即执行一次
 		 * @param interval(ms)       间隔
 		 * @param time(ms)           总时间
+		 * @param name               键名称，最好用全局函数namer生成
+		 * @param executeImmediately 是否调用时立即执行一次
 		 */
-		public function setInterval(interval : uint, time : uint, executeImmediately : Boolean, intervalFun : Function, ...args) : TimerVO
+		public function setInterval(interval:uint, time:uint, name:String, executeImmediately:Boolean, intervalFun:FunHandler, outFun:FunHandler):TimerVO
 		{
 			if (time == 0)
 			{
-				intervalFun.apply(intervalFun, args);
+				outFun.execute();
 				return null;
 			}
 			if (executeImmediately)
 			{
-				intervalFun.apply(intervalFun, args);
+				intervalFun.execute();
 			}
-			var t : int = getTimer();
-			var timerVO : TimerVO = new TimerVO();
-			timerVO.intervalTime = interval;
-			timerVO.outTime = t + time;
-			timerVO.curOutTime = t + interval;
-			timerVO.fun = intervalFun;
-			timerVO.args = args;
-			_timeIntervalVec.push(timerVO);
-			return timerVO;
+			var t:int = getTimer();
+			var vo:TimerVO = new TimerVO();
+			vo.intervalTime = interval;
+			vo.outTime = t + time;
+			vo.curOutTime = t + interval;
+			vo.name = name;
+			vo.intervalFun = intervalFun;
+			vo.outFun = outFun;
+			_timeIntervalTable.insert(name, vo);
+			return vo;
 		}
-
-		public function onEnterFrame() : void
+		
+		public function cleatTimeInterval(vo:TimerVO):void
+		{
+			_timeIntervalTable.del(vo.name);
+		}
+		
+		public function onEnterFrame():void
 		{
 			handleTimeOut();
 			handleTimeInterval();
 		}
-
-		private function handleTimeOut() : void
+		
+		private function handleTimeOut():void
 		{
-			var curTime : int = getTimer();
-			var num : int = _timeOutVec.length;
-			var timerVO : TimerVO;
-			var needFilterNull : Boolean;
-			for (var i : int = 0;i < num;i++)
+			var curTime:int = getTimer();
+			var items:Dictionary = _timeOutTable.content;
+			for each (var item:TimerVO in items) 
 			{
-				if (i < _timeOutVec.length)
+				if (curTime >= item.outTime)
 				{
-					timerVO = _timeOutVec[i];
-					if (timerVO && curTime >= timerVO.outTime)
-					{
-						timerVO.fun.apply(timerVO.fun, timerVO.args);
-						if (i < _timeOutVec.length)
-				        {
-							_timeOutVec[i] = null;
-						}
-						needFilterNull = true;
-					}
+					item.outFun.execute();
+					clearTimeOut(item);
 				}
 			}
-			if (needFilterNull)
-			{
-				_timeOutVec = _timeOutVec.filter(filterNull);
-			}
-		}
-
-		private function handleTimeInterval() : void
-		{
-			var curTime : int = getTimer();
-			var num : int = _timeIntervalVec.length;
-			var timerVO : TimerVO;
-			var needFilterNull : Boolean;
-			for (var i : int = 0;i < num;i++)
-			{
-				timerVO = _timeIntervalVec[i];
-				if (timerVO && curTime >= timerVO.outTime)
-				{
-					timerVO.fun.apply(timerVO.fun, timerVO.args);
-					_timeIntervalVec[i] = null;
-					needFilterNull = true;
-				}
-				else if (curTime >= timerVO.curOutTime)
-				{
-					timerVO.fun.apply(timerVO.fun, timerVO.args);
-					timerVO.curOutTime += timerVO.intervalTime;
-				}
-			}
-			if (needFilterNull)
-			{
-				_timeIntervalVec = _timeIntervalVec.filter(filterNull);
-			}
-		}
-
-		private function filterNull(item : TimerVO, index : int, vec : Vector.<TimerVO>) : Boolean
-		{
-			return item != null;
 		}
 		
-		public function clearAllTimer():void
+		private function handleTimeInterval():void
 		{
-			_timeIntervalVec.length = 0;
-			_timeOutVec.length = 0;
+			var curTime:int = getTimer();			
+			var items:Dictionary = _timeIntervalTable.content;
+			for each (var item: TimerVO in items) 
+			{
+				if (curTime >= item.outTime)
+				{
+					item.outFun.execute();
+					cleatTimeInterval(item);
+				}
+				else if (curTime >= item.curOutTime)
+				{
+					item.intervalFun.execute();
+					item.curOutTime += item.intervalTime;
+				}
+			}
 		}
 	}
 }

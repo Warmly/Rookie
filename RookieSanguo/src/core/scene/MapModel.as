@@ -4,7 +4,7 @@ package core.scene
 	import flash.utils.ByteArray;
 
 	import rookie.core.resource.ResManager;
-	import rookie.tool.functionHandler.FH;
+	import rookie.tool.functionHandler.fh;
 	import rookie.core.resource.LoadPriority;
 	import rookie.core.resource.ResType;
 	import rookie.global.RookieEntry;
@@ -71,7 +71,7 @@ package core.scene
 			{
 				_curMapInfoVO = mapInfoVO;
 				var resUrl:ResUrl = new ResUrl(-1, -1, mapInfoVO.fileName, ResType.MAP_DATA, "map/");
-				RookieEntry.loadManager.load(resUrl, LoadPriority.HIGH, FH(onMapLoaded, resUrl.url));
+				RookieEntry.loadManager.load(resUrl, LoadPriority.HIGH, fh(onMapLoaded, resUrl.url));
 			}
 			else
 			{

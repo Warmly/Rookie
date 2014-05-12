@@ -12,7 +12,7 @@ package core.scene.cpu
 	import rookie.core.resource.ResUrl;
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.core.render.cpu.ImgCpu;
-	import rookie.tool.functionHandler.FH;
+	import rookie.tool.functionHandler.fh;
 	import rookie.tool.log.log;
 
 	/**
@@ -45,7 +45,7 @@ package core.scene.cpu
 		override public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
 		{
 			_resUrl = resUrl;
-			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
 		}
 
 		public function reset():void

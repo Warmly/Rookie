@@ -1,7 +1,7 @@
 package rookie.core.render.gpu 
 {
 	import rookie.core.render.RenderType;
-	import rookie.tool.functionHandler.FH
+	import rookie.tool.functionHandler.fh;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
 	import rookie.core.render.gpu.base.RookieTexture;
@@ -53,7 +53,7 @@ package rookie.core.render.gpu
 				}
 				_width = _imgConfigVO.imgWidth;
 				_height = _imgConfigVO.imgHeight;
-				RookieEntry.loadManager.load(_resUrl, loadPriority, FH(onImgDataLoaded, _resUrl));
+				RookieEntry.loadManager.load(_resUrl, loadPriority, fh(onImgDataLoaded, _resUrl));
 			}
 			_name = "3Dinstance" + RookieMath.random();
 		}
@@ -80,7 +80,7 @@ package rookie.core.render.gpu
 			}
 			_width = _imgConfigVO.imgWidth;
 			_height = _imgConfigVO.imgHeight;
-			RookieEntry.loadManager.load(resUrl, loadPriority, FH(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
 		}
 		
 		/**

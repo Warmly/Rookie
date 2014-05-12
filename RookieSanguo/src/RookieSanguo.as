@@ -13,7 +13,7 @@ package
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
-    import rookie.tool.functionHandler.FH;
+    import rookie.tool.functionHandler.fh;
 	import flash.display.Sprite;
 
 	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
@@ -40,12 +40,12 @@ package
 			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
-			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
+			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, fh(onMainResLoaded));
 		}
 		
 		private function onMainResLoaded():void
 		{
-			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, FH(onConfigResLoaded));
+			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, fh(onConfigResLoaded));
 		}
 		
 		private function onConfigResLoaded():void
@@ -58,7 +58,7 @@ package
 			scene.parent = this;
 			
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
 			
 			addChild(new Stats());
 			
