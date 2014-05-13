@@ -10,6 +10,7 @@ package rookie.core.time
 	import flash.utils.getTimer;
 	
 	/**
+	 * 计时器管理
 	 * @author Warmly
 	 */
 	public class TimerManager implements IMainLoop

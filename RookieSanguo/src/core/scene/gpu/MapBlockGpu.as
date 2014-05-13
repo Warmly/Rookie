@@ -34,7 +34,16 @@ package core.scene.gpu
 				return;
 			}
 			_resUrl = resUrl;
-			RookieEntry.loadManager.load(_resUrl, 0, fh(onImgDataLoaded, _resUrl));
+			_texture = ModelEntry.mapModel.getMapBlockTexture(_resUrl.url);
+			if (_texture)
+			{
+				_renderReady = true;
+			}
+			else
+			{
+				_renderReady = false;
+				RookieEntry.loadManager.load(_resUrl, 0, fh(onImgDataLoaded, _resUrl));
+			}
 		}
 		
 		override protected function onImgDataLoaded(resUrl:ResUrl):void
@@ -46,6 +55,8 @@ package core.scene.gpu
 		{
 			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(resUrl.url);
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
+			_texture.name = resUrl.url;
+			ModelEntry.mapModel.addToMapBlockTextureCache(_texture);
 			_renderReady = true;
 		}
 		

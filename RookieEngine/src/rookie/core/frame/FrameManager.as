@@ -47,7 +47,7 @@ package rookie.core.frame
 		 * @param name     键名称，用全局函数namer生成
 		 * @param executeImmediately 是否调用时立即执行一次
 		 */
-		public function setFrameInterval(interval:uint, frame:int, name:String, executeImmediately:Boolean, intervalFun:FunHandler, outFun:FunHandler):FrameVO
+		public function setFrameInterval(interval:uint, frame:int, name:String, executeImmediately:Boolean, intervalFun:FunHandler, outFun:FunHandler = null):FrameVO
 		{
 			if (interval == 0)
 			{

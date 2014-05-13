@@ -2,17 +2,19 @@ package rookie.core.render.gpu.base
 {
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
+	import rookie.core.time.SysTimeManager;
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 	import flash.display.BitmapData;
 	import flash.display3D.textures.Texture;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.IName;
 	use namespace Rookie;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class RookieTexture 
+	public class RookieTexture implements IName
 	{
 		private var _texture:Texture;
 		private var _bitmapData:BitmapData;
@@ -22,6 +24,7 @@ package rookie.core.render.gpu.base
 		private var _innerWidth:Number;
 		private var _innerHeight:Number;
 		private var _lastUsedTime:Number;
+		private var _name:String;
 		
 		public function RookieTexture() 
 		{
@@ -56,6 +59,7 @@ package rookie.core.render.gpu.base
 		
 		public function get width():Number 
 		{
+			updateLastUsedTime();
 			return _width;
 		}
 		
@@ -72,6 +76,26 @@ package rookie.core.render.gpu.base
 		public function get innerHeight():Number 
 		{
 			return _innerHeight;
+		}
+		
+		public function get name():String 
+		{
+			return _name;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
+		
+		public function get lastUsedTime():Number 
+		{
+			return _lastUsedTime;
+		}
+		
+		private function updateLastUsedTime():void
+		{
+			_lastUsedTime = SysTimeManager.sysTime;
 		}
 	}
 }
