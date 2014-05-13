@@ -2,6 +2,8 @@ package core.scene
 {
 	import global.ManagerEntry;
 	import flash.utils.ByteArray;
+	import rookie.core.frame.FrameVO;
+	import rookie.core.render.gpu.base.RookieTexture;
 
 	import rookie.core.resource.ResManager;
 	import rookie.tool.functionHandler.fh;
@@ -56,12 +58,16 @@ package core.scene
 		//
 		private var _staticDataModel:StaticDataModel;
 		private var _resManager:ResManager;
+		private var _textureTable:HashTable = new HashTable(String, RookieTexture);
+		private var _frameUpdateComponent:FrameVO;
 
 		public function MapModel()
 		{
 			super();
 			_staticDataModel = ModelEntry.staticDataModel;
 			_resManager = RookieEntry.resManager;
+			//_frameUpdateComponent = RookieEntry.frameManager.setFrameInterval(1,);
+			
 		}
 
 		public function loadMap():void

@@ -4,6 +4,8 @@ package rookie.core.time
 	import rookie.core.IMainLoop;
 	import rookie.dataStruct.HashTable;
 	import rookie.tool.functionHandler.FunHandler;
+	import rookie.tool.log.error;
+	import rookie.tool.namer.namer;
 	
 	import flash.utils.getTimer;
 	
@@ -17,20 +19,17 @@ package rookie.core.time
 		
 		public function TimerManager()
 		{
+			_timeOutTable.name = namer("TimerManager", "_timeOutTable");
+			_timeIntervalTable.name = namer("TimerManager", "_timeIntervalTable");
 		}
 		
 		/**
 		 * @param time(ms)    总时间
 		 * @param name        键名称，最好用全局函数namer生成
 		 */
-		public function setTimeOut(time:uint, name:String, outFun:FunHandler):TimerVO
+		public function setTimeOut(time:Number, name:String, outFun:FunHandler):TimerVO
 		{
-			if (time == 0)
-			{
-				outFun.execute();
-				return null;
-			}
-			var t:int = getTimer();
+			var t:Number = getTimer();
 			var vo:TimerVO = new TimerVO();
 			vo.outTime = t + time;
 			vo.name = name;
@@ -46,22 +45,22 @@ package rookie.core.time
 		
 		/**
 		 * @param interval(ms)       间隔
-		 * @param time(ms)           总时间
+		 * @param time(ms)           总时间(默认小于0为无限循环)
 		 * @param name               键名称，最好用全局函数namer生成
 		 * @param executeImmediately 是否调用时立即执行一次
 		 */
-		public function setInterval(interval:uint, time:uint, name:String, executeImmediately:Boolean, intervalFun:FunHandler, outFun:FunHandler):TimerVO
+		public function setInterval(interval:Number, time:Number, name:String, executeImmediately:Boolean, intervalFun:FunHandler, outFun:FunHandler):TimerVO
 		{
-			if (time == 0)
+			if (interval == 0)
 			{
-				outFun.execute();
+				error("Invalid timer interval!");
 				return null;
 			}
 			if (executeImmediately)
 			{
 				intervalFun.execute();
 			}
-			var t:int = getTimer();
+			var t:Number = getTimer();
 			var vo:TimerVO = new TimerVO();
 			vo.intervalTime = interval;
 			vo.outTime = t + time;
@@ -86,13 +85,16 @@ package rookie.core.time
 		
 		private function handleTimeOut():void
 		{
-			var curTime:int = getTimer();
+			var curTime:Number = getTimer();
 			var items:Dictionary = _timeOutTable.content;
 			for each (var item:TimerVO in items) 
 			{
 				if (curTime >= item.outTime)
 				{
-					item.outFun.execute();
+					if (item.outFun)
+					{
+						item.outFun.execute();
+					}
 					clearTimeOut(item);
 				}
 			}
@@ -100,18 +102,24 @@ package rookie.core.time
 		
 		private function handleTimeInterval():void
 		{
-			var curTime:int = getTimer();			
+			var curTime:Number = getTimer();			
 			var items:Dictionary = _timeIntervalTable.content;
 			for each (var item: TimerVO in items) 
 			{
-				if (curTime >= item.outTime)
+				if (item.outTime >= 0 && curTime >= item.outTime)
 				{
-					item.outFun.execute();
+					if (item.outFun)
+					{
+						item.outFun.execute();
+					}
 					cleatTimeInterval(item);
 				}
 				else if (curTime >= item.curOutTime)
 				{
-					item.intervalFun.execute();
+					if (item.intervalFun)
+					{
+						item.intervalFun.execute();
+					}
 					item.curOutTime += item.intervalTime;
 				}
 			}

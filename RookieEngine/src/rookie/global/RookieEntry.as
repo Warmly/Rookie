@@ -1,5 +1,6 @@
 package rookie.global
 {
+	import rookie.core.frame.FrameManager;
 	import rookie.core.resource.ResManager;
 	import rookie.core.resource.LoadManager;
 	import rookie.core.render.RenderManager;
@@ -15,6 +16,7 @@ package rookie.global
 		private static var _resManager:ResManager;
 		private static var _timerManager:TimerManager;
 		private static var _renderManager:RenderManager;
+		private static var _frameManager:FrameManager;
 		private static var _loadManager:LoadManager;
 
 		public static function get mainLoop():MainLoop
@@ -60,6 +62,15 @@ package rookie.global
 				_resManager = new ResManager();
 			}
 			return _resManager;
+		}
+		
+		public static function get frameManager():FrameManager 
+		{
+			if (!_frameManager)
+			{
+				_frameManager = new FrameManager();
+			}
+			return _frameManager;
 		}
 	}
 }

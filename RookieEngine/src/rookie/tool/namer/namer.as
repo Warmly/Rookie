@@ -25,5 +25,6 @@ package rookie.tool.namer
 				name += "[" + extraKey + "]";
 			}
 		}
+		return name;
 	}
 }

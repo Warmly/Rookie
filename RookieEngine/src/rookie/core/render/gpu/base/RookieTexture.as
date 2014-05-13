@@ -21,6 +21,7 @@ package rookie.core.render.gpu.base
 		private var _height:Number;
 		private var _innerWidth:Number;
 		private var _innerHeight:Number;
+		private var _lastUsedTime:Number;
 		
 		public function RookieTexture() 
 		{
