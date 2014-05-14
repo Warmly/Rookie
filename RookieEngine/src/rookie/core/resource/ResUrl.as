@@ -9,6 +9,7 @@ package rookie.core.resource
 	{
 		private static const _ROOT_PATH:String = "E:/SanguoTX/Res/";
 		//private static const _ROOT_PATH:String = "";
+		private var _subPath:String;
 		private var _packId:int;
 		private var _groupId:int;
 		private var _fileName:*;
@@ -21,14 +22,7 @@ package rookie.core.resource
 			_groupId = groupId;
 			_fileName = fileName;
 			_resType = resType;
-			
-			var packPath:String = packId != -1 ? packId + "/" : "";
-			var groupPath:String = groupId != -1 ? groupId + "/" : "";
-			var fileNamePath:String = fileName != -1 ? fileName : "";
-			
-			_url = _ROOT_PATH + subPath + packPath + groupPath + fileNamePath;
-		
-			_url += ResType.getTailByType(resType);
+			_subPath = subPath;
 		}
 
 		public function equal(resUrl:ResUrl):Boolean
@@ -36,7 +30,7 @@ package rookie.core.resource
 			return _packId == resUrl.packId &&
 			       _groupId == resUrl.groupId &&
 				   _fileName == resUrl.fileName &&
-				   _url == resUrl.url;
+				   _resType == resUrl.resType;
 		}
 		
 		public function manualSetUrl(url:String, resType:int = 0):void
@@ -47,6 +41,14 @@ package rookie.core.resource
 
 		public function get url():String
 		{
+			if (!_url)
+			{
+				var packPath:String = _packId != -1 ? _packId + "/" : "";
+				var groupPath:String = _groupId != -1 ? _groupId + "/" : "";
+				var fileNamePath:String = _fileName != -1 ? _fileName : "";
+				_url = _ROOT_PATH + _subPath + packPath + groupPath + fileNamePath;
+				_url += ResType.getTailByType(_resType);
+			}
 			return _url;
 		}
 

@@ -38,10 +38,10 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function reset():void
 		{
-			for each(var i:AStarNode in _map)
+			/*for each(var i:AStarNode in _map)
 			{
 				i.parentNode = null;
-			}
+			}*/
 			_openList.clear();
 			_closeList.clear();
 			_path.length = 0;

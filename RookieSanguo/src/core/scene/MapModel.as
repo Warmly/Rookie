@@ -194,6 +194,7 @@ package core.scene
 			{
 				if (SysTimeManager.sysTime - item.lastUsedTime >= RenderInfo.TEXTURE_DISPOSE_LIMIT_TIME)
 				{
+					item.dispose();
 					_textureTable.del(item.name);
 				}
 			}
