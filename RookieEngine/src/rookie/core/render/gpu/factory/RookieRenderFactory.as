@@ -3,6 +3,7 @@ package rookie.core.render.gpu.factory
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
 	import rookie.core.render.gpu.base.RookieVertexBuffer;
+	import rookie.core.render.gpu.blend.RookieBlendMode;
 	import rookie.global.RookieEntry;
 	/**
 	 * ...
@@ -23,6 +24,7 @@ package rookie.core.render.gpu.factory
 			RookieEntry.renderManager.setIndexBuffer(indexBuffer);
 			RookieEntry.renderManager.setShader(shader);
 			RookieEntry.renderManager.setDepthTest();
+			RookieEntry.renderManager.setBlendMode(RookieBlendMode.ALPHA);
 		}
 	}
 }

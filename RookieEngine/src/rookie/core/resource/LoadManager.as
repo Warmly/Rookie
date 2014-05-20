@@ -43,7 +43,7 @@ package rookie.core.resource
 			{
 				return;
 			}
-			if (isResAlreadyInWaitQueue(resUrl.url))
+			if (isResAlreadyInWaitingQueue(resUrl.url))
 			{
 				return;
 			}
@@ -145,7 +145,7 @@ package rookie.core.resource
 			return false;
 		}
 		
-		private function isResAlreadyInWaitQueue(url:String):Boolean
+		private function isResAlreadyInWaitingQueue(url:String):Boolean
 		{
 			for each (var sub:Vector.<LoadItem> in _waitToLoadQueue) 
 			{

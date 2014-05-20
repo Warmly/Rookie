@@ -11,6 +11,7 @@ package core.scene.gpu
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.fh;
+	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.IObjPoolItem;
 	/**
 	 * ...
@@ -34,7 +35,7 @@ package core.scene.gpu
 				return;
 			}
 			_resUrl = resUrl;
-			_texture = ModelEntry.mapModel.getMapBlockTexture(_resUrl.url);
+			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url));
 			if (_texture)
 			{
 				_renderReady = true;
@@ -55,8 +56,8 @@ package core.scene.gpu
 		{
 			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(resUrl.url);
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
-			_texture.name = resUrl.url;
-			ModelEntry.mapModel.addToMapBlockTextureCache(_texture);
+			_texture.name = namer(resUrl.url);
+			RookieEntry.textureManager.addToCache(_texture);
 			_renderReady = true;
 		}
 		

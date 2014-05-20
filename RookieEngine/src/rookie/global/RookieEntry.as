@@ -1,6 +1,7 @@
 package rookie.global
 {
 	import rookie.core.frame.FrameManager;
+	import rookie.core.render.gpu.texture.TextureManager;
 	import rookie.core.resource.ResManager;
 	import rookie.core.resource.LoadManager;
 	import rookie.core.render.RenderManager;
@@ -18,6 +19,7 @@ package rookie.global
 		private static var _renderManager:RenderManager;
 		private static var _frameManager:FrameManager;
 		private static var _loadManager:LoadManager;
+		private static var _textureManager:TextureManager;
 
 		public static function get mainLoop():MainLoop
 		{
@@ -71,6 +73,15 @@ package rookie.global
 				_frameManager = new FrameManager();
 			}
 			return _frameManager;
+		}
+		
+		public static function get textureManager():TextureManager 
+		{
+			if (!_textureManager)
+			{
+				_textureManager = new TextureManager();
+			}
+			return _textureManager;
 		}
 	}
 }

@@ -9,8 +9,10 @@ package
 	import global.SanguoGlobal;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
+	import rookie.core.render.gpu.AnimGpu;
 	import rookie.core.render.gpu.blend.RookieBlendMode;
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
+	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.render.gpu.ImgGpu;
 	import rookie.core.resource.LoadPriority;
 	import rookie.tool.text.TextTool;
@@ -28,7 +30,7 @@ package
 	import global.ModelEntry;
 
 	import rookie.core.render.cpu.AnimCpu;
-	import rookie.tool.functionHandler.FH;
+	import rookie.tool.functionHandler.fh;
 	import rookie.core.resource.ResType;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.render.cpu.ImgCpu;
@@ -60,18 +62,35 @@ package
 			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
-			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, FH(onMainResLoaded));
+			RookieEntry.loadManager.load(SanguoGlobal.MAIN_RES_URL, LoadPriority.HIGH, fh(onMainResLoaded));
 		}
 		
 		private function on3DRenderComponentReady():void 
 		{
 			var camera:SanguoCamera = SanguoEntry.camera.setup(0, 0, stage.stageWidth, stage.stageHeight);
 			RookieEntry.renderManager.configBackBuffer(camera.width, camera.height);
+			RookieRenderFactory.setBasicRenderState();
+			
+			/*var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 310));
+			imgGpu.x = 300;
+			imgGpu.y = 300;
+			
+			var imgGpu1:ImgGpu = new ImgGpu(new ResUrl(311, 26, 300));
+			imgGpu1.x = 330;
+			imgGpu1.y = 330;*/
+			
+			var anim:AnimGpu = new AnimGpu(new ResUrl(311, 26, 139));
+			anim.x = 100;
+			anim.y = 100;
+			
+			//imgGpu1.selfStartRender();
+			//imgGpu.selfStartRender();
+			anim.selfStartRender();
 		}
 		
 		private function onMainResLoaded():void
 		{
-			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, FH(onConfigResLoaded));
+			RookieEntry.loadManager.load(SanguoGlobal.CONFIG_RES_URL, LoadPriority.HIGH, fh(onConfigResLoaded));
 		}
 		
 		private function onConfigResLoaded():void 
@@ -81,14 +100,19 @@ package
 			ModelEntry.staticDataModel;
 	
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, FH(on3DRenderComponentReady));
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
 
 			addChild(new Stats());
 			
-			//var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			//anim.x = 200;
-			//anim.y = 200;
-			//anim.parent = this;
+			/*var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			anim.x = 100;
+			anim.y = 100;
+			anim.parent = this;*/
+			
+			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
+			anim1.x = 500;
+			anim1.y = 100;
+			anim1.parent = this;
 			
 			new Test();
 			
@@ -112,19 +136,6 @@ package
 			
 			var text:TextField = TextTool.getLightTextField(200, true, 20, true);
 			text.htmlText = TextTool.getHtmlText("么么么么么");
-			
-			RookieEntry.renderManager.setBlendMode(RookieBlendMode.ALPHA);
-			
-			var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 310));
-			imgGpu.x = 300;
-			imgGpu.y = 300;
-			
-			var imgGpu1:ImgGpu = new ImgGpu(new ResUrl(311, 26, 300));
-			imgGpu1.x = 330;
-			imgGpu1.y = 330;
-			
-			imgGpu.selfStartRender();
-			imgGpu1.selfStartRender();
 		}
 	}
 }

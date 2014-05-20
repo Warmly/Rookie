@@ -8,6 +8,7 @@ package rookie.core.render.gpu
 	import rookie.core.render.RenderManager;
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
+	import rookie.tool.namer.namer;
 	/**
 	 * ...
 	 * @author Warmly
@@ -19,24 +20,25 @@ package rookie.core.render.gpu
 			super(resUrl);
 		}
 		
+		/**
+		 * 仅用于调试，慎用！
+		 */
 		public function selfStartRender():void
 		{
-			RookieEntry.renderManager.addToQueue(this);
+			RookieEntry.renderManager.addToGpuRenderQueue(this);
 		}
 		
 		override protected function onImgDataLoaded(resUrl:ResUrl):void
 		{
-			super.onImgDataLoaded();
-			renderInit();
+			super.onImgDataLoaded(resUrl);
+			renderInit(resUrl);
 		}
 		
-		protected function renderInit():void
+		override protected function renderInit(resUrl:ResUrl):void
 		{
 			var bmd:BitmapData = _imgConfigVO.getFrames(0).bitmapData;
-			_vertexBuffer = RookieBufferFactory.createBasicVertexBuffer();
-			_indexBuffer = RookieBufferFactory.createBasicIndexBuffer();
-			_shader = RookieShaderFactory.createBasicShader();
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
+			_texture.name = namer(resUrl.url);
 			_renderReady = true;
 		}
 		
@@ -45,9 +47,6 @@ package rookie.core.render.gpu
 			if (_renderReady)
 			{
 				var renderManager:RenderManager = RookieEntry.renderManager;
-				renderManager.setVertexBuffer(_vertexBuffer);
-				renderManager.setIndexBuffer(_indexBuffer);
-				renderManager.setShader(_shader);
 				renderManager.setTextureAt(0, _texture);
 				renderManager.setRenderPos(_x, _y, _texture.width, _texture.height);
 				renderManager.draw();

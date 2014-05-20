@@ -3,11 +3,6 @@ package core.scene
 	import flash.utils.Dictionary;
 	import global.ManagerEntry;
 	import flash.utils.ByteArray;
-	import rookie.core.frame.FrameVO;
-	import rookie.core.render.gpu.base.RookieTexture;
-	import rookie.core.render.RenderInfo;
-	import rookie.core.time.SysTimeManager;
-	import rookie.tool.namer.namer;
 
 	import rookie.core.resource.ResManager;
 	import rookie.tool.functionHandler.fh;
@@ -62,17 +57,12 @@ package core.scene
 		//
 		private var _staticDataModel:StaticDataModel;
 		private var _resManager:ResManager;
-		
-		//贴图管理
-		private var _textureTable:HashTable = new HashTable(String, RookieTexture);
-		private var _frameUpdateComponent:FrameVO;
 
 		public function MapModel()
 		{
 			super();
 			_staticDataModel = ModelEntry.staticDataModel;
 			_resManager = RookieEntry.resManager;
-			_frameUpdateComponent = RookieEntry.frameManager.setFrameInterval(1, -1, namer("MapModel","_frameUpdateComponent"), false, fh(onFrameUpdate));
 		}
 		
 		public function loadMap():void
@@ -175,29 +165,6 @@ package core.scene
 				}
 			}
 			return _sceneMapInfoConfig;
-		}
-		
-		public function addToMapBlockTextureCache(texture:RookieTexture):void
-		{
-			_textureTable.insert(texture.name, texture);
-		}
-		
-		public function getMapBlockTexture(key:String):RookieTexture
-		{
-			return _textureTable.search(key) as RookieTexture;
-		}
-		
-		private function onFrameUpdate():void 
-		{
-			var items:Dictionary = _textureTable.content;
-			for each (var item:RookieTexture in items) 
-			{
-				if (SysTimeManager.sysTime - item.lastUsedTime >= RenderInfo.TEXTURE_DISPOSE_LIMIT_TIME)
-				{
-					item.dispose();
-					_textureTable.del(item.name);
-				}
-			}
 		}
 	}
 }
