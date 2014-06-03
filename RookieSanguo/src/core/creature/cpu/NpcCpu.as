@@ -1,4 +1,4 @@
-package core.creature
+package core.creature.cpu
 {
 	import rookie.core.resource.ResUrl;
 

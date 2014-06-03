@@ -1,4 +1,4 @@
-package core.creature
+package core.creature.cpu
 {
 	import rookie.core.render.cpu.RichSprite;
 	import definition.CreaturePartEnum;

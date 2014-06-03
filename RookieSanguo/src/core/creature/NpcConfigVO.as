@@ -1,7 +1,6 @@
 package core.creature
 {
-	import definition.Define;
-
+	import definition.SanguoDefine;
 	import global.ParseableVO;
 
 	import flash.utils.ByteArray;
@@ -29,7 +28,7 @@ package core.creature
 		public function NpcConfigVO(byteArr:ByteArray)
 		{
 			super(byteArr);
-			_name = byteArr.readMultiByte(Define.MAX_NAME_SIZE + 1, Define.CHARSET);
+			_name = byteArr.readMultiByte(SanguoDefine.MAX_NAME_SIZE + 1, SanguoDefine.CHARSET);
 			_type = byteArr.readByte();
 			_quality = byteArr.readByte();
 			_level = byteArr.readUnsignedShort();

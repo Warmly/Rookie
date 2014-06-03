@@ -1,10 +1,10 @@
 package tool
 {
-	import core.creature.MyselfCpu;
+	import core.creature.cpu.MyselfCpu;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 	import rookie.tool.objectPool.ObjectPool;
-	import core.creature.UserCpu;
+	import core.creature.cpu.UserCpu;
 	import core.creature.UserVO;
 	/**
 	 * @author Warmly
@@ -14,9 +14,9 @@ package tool
 		public static function getTestUserVO():UserVO
 		{
 			var vo:UserVO = new UserVO();
-			vo.body = 201;
-			vo.weapon = 117;
-			//vo.horse = 3216;
+			vo.body = 10305;
+			vo.weapon = 10305;
+			vo.horse = 3214;
 			return vo;
 		}
 		
@@ -31,7 +31,8 @@ package tool
 		{
 			var myselfCpu:MyselfCpu = new MyselfCpu();
 			myselfCpu.init(getTestUserVO());
-			myselfCpu.synAction(ActionEnum.STAND, DirectionEnum.RIGHT_DOWN);
+			myselfCpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
+			myselfCpu.scaleX = myselfCpu.scaleY = 0.6;
 			return myselfCpu;
 		}
 	}

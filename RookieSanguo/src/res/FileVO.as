@@ -1,6 +1,6 @@
 package res 
 {
-	import definition.Define;
+	import definition.SanguoDefine;
 	import flash.utils.ByteArray;
 	/**
 	 * ...
@@ -20,7 +20,7 @@ package res
 			_lengthBeforeCompress = byteArr.readUnsignedInt();
 			_lengthAfterCompress = byteArr.readUnsignedInt();
 			_nameLength = byteArr.readUnsignedByte();
-			_name = byteArr.readMultiByte(_nameLength, Define.CHARSET);
+			_name = byteArr.readMultiByte(_nameLength, SanguoDefine.CHARSET);
 			_name = _name.toLowerCase();
 		}
 		

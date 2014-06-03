@@ -24,7 +24,7 @@ package rookie.core.render.gpu.factory
 			RookieEntry.renderManager.setIndexBuffer(indexBuffer);
 			RookieEntry.renderManager.setShader(shader);
 			RookieEntry.renderManager.setDepthTest();
-			RookieEntry.renderManager.setBlendMode(RookieBlendMode.ALPHA);
+			RookieEntry.renderManager.setBlendMode(RookieBlendMode.NORMAL);
 		}
 	}
 }

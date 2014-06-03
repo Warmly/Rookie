@@ -1,7 +1,7 @@
 package core.scene
 {
 	import core.creature.ActProcess;
-	import core.creature.MyselfCpu;
+	import core.creature.cpu.MyselfCpu;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 	import flash.events.KeyboardEvent;

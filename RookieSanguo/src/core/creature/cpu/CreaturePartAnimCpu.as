@@ -1,8 +1,8 @@
-package core.creature
+package core.creature.cpu
 {
+	import definition.SanguoDefine;
 	import flash.utils.Dictionary;
 	import rookie.dataStruct.HashTable;
-	import definition.Define;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 
@@ -45,7 +45,7 @@ package core.creature
 		{
 			_type = type;
 			super(resUrl, false);
-			frequency = 16;
+			frequency = SanguoDefine.CREATURE_PART_ANIM_FREQUENCY;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 
@@ -201,7 +201,7 @@ package core.creature
 		override protected function adjustInnerPos():void
 		{
 			var xVal:Number = -_curFrameVO.imgWidth * 0.5 + _curFrameVO.validRectX;
-			var yVal:Number = -_curFrameVO.imgHeight * 0.5 + _curFrameVO.validRectY + Define.CREATURE_PART_ANIM_Y_OFFSET;
+			var yVal:Number = -_curFrameVO.imgHeight * 0.5 + _curFrameVO.validRectY + SanguoDefine.CREATURE_PART_ANIM_Y_OFFSET;
 			if (_needYReverse)
 			{
 				xVal = -xVal - _curFrameVO.validRectWidth;

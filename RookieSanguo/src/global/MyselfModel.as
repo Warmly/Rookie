@@ -1,5 +1,6 @@
 package global
 {
+	import definition.SanguoDefine;
 	import global.ModelBase;
 
 	/**
@@ -12,7 +13,7 @@ package global
 		/**
 	     * 移动一格耗时
 	     */
-		public var costPerCell:Number = 300;
+		public var costPerCell:Number = SanguoDefine.MOVE_ONE_CELL_COST;
 		
 		public function MyselfModel()
 		{

@@ -1,5 +1,7 @@
-package core.creature
+package core.creature.cpu
 {
+	import core.creature.ActProcess;
+	import core.creature.CreatureVO;
 	import flash.geom.Point;
 	import rookie.core.render.cpu.RichSprite;
 	import definition.ActionEnum;
@@ -34,6 +36,7 @@ package core.creature
 		
 		/**
 	     * 动作改变
+		 * @loop 播放次数，默认-1为一直循环播放 
 	     */
 		public function synAction(action:int, direction:int = -1, loop:int = -1):void
 		{

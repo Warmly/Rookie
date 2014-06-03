@@ -20,12 +20,15 @@ package rookie.core.render.gpu
 			super(resUrl);
 		}
 		
-		/**
-		 * 仅用于调试，慎用！
-		 */
-		public function selfStartRender():void
+		override public function render():void
 		{
-			RookieEntry.renderManager.addToGpuRenderQueue(this);
+			if (_renderReady)
+			{
+				var renderManager:RenderManager = RookieEntry.renderManager;
+				renderManager.setTextureAt(0, _texture);
+				renderManager.setRenderPos(_x, _y, _texture.width, _texture.height);
+				renderManager.draw();
+			}
 		}
 		
 		override protected function onImgDataLoaded(resUrl:ResUrl):void
@@ -42,15 +45,12 @@ package rookie.core.render.gpu
 			_renderReady = true;
 		}
 		
-		override public function render():void
-		{
-			if (_renderReady)
-			{
-				var renderManager:RenderManager = RookieEntry.renderManager;
-				renderManager.setTextureAt(0, _texture);
-				renderManager.setRenderPos(_x, _y, _texture.width, _texture.height);
-				renderManager.draw();
-			}
-		}
+	    /**
+		 * 仅用于调试，慎用！
+		 */
+	    public function selfStartRender():void
+	    {
+		    RookieEntry.renderManager.addToGpuRenderQueue(this);
+	    }
 	}
 }

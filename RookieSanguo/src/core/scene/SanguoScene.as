@@ -1,16 +1,16 @@
 package core.scene
 {
-	import core.creature.MyselfCpu;
-	import core.creature.UserCpu;
+	import core.creature.cpu.MyselfCpu;
+	import core.creature.cpu.UserCpu;
 	import core.scene.cpu.ItemLayerCpu;
 	import core.scene.cpu.MapDebugLayerCpu;
 	import core.scene.cpu.MapLayerCpu;
 	import core.scene.gpu.MapLayerGpu;
+	import definition.SanguoDefine;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	import global.ManagerEntry;
 	import global.ModelEntry;
-	import global.SanguoGlobal;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
 	import global.SanguoEntry;
@@ -41,7 +41,7 @@ package core.scene
 
 		public function SanguoScene()
 		{
-			if (SanguoGlobal.GPU_RENDER_MAP)
+			if (SanguoDefine.GPU_RENDER_MAP)
 			{
 				_mapLayerGpu = new MapLayerGpu();
 			}
@@ -70,7 +70,7 @@ package core.scene
 		{
 			init();
 			RookieEntry.renderManager.addToCpuRenderQueue(this);
-			if (SanguoGlobal.GPU_RENDER_MAP)
+			if (SanguoDefine.GPU_RENDER_MAP)
 			{
 				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
 			}
@@ -108,7 +108,7 @@ package core.scene
 			_camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
 			this.x = -_camera.xInScene;
 			this.y = -_camera.yInScene;
-			if (SanguoGlobal.GPU_RENDER_MAP)
+			if (SanguoDefine.GPU_RENDER_MAP)
 			{
 				_renderManager.configBackBuffer(_camera.width, _camera.height);
 				_mapLayerGpu.onScreenResize();

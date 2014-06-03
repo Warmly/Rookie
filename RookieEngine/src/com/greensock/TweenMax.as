@@ -31,10 +31,6 @@ package com.greensock
 	import com.greensock.plugins.VisiblePlugin;
 	import com.greensock.plugins.VolumePlugin;
 	
-	import dzb.debug.Debugger;
-	
-	import dze.ICreature;
-	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;

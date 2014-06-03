@@ -1,5 +1,6 @@
-package core.creature
+package core.creature.cpu
 {
+	import core.creature.UserVO;
 	import definition.ActionEnum;
 	import rookie.core.resource.ResUrl;
 

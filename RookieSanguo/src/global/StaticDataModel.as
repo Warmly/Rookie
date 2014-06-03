@@ -2,12 +2,11 @@ package global
 {
 	import config.XmlConfigVO;
 	import core.creature.NpcConfigVO;
+	import definition.SanguoDefine;
 	import flash.utils.CompressionAlgorithm;
 	import res.FileVO;
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
-
-	import definition.Define;
 
 	import rookie.dataStruct.HashTable;
 
@@ -53,7 +52,7 @@ package global
 					byteArr.writeBytes(_configFileData, vo.offset, vo.lengthAfterCompress);
 					//byteArr.uncompress(CompressionAlgorithm.LZMA);
 					byteArr.position = 0;
-					var xml:XML = new XML(byteArr.readMultiByte(byteArr.length, Define.CHARSET));
+					var xml:XML = new XML(byteArr.readMultiByte(byteArr.length, SanguoDefine.CHARSET));
 					var xmlVO:XmlConfigVO = new XmlConfigVO(name, xml);
 					_xmlConfig.insert(name, xmlVO);
 					return xml;
@@ -92,7 +91,7 @@ package global
 		
 		private function initXML():void
 		{
-			var byteArr:ByteArray = RookieEntry.resManager.byteArrData.search(SanguoGlobal.CONFIG_RES_URL.url);
+			var byteArr:ByteArray = RookieEntry.resManager.byteArrData.search(SanguoDefine.CONFIG_RES_URL.url);
 			byteArr.endian = Endian.LITTLE_ENDIAN;
             
 			//解析头部
@@ -143,7 +142,7 @@ package global
 		{
 			var subXmlCls:Class = getDefinitionByName("Config_StaticData_" + str)as Class;
 			var subXml:ByteArray = new subXmlCls();
-			var result:String = subXml.readMultiByte(subXml.length, Define.CHARSET);
+			var result:String = subXml.readMultiByte(subXml.length, SanguoDefine.CHARSET);
 			return result;
 		}
 	}

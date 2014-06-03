@@ -1,5 +1,6 @@
 package rookie.core.render.gpu 
 {
+	import definition.SanguoDefine;
 	import flash.utils.getTimer;
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.factory.RookieTextureFactory;
@@ -15,7 +16,6 @@ package rookie.core.render.gpu
 	 */
 	public class AnimGpu extends ImgGpuBase 
 	{
-		protected static const _DEFAULT_FREQUENCY:Number = 8;
 		protected var _totalFrame:uint;
 		protected var _curFrame:uint;
 		// 频率：帧/秒
@@ -24,7 +24,7 @@ package rookie.core.render.gpu
 		protected var _curTime:Number;
 		// 上一帧时间
 		protected var _lastTime:Number;
-		// 间隔时间
+		// 间隔时间(ms)
 		protected var _intervalTime:Number;
 		// 播放次数，默认一直播放
 		protected var _loop:int = -1;
@@ -45,8 +45,7 @@ package rookie.core.render.gpu
 		{
 			super(resUrl);
 			_curFrame = 1;
-			_frequency = _DEFAULT_FREQUENCY;
-			_intervalTime = 1000 / _frequency;
+			frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
 				_totalFrame = _imgConfigVO.frameLength;
@@ -159,6 +158,12 @@ package rookie.core.render.gpu
 		override public function set y(value:Number):void
 		{
 			_originY = value;
+		}
+		
+		public function set frequency(value:Number):void 
+		{
+			_frequency = value;
+			_intervalTime = 1000 / value;
 		}
 		
 	    /**

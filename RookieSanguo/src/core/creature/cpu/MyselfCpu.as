@@ -1,4 +1,4 @@
-package core.creature 
+package core.creature.cpu 
 {
 	import definition.ActionEnum;
 	import flash.geom.Point;

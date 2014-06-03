@@ -1,5 +1,6 @@
 package rookie.core.render.cpu
 {
+	import definition.SanguoDefine;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RenderType;
 	import rookie.core.resource.ResUrl;
@@ -12,7 +13,6 @@ package rookie.core.render.cpu
 	 */
 	public class AnimCpu extends ImgCpuBase implements IRenderItem
 	{
-		protected static const _DEFAULT_FREQUENCY:Number = 8;
 		protected var _totalFrame:uint;
 		protected var _curFrame:uint;
 		// 频率：帧/秒
@@ -21,7 +21,7 @@ package rookie.core.render.cpu
 		protected var _curTime:Number;
 		// 上一帧时间
 		protected var _lastTime:Number;
-		// 间隔时间
+		// 间隔时间(ms)
 		protected var _intervalTime:Number;
 		// 播放次数，默认一直播放
 		protected var _loop:int = -1;
@@ -42,8 +42,7 @@ package rookie.core.render.cpu
 		{
 			super(resUrl);
 			_curFrame = 1;
-			_frequency = _DEFAULT_FREQUENCY;
-			_intervalTime = 1000 / _frequency;
+		    frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
 				_totalFrame = _imgConfigVO.frameLength;
@@ -86,7 +85,7 @@ package rookie.core.render.cpu
 		protected function setCurFrameBmd():void
 		{
 			_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
-			if (_curFrameVO)
+			if (_curFrameVO && _curFrameVO.bitmapData)
 			{
 				super.bitmapData = _curFrameVO.bitmapData;
 				adjustInnerPos();
@@ -95,8 +94,8 @@ package rookie.core.render.cpu
 
 		protected function adjustInnerPos():void
 		{
-			super.x = _originX + _curFrameVO.validRectX;
-			super.y = _originY + _curFrameVO.validRectY;
+			super.x = _originX + _curFrameVO.validRectX * scaleX;
+			super.y = _originY + _curFrameVO.validRectY * scaleY;
 		}
 
 		public function setPlayRange(start:uint, end:uint):void
@@ -179,7 +178,7 @@ package rookie.core.render.cpu
 		public function set frequency(val:Number):void
 		{
 			_frequency = val;
-			_intervalTime = 1000 / _frequency;
+			_intervalTime = 1000 / val;
 		}
 		
 		public function get loopEndCallBack():FunHandler 
