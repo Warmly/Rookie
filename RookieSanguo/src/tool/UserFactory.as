@@ -32,7 +32,7 @@ package tool
 			var myselfCpu:MyselfCpu = new MyselfCpu();
 			myselfCpu.init(getTestUserVO());
 			myselfCpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
-			myselfCpu.scaleX = myselfCpu.scaleY = 0.6;
+			//myselfCpu.scaleX = myselfCpu.scaleY = 0.6;
 			return myselfCpu;
 		}
 	}

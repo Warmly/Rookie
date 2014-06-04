@@ -119,14 +119,36 @@ package
 			anim.y = 100;
 			anim.parent = this;*/
 			
+			var npc:NpcCpu = NpcFactory.getTestNpcCpu();
+			npc.x = 400;
+			npc.y = 400;
+			npc.parent = this;
+			
+			var sp:Sprite = new Sprite();
+			sp.graphics.beginFill(Color.BLACK_DATA);
+			sp.graphics.drawRect(0, 0, 100, 100);
+			sp.x = 100;
+			sp.y = 400;
+			sp.scrollRect = new Rectangle(0, 0, 100, 100);
+			addChild(sp)
+			
+			sp.scaleX = 0.5;
+			
+			sp.addEventListener(MouseEvent.CLICK, function():void
+			{
+				var rect:Rectangle = sp.scrollRect;
+				rect.y -= 2;
+				sp.scrollRect = rect;
+			})
+			
 			var container:Sprite = new Sprite();
 			addChild(container);
-			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 36, 9));
-			anim1.x = 0;
-			anim1.y = 0;
+			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 36, 24));
+			anim1.x = 200;
+			anim1.y = 200;
 			anim1.parent = container;
-			//anim1.scaleX = anim1.scaleY = 0.6;
-			container.scaleX = container.scaleY = 0.6;
+			//anim1.scaleX = anim1.scaleY = 0.5;
+			container.scaleX = container.scaleY = 0.5;
 			
 			new Test();
 			
@@ -155,23 +177,6 @@ package
 			text.scrollRect = new Rectangle(-100, 0, text.width, text.height);
 			//text.scrollRect.x = 600;
 			addChild(text);
-			
-			var sp:Sprite = new Sprite();
-			sp.graphics.beginFill(Color.BLACK_DATA);
-			sp.graphics.drawRect(0, 0, 100, 100);
-			sp.x = 100;
-			sp.y = 400;
-			sp.scrollRect = new Rectangle(0, 0, 100, 100);
-			addChild(sp)
-			
-			sp.scaleX = 0.5;
-			
-			sp.addEventListener(MouseEvent.CLICK, function():void
-			{
-				var rect:Rectangle = sp.scrollRect;
-				rect.y -= 2;
-				sp.scrollRect = rect;
-			})
 		}
 	}
 }

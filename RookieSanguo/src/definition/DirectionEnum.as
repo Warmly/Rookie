@@ -1,6 +1,7 @@
 package definition
 {
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	/**
 	 * 方向枚举
 	 * 
@@ -30,6 +31,58 @@ package definition
 		public static const TWO_DIRECTION:Array = [RIGHT_UP, RIGHT_DOWN];
 		public static const THREE_DIRECTION:Array = [RIGHT_UP, RIGHT, RIGHT_DOWN];
 		public static const FIVE_DIRECTION:Array = [UP, RIGHT_UP, RIGHT, RIGHT_DOWN, DOWN];
+		//
+		public static const DIRECTION_MAP:Array = [[],[],[],[],[],[],[],[],[]];
+		public static const REVERSE_MAP:Array = [[],[],[],[],[],[],[],[],[]];
+		DIRECTION_MAP[UP][2] = RIGHT_UP;
+		DIRECTION_MAP[UP][3] = RIGHT_UP;
+		DIRECTION_MAP[UP][5] = UP;
+		DIRECTION_MAP[RIGHT_UP][2] = RIGHT_UP;
+		DIRECTION_MAP[RIGHT_UP][3] = RIGHT_UP;
+		DIRECTION_MAP[RIGHT_UP][5] = RIGHT_UP;
+		DIRECTION_MAP[RIGHT][2] = RIGHT_DOWN;
+		DIRECTION_MAP[RIGHT][3] = RIGHT;
+		DIRECTION_MAP[RIGHT][5] = RIGHT;
+		DIRECTION_MAP[RIGHT_DOWN][2] = RIGHT_DOWN;
+		DIRECTION_MAP[RIGHT_DOWN][3] = RIGHT_DOWN;
+		DIRECTION_MAP[RIGHT_DOWN][5] = RIGHT_DOWN;
+		DIRECTION_MAP[DOWN][2] = RIGHT_DOWN;
+		DIRECTION_MAP[DOWN][3] = RIGHT_DOWN;
+		DIRECTION_MAP[DOWN][5] = DOWN;
+		DIRECTION_MAP[LEFT_DOWN][2] = RIGHT_DOWN;
+		DIRECTION_MAP[LEFT_DOWN][3] = RIGHT_DOWN;
+		DIRECTION_MAP[LEFT_DOWN][5] = RIGHT_DOWN;
+		DIRECTION_MAP[LEFT][2] = RIGHT_DOWN;
+		DIRECTION_MAP[LEFT][3] = RIGHT;
+		DIRECTION_MAP[LEFT][5] = RIGHT;
+		DIRECTION_MAP[LEFT_UP][2] = RIGHT_UP;
+		DIRECTION_MAP[LEFT_UP][3] = RIGHT_UP;
+		DIRECTION_MAP[LEFT_UP][5] = RIGHT_UP;
+		
+		REVERSE_MAP[UP][2] = true;
+		REVERSE_MAP[UP][3] = true;
+		REVERSE_MAP[UP][5] = false;
+		REVERSE_MAP[RIGHT_UP][2] = false;
+		REVERSE_MAP[RIGHT_UP][3] = false;
+		REVERSE_MAP[RIGHT_UP][5] = false;
+		REVERSE_MAP[RIGHT][2] = false;
+		REVERSE_MAP[RIGHT][3] = false;
+		REVERSE_MAP[RIGHT][5] = false;
+		REVERSE_MAP[RIGHT_DOWN][2] = false;
+		REVERSE_MAP[RIGHT_DOWN][3] = false;
+		REVERSE_MAP[RIGHT_DOWN][5] = false;
+		REVERSE_MAP[DOWN][2] = true;
+		REVERSE_MAP[DOWN][3] = true;
+		REVERSE_MAP[DOWN][5] = false;
+		REVERSE_MAP[LEFT_DOWN][2] = true;
+		REVERSE_MAP[LEFT_DOWN][3] = true;
+		REVERSE_MAP[LEFT_DOWN][5] = true;
+		REVERSE_MAP[LEFT][2] = true;
+		REVERSE_MAP[LEFT][3] = true;
+		REVERSE_MAP[LEFT][5] = true;
+		REVERSE_MAP[LEFT_UP][2] = true;
+		REVERSE_MAP[LEFT_UP][3] = true;
+		REVERSE_MAP[LEFT_UP][5] = true;
 	
 		public static function getDirection(fromX:Number, fromY:Number, toX:Number, toY:Number):int
 		{

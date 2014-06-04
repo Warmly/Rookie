@@ -1,8 +1,9 @@
 package core.creature.cpu
 {
+	import core.creature.NpcVO;
 	import rookie.core.resource.ResUrl;
 
-	import core.creature.CreatureCpu;
+	import core.creature.cpu.CreatureCpu;
 
 	/**
 	 * @author Warmly

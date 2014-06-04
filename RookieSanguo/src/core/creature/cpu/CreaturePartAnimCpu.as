@@ -69,69 +69,8 @@ package core.creature.cpu
 
 		private function synResDirAndReverse():void
 		{
-			_needYReverse = false;
-			var resDir:uint;
-			switch(_direction)
-			{
-				case DirectionEnum.UP:
-					if (_resDirNum == 2 || _resDirNum == 3)
-					{
-						resDir = DirectionEnum.RIGHT_UP;
-						_needYReverse = true;
-					}
-					else
-					{
-						resDir = DirectionEnum.UP;
-					}
-					break;
-				case DirectionEnum.RIGHT_UP:
-					resDir = DirectionEnum.RIGHT_UP;
-					break;
-				case DirectionEnum.RIGHT:
-					if (_resDirNum == 2)
-					{
-						resDir = DirectionEnum.RIGHT_DOWN;
-					}
-					else
-					{
-						resDir = DirectionEnum.RIGHT;
-					}
-					break;
-				case DirectionEnum.RIGHT_DOWN:
-					resDir = DirectionEnum.RIGHT_DOWN;
-					break;
-				case DirectionEnum.DOWN:
-					if (_resDirNum == 2 || _resDirNum == 3)
-					{
-						resDir = DirectionEnum.RIGHT_DOWN;
-						_needYReverse = true;
-					}
-					else
-					{
-						resDir = DirectionEnum.DOWN;
-					}
-					break;
-				case DirectionEnum.LEFT_DOWN:
-					resDir = DirectionEnum.RIGHT_DOWN;
-					_needYReverse = true;
-					break;
-				case DirectionEnum.LEFT:
-					if (_resDirNum == 2)
-					{
-						resDir = DirectionEnum.RIGHT_DOWN;
-					}
-					else
-					{
-						resDir = DirectionEnum.RIGHT;
-					}
-					_needYReverse = true;
-					break;
-				case DirectionEnum.LEFT_UP:
-					resDir = DirectionEnum.RIGHT_UP;
-					_needYReverse = true;
-					break;
-			}
-			_resDir = resDir;
+			_resDir = DirectionEnum.DIRECTION_MAP[_direction][_resDirNum];
+			_needYReverse = DirectionEnum.REVERSE_MAP[_direction][_resDirNum];
 		}
 
 		private function synPlayRange():void
@@ -200,11 +139,11 @@ package core.creature.cpu
 		// 待优化
 		override protected function adjustInnerPos():void
 		{
-			var xVal:Number = -_curFrameVO.imgWidth * 0.5 + _curFrameVO.validRectX;
-			var yVal:Number = -_curFrameVO.imgHeight * 0.5 + _curFrameVO.validRectY + SanguoDefine.CREATURE_PART_ANIM_Y_OFFSET;
+			var xVal:Number = _curFrameVO.adjustX;
+			var yVal:Number = _curFrameVO.adjustY + SanguoDefine.CREATURE_PART_ANIM_Y_OFFSET;
 			if (_needYReverse)
 			{
-				xVal = -xVal - _curFrameVO.validRectWidth;
+				xVal = - xVal - _curFrameVO.validRectWidth;
 			}
 			hardSetPos(xVal, yVal);
 		}

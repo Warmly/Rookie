@@ -28,6 +28,9 @@ package rookie.core.vo
 		private var _validRectY:Number;
 		private var _validRectWidth:Number;
 		private var _validRectHeight:Number;
+		// 校准到中心点后的位置
+		private var _adjustX:Number;
+		private var _adjustY:Number;
 
 		public function ImgFrameConfigVO(index:uint, resUrl:ResUrl, topLeftX:int, topLeftY:int, bottomRightX:int, bottomRightY:int, width:uint, height:uint)
 		{
@@ -39,6 +42,8 @@ package rookie.core.vo
 			_validRectY = topLeftY;
 			_validRectWidth = bottomRightX - topLeftX;
 			_validRectHeight = bottomRightY - topLeftY;
+			_adjustX = - width * 0.5 + topLeftX;
+			_adjustY = - height * 0.5 + topLeftY;
 		}
 
 		public function onImgFrameDataLoaded():void
@@ -120,6 +125,16 @@ package rookie.core.vo
 		public function get validRectHeight():Number
 		{
 			return _validRectHeight;
+		}
+		
+		public function get adjustX():Number 
+		{
+			return _adjustX;
+		}
+		
+		public function get adjustY():Number 
+		{
+			return _adjustY;
 		}
 	}
 }

@@ -94,8 +94,8 @@ package rookie.core.render.cpu
 
 		protected function adjustInnerPos():void
 		{
-			super.x = _originX + _curFrameVO.validRectX * scaleX;
-			super.y = _originY + _curFrameVO.validRectY * scaleY;
+			super.x = (_originX + _curFrameVO.validRectX)*scaleX;
+			super.y = (_originY + _curFrameVO.validRectY)*scaleY;
 		}
 
 		public function setPlayRange(start:uint, end:uint):void
