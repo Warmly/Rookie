@@ -7,6 +7,7 @@ package rookie.core.render.gpu
 	import rookie.core.render.RenderManager;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
+	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.tool.namer.namer;
@@ -17,18 +18,18 @@ package rookie.core.render.gpu
 	public class AnimGpu extends ImgGpuBase 
 	{
 		protected var _totalFrame:uint;
-		protected var _curFrame:uint;
+		protected var _curFrame:uint = 1;
 		// 频率：帧/秒
 		protected var _frequency:Number;
 		// 当前帧时间
 		protected var _curTime:Number;
 		// 上一帧时间
-		protected var _lastTime:Number;
+		protected var _lastTime:Number = 0;
 		// 间隔时间(ms)
 		protected var _intervalTime:Number;
-		// 播放次数，默认一直播放
-		protected var _loop:int = -1;
-		protected var _curLoop:int = 0;
+		// 播放次数，0默认一直播放
+		protected var _loop:uint = 0;
+		protected var _curLoop:uint = 1;
 		protected var _loopEndCallBack:FunHandler;
 		// 基准点
 		protected var _originX:Number = 0;
@@ -40,11 +41,11 @@ package rookie.core.render.gpu
 		// 当前帧数据
 		protected var _curFrameVO:ImgFrameConfigVO;
 		protected var _isRendering:Boolean;
+		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
 		
 		public function AnimGpu(resUrl:ResUrl, isAutoPlay:Boolean = true) 
 		{
 			super(resUrl);
-			_curFrame = 1;
 			frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
@@ -59,37 +60,49 @@ package rookie.core.render.gpu
 		
 		override public function render():void
 		{
-			renderCurFrame();
-			_curTime = getTimer();
-			if (_curTime - _lastTime >= _intervalTime)
+			if (_isRendering)
 			{
-				_lastTime = _curTime;
-				if (_curFrame < _endFrame)
+				renderCurFrame();
+				if (_frameCallBackTable.has(_curFrame))
 				{
-					_curFrame++;
+					var fun:FunHandler = _frameCallBackTable.search(_curFrame) as FunHandler;
+					fun.execute();
 				}
-				else
+				_curTime = getTimer();
+				if (_curTime - _lastTime >= _intervalTime)
 				{
-					_curLoop++;
-					_curFrame = _startFrame;
-				}
-				if (_curLoop == _loop)
-				{
-					stopPlay();
-					if (_loopEndCallBack)
+					_lastTime = _curTime;
+					if (_curFrame < _endFrame)
 					{
-						_loopEndCallBack.execute();
+						_curFrame++;
 					}
-					return;
+					else
+					{
+						if (_curLoop != _loop)
+						{
+							_curLoop++;
+							_curFrame = _startFrame;
+						}
+						else
+						{
+							stopPlay();
+							if (_loopEndCallBack)
+							{
+								_loopEndCallBack.execute();
+							}
+						}
+					}
 				}
 			}
 		}
 		
-		private function renderCurFrame():void
+		protected function renderCurFrame():void
 		{
+			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
 			_texture = getCurFrameTexture();
 			if (_texture)
 			{
+				adjustInnerPos();
 				var renderManager:RenderManager = RookieEntry.renderManager;
 				renderManager.setTextureAt(0, _texture);
 				renderManager.setRenderPos(_x, _y, _texture.width, _texture.height);
@@ -114,28 +127,24 @@ package rookie.core.render.gpu
 		
 		public function stopPlay():void
 		{
+			_isRendering = false;
 		}
 		
 		protected function getCurFrameTexture():RookieTexture
 		{
-			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url));
+			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url, _curFrame));
 			if (_texture)
 			{
 				return _texture;
 			}
-			else
+			else if (_curFrameVO && _curFrameVO.bitmapData)
 			{
-				_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
-				if (_curFrameVO && _curFrameVO.bitmapData)
-				{
-					adjustInnerPos();
-					_texture = RookieTextureFactory.createBasicTexture(_curFrameVO.bitmapData);
-					_texture.name = namer(_resUrl.url, String(_curFrame));
-					RookieEntry.textureManager.addToCache(_texture);
-					return _texture;
-				}
-				return null;
+				_texture = RookieTextureFactory.createBasicTexture(_curFrameVO.bitmapData);
+				_texture.name = namer(_resUrl.url, _curFrame);
+				RookieEntry.textureManager.addToCache(_texture);
+				return _texture;
 			}
+			return null;
 		}
 		
 		public function setPlayRange(start:uint, end:uint):void
@@ -166,12 +175,33 @@ package rookie.core.render.gpu
 			_intervalTime = 1000 / value;
 		}
 		
+		public function get loop():uint 
+		{
+			return _loop;
+		}
+		
+		public function set loop(value:uint):void 
+		{
+			_loop = value;
+		}
+		
+		public function addFrameCallBack(frame:uint, fun:FunHandler):void
+		{
+			_frameCallBackTable.insert(frame, fun);
+		}
+		
+		public function delFrameCallBack(frame:uint):void
+		{
+			_frameCallBackTable.del(frame);
+		}
+		
 	    /**
 		 * 仅用于调试，慎用！
 		 */
 		public function selfStartRender():void
 		{
 			RookieEntry.renderManager.addToGpuRenderQueue(this);
+			startPlay();
 		}
 	}
 }

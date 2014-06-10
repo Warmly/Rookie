@@ -75,7 +75,7 @@ package core.scene
 					_myself.synAction(ActionEnum.RUN, DirectionEnum.RIGHT);
 					break;
 				case Keyboard.SPACE:
-					_myself.synAction(ActionEnum.ATK, -1, 1);
+					_myself.synAction(ActionEnum.ATK, 0, 1);
 					break;
 			}
 		}

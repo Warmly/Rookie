@@ -41,7 +41,7 @@ package rookie.core.render.cpu
 			var frameLength:uint = _imgConfigVO.frameLength;
 			for (var i:uint = 0;i < frameLength;i++)
 			{
-				var frame:ImgFrameConfigVO = _imgConfigVO.getFrames(i);
+				var frame:ImgFrameConfigVO = _imgConfigVO.getFrame(i);
 				frame.onImgFrameDataLoaded();
 			}
 		}

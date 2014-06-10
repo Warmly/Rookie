@@ -3,12 +3,19 @@ package core.creature.gpu
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 	import definition.SanguoDefine;
+	import flash.system.ApplicationDomain;
+	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 	import global.ModelEntry;
 	import rookie.core.render.gpu.AnimGpu;
+	import rookie.core.render.gpu.base.RookieTexture;
+	import rookie.core.render.gpu.factory.RookieTextureFactory;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgConfigVO;
+	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieEntry;
+	import rookie.tool.namer.namer;
 	
 	/**
 	 * ...
@@ -19,9 +26,9 @@ package core.creature.gpu
 		// 动作ID为键，包含所有方向的配置为值的哈希表
 		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);
 		// 动作ID
-		private var _action:uint = ActionEnum.DEFAULT;
+		private var _action:uint;
 		// 动作方向
-		private var _direction:uint = DirectionEnum.DEFAULT;
+		private var _direction:uint;
 		// 使用的图片资源的方向
 		private var _resDir:uint;
 		// 图片资源包含几个方向
@@ -43,12 +50,21 @@ package core.creature.gpu
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 		
-		public function synAction(action:uint):void
+		public function synAction(action:uint, direction:uint):void
 		{
 			_action = action;
 			_imgConfigVO = _imgConfigVoTable.search(action);
 			_totalFrame = _imgConfigVO.frameLength;
 			synActDirNum();
+			synDirection(direction);
+		}
+		
+		public function synDirection(direction:uint):void
+		{
+			_curLoop = 1;
+			_direction = direction;
+			synResDirAndReverse();
+			synPlayRange();
 		}
 		
 		private function synActDirNum():void
@@ -68,6 +84,89 @@ package core.creature.gpu
 				_resDirNum = 1;
 				_eachDirFrameNum = _totalFrame;
 			}
+		}
+		
+		private function synResDirAndReverse():void 
+		{
+			_resDir = DirectionEnum.DIRECTION_MAP[_resDirNum][_direction];
+			_needYReverse = DirectionEnum.REVERSE_MAP[_resDirNum][_direction];
+		}
+		
+		private function synPlayRange():void 
+		{
+			var index:int;
+			switch (_resDirNum) 
+			{
+				case 2:
+					index =  DirectionEnum.TWO_DIRECTION.indexOf(_resDir);
+					break;
+				case 3:
+					index =  DirectionEnum.THREE_DIRECTION.indexOf(_resDir);
+					break;
+				case 5:
+					index =  DirectionEnum.FIVE_DIRECTION.indexOf(_resDir);
+					break;
+			}
+			_startFrame = index * _eachDirFrameNum + 1;
+			_endFrame = _startFrame + _eachDirFrameNum - 1;
+		}
+		
+		override protected function getCurFrameTexture():RookieTexture
+		{
+			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url, _action, _curFrame));
+			if (_texture)
+			{
+				return _texture;
+			}
+			else if (_curFrameVO && _curFrameVO.bitmapData)
+			{
+				_texture = RookieTextureFactory.createBasicTexture(_curFrameVO.bitmapData);
+				_texture.name = namer(_resUrl.url, _action, _curFrame);
+				RookieEntry.textureManager.addToCache(_texture);
+				return _texture;
+			}
+			return null;
+		}
+		
+		override protected function onImgDataLoaded(resUrl:ResUrl):void
+		{
+			var items:Dictionary = _imgConfigVoTable.content;
+			for (var i:* in items) 
+			{
+				var vo:ImgConfigVO = items[i];
+				var frameLength:uint = vo.frameLength;
+				for (var j:int = 0; j < frameLength; j++) 
+				{
+					var frame:ImgFrameConfigVO = vo.getFrame(j);
+					frame.manualSetResCls(getResCls(i, j));
+				}
+			}
+		}
+		
+		private function getResCls(actionId:uint, index:uint):Class
+		{
+			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.fileName + "_" + actionId + "_" + index;
+			var resCls:Class;
+			if (ApplicationDomain.currentDomain.hasDefinition(clsName))
+			{
+				resCls = getDefinitionByName(clsName) as Class;
+			}
+			return resCls;
+		}
+		
+		public function get depth():uint 
+		{
+			return _depth;
+		}
+		
+		public function set depth(value:uint):void 
+		{
+			_depth = value;
+		}
+		
+		public function get type():uint 
+		{
+			return _type;
 		}
 	}
 }

@@ -13,6 +13,7 @@ package core.scene.gpu
 	import rookie.tool.functionHandler.fh;
 	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.IObjPoolItem;
+	import rookie.tool.objectPool.ObjectPool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -74,10 +75,15 @@ package core.scene.gpu
 		
 		public function reset():void
 		{
+			if (_texture)
+			{
+				_texture.dispose();
+			}
 		}
 
-		override public function dispose():void
+	    public function dispose():void
 		{
+			ObjectPool.addToPool(this);
 		}
 	}
 }

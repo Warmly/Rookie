@@ -13,11 +13,13 @@ package rookie.core.render.gpu
 	import rookie.global.RookieEntry;
 	import rookie.tool.log.error;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.IName;
+	import rookie.tool.namer.namer;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ImgGpuBase implements IRenderItem
+	public class ImgGpuBase implements IRenderItem,IName
 	{	
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
@@ -41,29 +43,26 @@ package rookie.core.render.gpu
 		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0) 
 		{
 			_resUrl = resUrl;
-			_resLoaded = false;
-			_renderReady = false;
 			if (resUrl && loadImmediately)
 			{
 				_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
-				if (!_imgConfigVO)
-				{
-					error("没有" + _resUrl.url + "的配置！");
-					return;
-				}
-				_width = _imgConfigVO.imgWidth;
-				_height = _imgConfigVO.imgHeight;
-				RookieEntry.loadManager.load(_resUrl, loadPriority, fh(onImgDataLoaded, _resUrl));
+				RookieEntry.loadManager.load(_resUrl, loadPriority, fh(onImgDataLoaded, resUrl));
 			}
-			_name = "3Dinstance" + RookieMath.random();
 		}
 		
 		protected function onImgDataLoaded(resUrl:ResUrl):void 
 		{
+			if (!_imgConfigVO)
+			{
+				error("没有" + _resUrl.url + "的配置！");
+				return;
+			}
+			_width = _imgConfigVO.imgWidth;
+			_height = _imgConfigVO.imgHeight;
 			var frameLength:uint = _imgConfigVO.frameLength;
 			for (var i:int = 0; i < frameLength; i++) 
 			{
-				var frame:ImgFrameConfigVO = _imgConfigVO.getFrames(i);
+				var frame:ImgFrameConfigVO = _imgConfigVO.getFrame(i);
 				frame.onImgFrameDataLoaded();
 			}
 			_resLoaded = true;
@@ -73,14 +72,7 @@ package rookie.core.render.gpu
 		{
 			_resUrl = resUrl;
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
-			if (!_imgConfigVO)
-			{
-				error("没有" + _resUrl.url + "的配置！");
-				return;
-			}
-			_width = _imgConfigVO.imgWidth;
-			_height = _imgConfigVO.imgHeight;
-			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
+			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded, resUrl));
 		}
 		
 		/**
@@ -104,11 +96,7 @@ package rookie.core.render.gpu
 		
 		public function get key():String
 		{
-			return _resUrl.url + "[" + _name + "]";
-		}
-		
-		public function dispose():void
-		{
+			return namer(_resUrl.url, _name); 
 		}
 		
 		public function get width():Number 
@@ -146,5 +134,22 @@ package rookie.core.render.gpu
 		{
 			_y = value;
 		}
+		
+		public function get name():String 
+		{
+			if (!_name)
+			{
+				_name = "3D Img Instance" + RookieMath.random();
+			}
+			return _name;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
 	}
 }
+
+
+

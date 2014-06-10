@@ -39,7 +39,7 @@ package rookie.core.render.gpu
 		
 		override protected function renderInit(resUrl:ResUrl):void
 		{
-			var bmd:BitmapData = _imgConfigVO.getFrames(0).bitmapData;
+			var bmd:BitmapData = _imgConfigVO.getFrame(0).bitmapData;
 			_texture = RookieTextureFactory.createBasicTexture(bmd);
 			_texture.name = namer(resUrl.url);
 			_renderReady = true;

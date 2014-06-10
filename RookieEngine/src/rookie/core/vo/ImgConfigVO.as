@@ -59,7 +59,7 @@ package rookie.core.vo
 			return _frameLength;
 		}
 
-		public function getFrames(index:uint):ImgFrameConfigVO
+		public function getFrame(index:uint):ImgFrameConfigVO
 		{
 			if (index < _frameLength)
 			{

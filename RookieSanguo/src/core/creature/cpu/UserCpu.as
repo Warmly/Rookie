@@ -33,7 +33,7 @@ package core.creature.cpu
 			}
 		}
 		
-		override public function synAction(action:int, direction:int = -1, loop:int = -1):void
+		override public function synAction(action:uint, direction:uint = 0, loop:uint = 0):void
 		{
 			if (userVO.horse)
 			{

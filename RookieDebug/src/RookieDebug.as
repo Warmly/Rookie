@@ -1,6 +1,7 @@
 package
 {
 	import cn.itamt.utils.Inspector;
+	import core.creature.gpu.NpcGpu;
 	import core.scene.SanguoCamera;
 	import definition.SanguoDefine;
 	import flash.display.StageAlign;
@@ -98,59 +99,13 @@ package
 		
 		private function testCode():void 
 		{
-			/*var imgGpu:ImgGpu = new ImgGpu(new ResUrl(311, 26, 310));
-			imgGpu.x = 300;
-			imgGpu.y = 300;
+			var npc:NpcGpu = NpcFactory.getTestNpcGpu();
+			npc.selfStartRender();
 			
-			var imgGpu1:ImgGpu = new ImgGpu(new ResUrl(311, 26, 300));
-			imgGpu1.x = 330;
-			imgGpu1.y = 330;*/
-			
-			/*var anim:AnimGpu = new AnimGpu(new ResUrl(311, 26, 139));
-			anim.x = 100;
-			anim.y = 100;*/
-			
-			//imgGpu1.selfStartRender();
-			//imgGpu.selfStartRender();
-			//anim.selfStartRender();
-			
-			/*var anim:AnimCpu = new AnimCpu(new ResUrl(311, 26, 139));
-			anim.x = 100;
-			anim.y = 100;
-			anim.parent = this;*/
-			
-			var npc:NpcCpu = NpcFactory.getTestNpcCpu();
-			npc.x = 400;
-			npc.y = 400;
-			npc.parent = this;
-			
-			var sp:Sprite = new Sprite();
-			sp.graphics.beginFill(Color.BLACK_DATA);
-			sp.graphics.drawRect(0, 0, 100, 100);
-			sp.x = 100;
-			sp.y = 400;
-			sp.scrollRect = new Rectangle(0, 0, 100, 100);
-			addChild(sp)
-			
-			sp.scaleX = 0.5;
-			
-			sp.addEventListener(MouseEvent.CLICK, function():void
-			{
-				var rect:Rectangle = sp.scrollRect;
-				rect.y -= 2;
-				sp.scrollRect = rect;
-			})
-			
-			var container:Sprite = new Sprite();
-			addChild(container);
-			var anim1:AnimCpu = new AnimCpu(new ResUrl(311, 36, 24));
-			anim1.x = 200;
-			anim1.y = 200;
-			anim1.parent = container;
-			//anim1.scaleX = anim1.scaleY = 0.5;
-			container.scaleX = container.scaleY = 0.5;
-			
-			new Test();
+			var user:UserCpu = UserFactory.getTestUserCpu();
+			user.x = 400;
+			user.y = 400;
+			user.parent = this;
 			
 			var aStarTestArr:Array = [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -169,14 +124,6 @@ package
 			aStar.parseArrToMap(aStarTestArr, 10, 10);
 			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
-			
-			var text:TextField = TextTool.getLightTextField(200, true, 20, true);
-			text.htmlText = TextTool.getHtmlText("么么么么么");
-			text.x = 400;
-			text.y = 0;
-			text.scrollRect = new Rectangle(-100, 0, text.width, text.height);
-			//text.scrollRect.x = 600;
-			addChild(text);
 		}
 	}
 }

@@ -2,17 +2,26 @@ package core.creature.gpu
 {
 	import core.creature.ActProcess;
 	import core.creature.CreatureVO;
+	import rookie.core.render.IRenderItem;
+	import rookie.core.render.RenderType;
+	import rookie.global.RookieEntry;
+	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.IName;
+	import rookie.tool.namer.namer;
+	import rookie.tool.objectPool.IObjPoolItem;
+	import rookie.tool.objectPool.ObjectPool;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class CreatureGpu 
+	public class CreatureGpu implements IObjPoolItem,IRenderItem,IName
 	{
-		protected var _creature:CreatureVO;
+		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerGpu;
-		protected var _action:int;
-		protected var _direction:int;
+		protected var _action:uint;
+		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
+		protected var _name:String;
 		
 		public function CreatureGpu() 
 		{
@@ -21,18 +30,90 @@ package core.creature.gpu
 		
 		/**
 	     * 动作改变
-		 * @loop 播放次数，默认-1为一直循环播放 
+		 * @loop 播放次数，默认0为一直循环播放 
 	     */
-		public function synAction(action:int, direction:int = -1, loop:int = -1):void
+		public function synAction(action:uint, direction:uint = 0, loop:uint = 0):void
 		{
-			if (action != _action && action > 0)
+			if (action && action != _action)
 			{
+				_action = action;
+				if (direction)
+				{
+					_direction = direction;
+				}
+				_partsContainer.synAction(_action, _direction, loop);
+			}
+			else
+			{
+				synDirection(direction);
+			}
+		}
+		
+		/**
+	     * 动作不变，方向改变
+	     */
+		public function synDirection(direction:uint):void
+		{
+			if (direction && direction != _direction)
+			{
+				_direction = direction;
+				_partsContainer.synDirection(direction);
 			}
 		}
 		
 		public function render():void
 		{
 			_partsContainer.render();
+		}
+		
+		public function get renderType():int
+		{
+			return RenderType.GPU;
+		}
+		
+		public function get key():String
+		{
+			return namer("Creature Instance", name); 
+		}
+		
+		public function get name():String 
+		{
+			if (!_name)
+			{
+				_name = "" + RookieMath.random();
+			}
+			return _name;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
+		
+		public function reset():void
+		{
+			_action = 0;
+			_direction = 0;
+			_partsContainer.reset();
+		}
+		
+		public function dispose():void
+		{
+			ObjectPool.addToPool(this);
+		}
+		
+		/**
+		 * 仅用于调试，慎用！
+		 */
+	    public function selfStartRender():void
+	    {
+		    RookieEntry.renderManager.addToGpuRenderQueue(this);
+			startPlay();
+	    }
+		
+		public function startPlay():void 
+		{
+			_partsContainer.startPlay();
 		}
 	}
 }

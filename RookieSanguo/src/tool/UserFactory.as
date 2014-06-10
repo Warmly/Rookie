@@ -24,6 +24,7 @@ package tool
 		{
 			var userCpu:UserCpu = ObjectPool.getObject(UserCpu) as UserCpu;
 			userCpu.init(getTestUserVO());
+			userCpu.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.RIGHT_DOWN);
 			return userCpu;
 		}
 		

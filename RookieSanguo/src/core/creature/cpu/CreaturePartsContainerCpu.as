@@ -14,8 +14,8 @@ package core.creature.cpu
 		private var _weapon:CreaturePartAnimCpu;
 		private var _horse:CreaturePartAnimCpu;
 		private var _ref:Vector.<CreaturePartAnimCpu> = new Vector.<CreaturePartAnimCpu>();
-		private var _action:int;
-		private var _direction:int;
+		private var _action:uint;
+		private var _direction:uint;
 
 		public function CreaturePartsContainerCpu()
 		{
@@ -39,7 +39,7 @@ package core.creature.cpu
 			}
 		}
 
-		public function synAction(action:int, direction:int, loop:int):void
+		public function synAction(action:uint, direction:uint, loop:uint):void
 		{
 			_action = action;
 			_direction = direction;
@@ -84,6 +84,8 @@ package core.creature.cpu
 		
 		public function reset():void
 		{
+			_action = 0;
+			_direction = 0;
 			removeChildren();
 			_ref.length = 0;
 		}

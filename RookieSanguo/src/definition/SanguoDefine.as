@@ -23,7 +23,7 @@ package definition
 		//普通动画播放频率
 		public static const NORMAL_ANIM_FREQUENCY:int = 8;
 		//移动一格耗时
-		public static const MOVE_ONE_CELL_COST:int = 100;
+		public static const MOVE_ONE_CELL_COST:int = 300;
 		
 		public static const CHARSET:String = "gb2312";
 		

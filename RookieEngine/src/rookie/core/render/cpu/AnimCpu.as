@@ -5,6 +5,7 @@ package rookie.core.render.cpu
 	import rookie.core.render.RenderType;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
+	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.FunHandler;
 	import flash.utils.getTimer;
@@ -14,7 +15,7 @@ package rookie.core.render.cpu
 	public class AnimCpu extends ImgCpuBase implements IRenderItem
 	{
 		protected var _totalFrame:uint;
-		protected var _curFrame:uint;
+		protected var _curFrame:uint = 1;
 		// 频率：帧/秒
 		protected var _frequency:Number;
 		// 当前帧时间
@@ -23,9 +24,9 @@ package rookie.core.render.cpu
 		protected var _lastTime:Number;
 		// 间隔时间(ms)
 		protected var _intervalTime:Number;
-		// 播放次数，默认一直播放
-		protected var _loop:int = -1;
-		protected var _curLoop:int = 0;
+		// 播放次数，0默认一直播放
+		protected var _loop:uint = 0;
+		protected var _curLoop:uint = 1;
 		protected var _loopEndCallBack:FunHandler;
 		// 基准点
 		protected var _originX:Number = 0;
@@ -37,11 +38,12 @@ package rookie.core.render.cpu
 		// 当前帧数据
 		protected var _curFrameVO:ImgFrameConfigVO;
 		protected var _isRendering:Boolean;
+		// 帧回调
+		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
 
 		public function AnimCpu(resUrl:ResUrl, isAutoPlay:Boolean = true)
 		{
 			super(resUrl);
-			_curFrame = 1;
 		    frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
@@ -60,6 +62,11 @@ package rookie.core.render.cpu
 			if (_curTime - _lastTime >= _intervalTime)
 			{
 				setCurFrameBmd();
+				if (_frameCallBackTable.has(_curFrame))
+				{
+					var fun:FunHandler = _frameCallBackTable.search(_curFrame) as FunHandler;
+					fun.execute();
+				}
 				_lastTime = _curTime;
 				if (_curFrame < _endFrame)
 				{
@@ -67,24 +74,26 @@ package rookie.core.render.cpu
 				}
 				else
 				{
-					_curLoop++;
-					_curFrame = _startFrame;
-				}
-				if (_curLoop == _loop)
-				{
-					stopPlay();
-					if (_loopEndCallBack)
+					if (_curLoop != _loop)
 					{
-						_loopEndCallBack.execute();
+						_curLoop++;
+						_curFrame = _startFrame;
 					}
-					return;
+					else
+					{
+						stopPlay();
+						if (_loopEndCallBack)
+						{
+							_loopEndCallBack.execute();
+						}
+					}
 				}
 			}
 		}
 
 		protected function setCurFrameBmd():void
 		{
-			_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
+			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
 			if (_curFrameVO && _curFrameVO.bitmapData)
 			{
 				super.bitmapData = _curFrameVO.bitmapData;
@@ -94,8 +103,8 @@ package rookie.core.render.cpu
 
 		protected function adjustInnerPos():void
 		{
-			super.x = (_originX + _curFrameVO.validRectX)*scaleX;
-			super.y = (_originY + _curFrameVO.validRectY)*scaleY;
+			super.x = _originX + _curFrameVO.validRectX;
+			super.y = _originY + _curFrameVO.validRectY;
 		}
 
 		public function setPlayRange(start:uint, end:uint):void
@@ -133,9 +142,9 @@ package rookie.core.render.cpu
 
 		public function stopPlay():void
 		{
-			dispose();
-			//deleteParent();
-			_curLoop = 0;
+			RookieEntry.renderManager.removeFromCpuRenderQueue(this);
+			_isRendering = false;
+			_curLoop = 1;
 		}
 
 		protected function hardSetPos(xValue:Number, yValue:Number):void
@@ -146,13 +155,10 @@ package rookie.core.render.cpu
 
 		public function render():void
 		{
-			enterFrameRender();
-		}
-
-		public function dispose():void
-		{
-			RookieEntry.renderManager.removeFromCpuRenderQueue(this);
-			_isRendering = false;
+			if (_isRendering)
+			{
+				enterFrameRender();
+			}
 		}
 		
 		public function get renderType():int
@@ -189,6 +195,16 @@ package rookie.core.render.cpu
 		public function set loopEndCallBack(value:FunHandler):void 
 		{
 			_loopEndCallBack = value;
+		}
+		
+		public function addFrameCallBack(frame:uint, fun:FunHandler):void
+		{
+			_frameCallBackTable.insert(frame, fun);
+		}
+		
+		public function delFrameCallBack(frame:uint):void
+		{
+			_frameCallBackTable.del(frame);
 		}
 	}
 }

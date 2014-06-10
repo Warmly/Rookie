@@ -17,8 +17,8 @@ package core.creature.cpu
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
-		protected var _action:int;
-		protected var _direction:int;
+		protected var _action:uint;
+		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
 
 		public function CreatureCpu()
@@ -36,18 +36,18 @@ package core.creature.cpu
 		
 		/**
 	     * 动作改变
-		 * @loop 播放次数，默认-1为一直循环播放 
+		 * @loop 播放次数，默认0为一直循环播放 
 	     */
-		public function synAction(action:int, direction:int = -1, loop:int = -1):void
+		public function synAction(action:uint, direction:uint = 0, loop:uint = 0):void
 		{
-			if (action != _action && action > 0)
+			if (action && action != _action)
 			{
 				_action = action;
-				if (direction > 0)
+				if (direction)
 				{
 					_direction = direction;
 				}
-				_partsContainer.synAction(action, _direction, loop);
+				_partsContainer.synAction(_action, _direction, loop);
 			}
 			else 
 			{
@@ -58,9 +58,9 @@ package core.creature.cpu
 		/**
 	     * 动作不变，方向改变
 	     */
-		public function synDirection(direction:int):void
+		public function synDirection(direction:uint):void
 		{
-			if (direction != _direction && direction > 0)
+			if (direction && direction != _direction)
 			{
 				_direction = direction;
 				_partsContainer.synDirection(direction);

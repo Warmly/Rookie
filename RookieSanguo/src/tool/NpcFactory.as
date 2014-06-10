@@ -1,5 +1,6 @@
 package tool
 {
+	import core.creature.gpu.NpcGpu;
 	import core.creature.NpcConfigVO;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
@@ -25,6 +26,14 @@ package tool
 			npcCpu.init(getTestNpcVO());
 			npcCpu.synAction(ActionEnum.STAND, DirectionEnum.RIGHT_DOWN);
 			return npcCpu;
+		}
+		
+		public static function getTestNpcGpu():NpcGpu
+		{
+			var npcGpu:NpcGpu = ObjectPool.getObject(NpcGpu) as NpcGpu;
+			npcGpu.init(getTestNpcVO());
+			npcGpu.synAction(ActionEnum.STAND, DirectionEnum.RIGHT_DOWN);
+			return npcGpu;
 		}
 	}
 }

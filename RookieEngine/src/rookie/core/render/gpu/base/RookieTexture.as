@@ -48,18 +48,24 @@ package rookie.core.render.gpu.base
 		
 		public function dispose():void
 		{
-			_texture.dispose();
-			_bitmapData.dispose();
+			if (_texture)
+			{
+				_texture.dispose();
+			}
+			if (_bitmapData)
+			{
+				_bitmapData.dispose();
+			}
 		}
 		
 		public function get texture():Texture 
 		{
+			updateLastUsedTime();
 			return _texture;
 		}
 		
 		public function get width():Number 
 		{
-			updateLastUsedTime();
 			return _width;
 		}
 		

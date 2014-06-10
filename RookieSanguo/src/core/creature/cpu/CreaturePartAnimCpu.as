@@ -25,9 +25,9 @@ package core.creature.cpu
 		// 动作ID为键，包含所有方向的配置为值的哈希表
 		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);
 		// 动作ID
-		private var _action:int = ActionEnum.DEFAULT;
+		private var _action:uint;
 		// 动作方向
-		private var _direction:int = DirectionEnum.DEFAULT;
+		private var _direction:uint;
 		// 使用的图片资源的方向
 		private var _resDir:uint;
 		// 图片资源包含几个方向
@@ -49,7 +49,7 @@ package core.creature.cpu
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
 
-		public function synAction(action:int, direction:int):void
+		public function synAction(action:uint, direction:uint):void
 		{
 			_action = action;
 			_imgConfigVO = _imgConfigVoTable.search(action);
@@ -58,9 +58,8 @@ package core.creature.cpu
 			synDirection(direction);
 		}
 
-		public function synDirection(direction:int):void
+		public function synDirection(direction:uint):void
 		{
-			_curLoop = 0;
 			_direction = direction;
 			synResDirAndReverse();
 			synPlayRange();
@@ -69,8 +68,8 @@ package core.creature.cpu
 
 		private function synResDirAndReverse():void
 		{
-			_resDir = DirectionEnum.DIRECTION_MAP[_direction][_resDirNum];
-			_needYReverse = DirectionEnum.REVERSE_MAP[_direction][_resDirNum];
+			_resDir = DirectionEnum.DIRECTION_MAP[_resDirNum][_direction];
+			_needYReverse = DirectionEnum.REVERSE_MAP[_resDirNum][_direction];
 		}
 
 		private function synPlayRange():void
@@ -110,7 +109,7 @@ package core.creature.cpu
 				_eachDirFrameNum = _totalFrame;
 			}
 		}
-
+		
 		override protected function onImgDataLoaded():void
 		{
 			var items:Dictionary = _imgConfigVoTable.content;
@@ -120,7 +119,7 @@ package core.creature.cpu
 				var frameLength:uint = vo.frameLength;
 				for (var j:int = 0;j < frameLength;j++)
 				{
-					var frame:ImgFrameConfigVO = vo.getFrames(j);
+					var frame:ImgFrameConfigVO = vo.getFrame(j);
 					frame.manualSetResCls(getResCls(i, j));
 				}
 			}
@@ -128,7 +127,7 @@ package core.creature.cpu
 
 		override protected function setCurFrameBmd():void
 		{
-			_curFrameVO = _imgConfigVO.getFrames(_curFrame - 1);
+			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
 			if (_curFrameVO)
 			{
 				super.bitmapData = _needYReverse ? _curFrameVO.yReverseBitmapData : _curFrameVO.bitmapData;

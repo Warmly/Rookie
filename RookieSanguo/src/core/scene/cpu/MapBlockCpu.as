@@ -6,6 +6,7 @@ package core.scene.cpu
 	import rookie.core.render.cpu.RichSprite;
 	import rookie.core.resource.LoadPriority;
 	import rookie.global.RookieEntry;
+	import rookie.tool.objectPool.ObjectPool;
 
 	import global.ModelEntry;
 
@@ -50,10 +51,15 @@ package core.scene.cpu
 
 		public function reset():void
 		{
+			if (this.bitmapData)
+			{
+				this.bitmapData.dispose();
+			}
 		}
 
 		public function dispose():void
 		{
+			ObjectPool.addToPool(this);
 		}
 
 		public function set index(index:int):void
