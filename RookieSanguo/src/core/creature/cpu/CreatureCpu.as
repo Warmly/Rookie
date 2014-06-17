@@ -70,17 +70,31 @@ package core.creature.cpu
 			}
 		}
 		
-		public function syn
-		
-		public function synScenePixelPos(pt:Point):void
+		public function synCellPos(cellX:int, cellY:int, synPixelPos:Boolean = false):void
 		{
-			this.x = pt.x;
-			this.y = pt.y;
+			_creatureVO.cellX = cellX;
+			_creatureVO.cellY = cellY;
+			if (synPixelPos)
+			{
+				synPixelPosByCurCellPos();
+			}
 		}
 		
-		public function synScenePixelPosByCellPos():void
+		public function synPixelPos(pixelX:Number, pixelY:Number):void
 		{
-			synScenePixelPos(SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY));
+			this.x = pixelX;
+			this.y = pixelY;
+		}
+		
+		public function synPixelPosByCurCellPos():void
+		{
+			var pt:Point = SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
+			synPixelPos(pt.x, pt.y);
+		}
+		
+		public function synDepthByCurCellPos():void
+		{
+			_depth = _creatureVO.cellY;
 		}
 
 		public function initActProcess():void

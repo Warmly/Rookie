@@ -4,6 +4,7 @@ package tool
 	import core.creature.gpu.UserGpu;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
+	import definition.SanguoDefine;
 	import global.MyselfVO;
 	import global.SanguoEntry;
 	import rookie.tool.objectPool.ObjectPool;
@@ -43,10 +44,11 @@ package tool
 		{
 			var vo:MyselfVO = SanguoEntry.myselfVO;
 			vo.cellX = 40;
-			vo.cellX = 40;
+			vo.cellY = 40;
 			vo.body = 10305;
 			vo.weapon = 10305;
 			vo.horse = 3214;
+			vo.costPerCell = SanguoDefine.MOVE_ONE_CELL_COST;
 			return vo;
 		}
 		
@@ -55,6 +57,8 @@ package tool
 			var myselfCpu:MyselfCpu = new MyselfCpu();
 			myselfCpu.init(getTestMyselfVO());
 			myselfCpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
+			myselfCpu.synPixelPosByCurCellPos();
+			myselfCpu.synDepthByCurCellPos();
 			return myselfCpu;
 		}
 	}

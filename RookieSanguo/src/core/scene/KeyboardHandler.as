@@ -57,12 +57,17 @@ package core.scene
 		
 		private function addTestUser():void
 		{
-			var user:UserCpu = UserFactory.getTestUserCpu();
-			var vo:UserVO = user.userVO;
-			vo.cellX = RookieMath.randomInt(1, 100);
-			vo.cellY = RookieMath.randomInt(1, 100);
-			ModelEntry.userModel.addUser(vo);
-			ManagerEntry.sceneManager.addUserCpu(user);
+			var id:Number = RookieMath.randomInt(1, 10000);
+			if (!ModelEntry.userModel.hasUser(id))
+			{
+				var user:UserCpu = UserFactory.getTestUserCpu();
+				user.synCellPos(RookieMath.randomInt(30, 50), RookieMath.randomInt(30, 50))
+				user.synPixelPosByCurCellPos();
+				user.synDepthByCurCellPos();
+				user.userVO.id = id;
+				ModelEntry.userModel.addUser(user.userVO);
+				ManagerEntry.sceneManager.addUserCpu(user);
+			}
 		}
 	}
 }

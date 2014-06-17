@@ -24,7 +24,7 @@ package definition
 		public static const CREATURE_PART_ANIM_FREQUENCY:int = 12;
 		//普通动画播放频率
 		public static const NORMAL_ANIM_FREQUENCY:int = 8;
-		//移动一格耗时
+		//移动一格耗时(ms)
 		public static const MOVE_ONE_CELL_COST:int = 300;
 		
 		public static const CHARSET:String = "gb2312";

@@ -52,7 +52,8 @@ package
 		{
 			RookieEntry.resManager.init();
 			
-			SanguoDefine.GPU_RENDER_MAP = true;
+			SanguoDefine.GPU_RENDER_MAP = false;
+			SanguoDefine.GPU_RENDER_CREATURE = false;
 			
 			var scene:SanguoScene = SanguoEntry.scene;
 			scene.parent = this;

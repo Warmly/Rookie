@@ -60,11 +60,17 @@ package core.scene
 				//_mapDebugLayer.parent = this;
 			}
 			
-			_itemLayerCpu = new ItemLayerCpu();
-			_itemLayerCpu.parent = this;
-
-			_myselfCpu = UserFactory.getMyselfCpu();
-			_itemLayerCpu.addUser(_myselfCpu);
+			if (SanguoDefine.GPU_RENDER_CREATURE)
+			{
+			}
+			else
+			{
+				_itemLayerCpu = new ItemLayerCpu();
+				_itemLayerCpu.parent = this;
+	
+				_myselfCpu = UserFactory.getMyselfCpu();
+				_itemLayerCpu.addUser(_myselfCpu);
+			}
 			
 			_camera = SanguoEntry.camera;
 			_renderManager = RookieEntry.renderManager;
@@ -76,14 +82,6 @@ package core.scene
 		{
 			init();
 			RookieEntry.renderManager.addToCpuRenderQueue(this);
-			if (SanguoDefine.GPU_RENDER_MAP)
-			{
-				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
-			}
-			else
-			{
-				RookieEntry.renderManager.addToCpuRenderQueue(_mapLayerCpu);
-			}
 		}
 		
 		private function init():void
@@ -118,7 +116,22 @@ package core.scene
 		
 		public function render():void
 		{
-			_myselfCpu.refresh();
+			if (SanguoDefine.GPU_RENDER_CREATURE)
+			{
+			}
+			else
+			{
+				_myselfCpu.render();
+				_itemLayerCpu.updateDepth();
+			}
+			if (SanguoDefine.GPU_RENDER_MAP)
+			{
+				_mapLayerGpu.render();
+			}
+			else
+			{
+				_mapLayerCpu.render();
+			}
 			moveScene();
 		}
 		

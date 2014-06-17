@@ -3,7 +3,6 @@ package core.creature.cpu
 	import definition.ActionEnum;
 	import flash.geom.Point;
 	import global.ModelEntry;
-	import global.MyselfModel;
 	import rookie.tool.log.log;
 	import tool.SanguoCoorTool;
 	/**
@@ -12,28 +11,25 @@ package core.creature.cpu
 	 */
 	public class MyselfCpu extends UserCpu 
 	{
-		private var _myselfModel:MyselfModel;
-		
 		public function MyselfCpu() 
 		{
-			_myselfModel = ModelEntry.myselfModel;
 		}
 		
-		public function refresh():void
+		public function render():void
 		{
 			if (_actProcess)
 			{
 				if(!_actProcess.isFinish)
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
-					synScenePixelPos(realTimePos);
+					synPixelPos(realTimePos.x, realTimePos.y);
 					var realTimeDir:int = _actProcess.getCurDirection();
 					synAction(ActionEnum.RUN, realTimeDir);
 					if (_actProcess.checkStepFinish())
 					{
 						var logicPos:Point = SanguoCoorTool.sceneToCell(this.x, this.y)
-						userVO.cellX = logicPos.x;
-						userVO.cellY = logicPos.y;
+						synCellPos(logicPos.x, logicPos.y);
+						synDepthByCurCellPos();
 					}
 				}
 				else

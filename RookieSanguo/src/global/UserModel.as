@@ -18,5 +18,10 @@ package global
 		{
 			_ref.insert(vo.id, vo);
 		}
+		
+		public function hasUser(id:Number):Boolean
+		{
+			return _ref.has(id);
+		}
 	}
 }

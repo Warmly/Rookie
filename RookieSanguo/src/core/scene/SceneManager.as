@@ -65,7 +65,7 @@ package core.scene
 			var ap:ActProcess = _myself.actProcess;
 			if (ap.isFinish)
 			{
-				_pathFind.init(_myselfModel.cellX, _myselfModel.cellY, targetCell.x, targetCell.y);
+				_pathFind.init(_myselfVO.cellX, _myselfVO.cellY, targetCell.x, targetCell.y);
 			}
 			else
 			{
@@ -75,12 +75,12 @@ package core.scene
 			{
 				if (ap.isFinish)
 				{
-					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell, new Point(_myselfModel.cellX, _myselfModel.cellY));
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfVO.costPerCell, new Point(_myselfVO.cellX, _myselfVO.cellY));
 					_myself.actProcess.nextStep();
 				}
 				else
 				{
-					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfModel.costPerCell);
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfVO.costPerCell);
 				}
 			}
 		}
