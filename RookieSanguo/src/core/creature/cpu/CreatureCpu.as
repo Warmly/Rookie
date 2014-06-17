@@ -2,10 +2,12 @@ package core.creature.cpu
 {
 	import core.creature.ActProcess;
 	import core.creature.CreatureVO;
+	import core.scene.ISceneObj;
 	import flash.geom.Point;
 	import rookie.core.render.cpu.RichSprite;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
+	import tool.SanguoCoorTool;
 
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
@@ -13,13 +15,14 @@ package core.creature.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class CreatureCpu extends RichSprite implements IObjPoolItem
+	public class CreatureCpu extends RichSprite implements IObjPoolItem, ISceneObj
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
 		protected var _action:uint;
 		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
+		protected var _depth:uint;
 
 		public function CreatureCpu()
 		{
@@ -67,10 +70,17 @@ package core.creature.cpu
 			}
 		}
 		
+		public function syn
+		
 		public function synScenePixelPos(pt:Point):void
 		{
 			this.x = pt.x;
 			this.y = pt.y;
+		}
+		
+		public function synScenePixelPosByCellPos():void
+		{
+			synScenePixelPos(SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY));
 		}
 
 		public function initActProcess():void
@@ -104,6 +114,16 @@ package core.creature.cpu
 		public function get action():uint
 		{
 			return _action;
+		}
+		
+		public function get depth():uint 
+		{
+			return _depth;
+		}
+		
+		public function set depth(value:uint):void 
+		{
+			_depth = value;
 		}
 	}
 }

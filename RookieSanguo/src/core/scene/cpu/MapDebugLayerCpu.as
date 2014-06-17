@@ -16,6 +16,7 @@ package core.scene.cpu
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
+		private var _mapLayer:MapLayerCpu;
 		//水平
 		private var _numCellW:int;
 		//竖直
@@ -26,6 +27,7 @@ package core.scene.cpu
 		{
 			_mapModel = ModelEntry.mapModel;
 			_camera = SanguoEntry.camera;
+			_mapLayer = SanguoEntry.scene.mapLayerCpu;
 		}
 		
 		public function refresh():void
@@ -37,7 +39,7 @@ package core.scene.cpu
 					for (var i:int = 0; i < _numCellW; i++)
 					{
 						var cell:MapDebugCell = _cells[i + j * _numCellW];
-						var startPos:Point = SanguoEntry.scene.mapLayer.getFirstBlockPos();
+						var startPos:Point = _mapLayer.getFirstBlockPos();
 						cell.x = i * MapModel.CELL_WIDTH + startPos.x;
 						cell.y = j * MapModel.CELL_HEIGHT + startPos.y;
 					}
@@ -47,8 +49,8 @@ package core.scene.cpu
 		
 		public function onScreenResize():void
 		{
-			_numCellW = SanguoEntry.scene.mapLayer.numBlockW * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_WIDTH);
-			_numCellH = SanguoEntry.scene.mapLayer.numBlockH * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_HEIGHT);
+			_numCellW = _mapLayer.numBlockW * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_WIDTH);
+			_numCellH = _mapLayer.numBlockH * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_HEIGHT);
 			resizeCells();
 		}
 		

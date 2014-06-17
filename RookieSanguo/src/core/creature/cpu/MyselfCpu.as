@@ -32,8 +32,8 @@ package core.creature.cpu
 					if (_actProcess.checkStepFinish())
 					{
 						var logicPos:Point = SanguoCoorTool.sceneToCell(this.x, this.y)
-						_myselfModel.cellX = logicPos.x;
-						_myselfModel.cellY = logicPos.y;
+						userVO.cellX = logicPos.x;
+						userVO.cellY = logicPos.y;
 					}
 				}
 				else

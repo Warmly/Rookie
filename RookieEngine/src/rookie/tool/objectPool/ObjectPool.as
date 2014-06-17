@@ -31,10 +31,13 @@ package rookie.tool.objectPool
 		/**
 		 * 在IObjPoolItem的dispose方法中调用
 		 */
-		public static function addToPool(obj : IObjPoolItem) : void
+		public static function addToPool(obj : IObjPoolItem, cls:Class = null) : void
 		{
-			var clsName : String = getQualifiedClassName(obj);
-			var cls : Class = getDefinitionByName(clsName) as Class;
+			if (!cls)
+			{
+				var clsName : String = getQualifiedClassName(obj);
+				cls = getDefinitionByName(clsName) as Class;
+			}
 			var pool : Array = getPool(cls);
 			if (pool.length < ObjectPool.MAX_COUNT)
 			{

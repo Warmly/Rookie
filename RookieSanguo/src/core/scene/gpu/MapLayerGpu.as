@@ -8,6 +8,7 @@ package core.scene.gpu
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RenderType;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.ObjectPool;
 	import tool.SanguoCoorTool;
 	/**
@@ -62,7 +63,7 @@ package core.scene.gpu
 		
 		public function get key():String
 		{
-			return "SanguoScene[MapLayerGpu]";
+			return namer("SanguoScene", "MapLayerGpu");
 		}
 		
 		public function get renderType():int

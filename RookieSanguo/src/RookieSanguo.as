@@ -66,6 +66,8 @@ package
 			
 			ModelEntry.mapModel.curMapId = 2005;
 			ModelEntry.mapModel.loadMap();
+			
+			SanguoEntry.keyboardHandler.init(this.stage);
 		}
 		
 		private function on3DRenderComponentReady():void 

@@ -1,0 +1,68 @@
+package core.scene 
+{
+	import core.creature.cpu.UserCpu;
+	import core.creature.UserVO;
+	import definition.ActionEnum;
+	import definition.DirectionEnum;
+	import flash.display.Stage;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
+	import global.ManagerEntry;
+	import global.ModelEntry;
+	import global.SanguoEntry;
+	import rookie.tool.math.RookieMath;
+	import tool.UserFactory;
+	/**
+	 * ...
+	 * @author Warmly
+	 */
+	public class KeyboardHandler 
+	{
+		private var _stage:Stage;
+		
+		public function KeyboardHandler() 
+		{
+		}
+		
+		public function init(stage:Stage):void
+		{
+			_stage = stage;
+			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void 
+		{
+			switch(e.keyCode)
+			{
+				case Keyboard.W:
+					break;
+				case Keyboard.A:
+					break;
+				case Keyboard.S:
+					break;
+				case Keyboard.D:
+					break;
+				case Keyboard.SPACE:
+					break;
+				case Keyboard.T:
+					addTestUser();
+					break;
+			}
+		}
+		
+		private function onKeyUp(e:KeyboardEvent):void 
+		{
+		}
+		
+		private function addTestUser():void
+		{
+			var user:UserCpu = UserFactory.getTestUserCpu();
+			var vo:UserVO = user.userVO;
+			vo.cellX = RookieMath.randomInt(1, 100);
+			vo.cellY = RookieMath.randomInt(1, 100);
+			ModelEntry.userModel.addUser(vo);
+			ManagerEntry.sceneManager.addUserCpu(user);
+		}
+	}
+}

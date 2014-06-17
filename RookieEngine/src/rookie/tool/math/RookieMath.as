@@ -29,6 +29,12 @@ package rookie.tool.math
 			return Math.random();
 		}
 		
+		public static function randomInt(a:int, b:int):int
+		{
+			var temp:int = abs(a - b) + 1; 
+		    return (a <= b?a:b) + floor(temp * random());
+		}
+		
 		/**
 		 * 获取下一个2次幂
 		 * http://goo.gl/D9kPj

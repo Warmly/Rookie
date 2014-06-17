@@ -13,7 +13,6 @@ package global
 		private static var _staticDataModel:StaticDataModel;
 		private static var _mapModel:MapModel;
 		private static var _actionModel:ActionModel;
-		private static var _myselfModel:MyselfModel;
 		private static var _userModel:UserModel;
 
 		public static function get staticDataModel():StaticDataModel
@@ -41,15 +40,6 @@ package global
 				_actionModel = new ActionModel();
 			}
 			return _actionModel;
-		}
-		
-		public static function get myselfModel():MyselfModel
-		{
-			if (!_myselfModel)
-			{
-				_myselfModel = new MyselfModel();
-			}
-			return _myselfModel;
 		}
 		
 		public static function get userModel():UserModel

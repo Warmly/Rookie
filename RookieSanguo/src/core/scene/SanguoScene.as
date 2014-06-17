@@ -2,9 +2,11 @@ package core.scene
 {
 	import core.creature.cpu.MyselfCpu;
 	import core.creature.cpu.UserCpu;
+	import core.creature.gpu.MyselfGpu;
 	import core.scene.cpu.ItemLayerCpu;
 	import core.scene.cpu.MapDebugLayerCpu;
 	import core.scene.cpu.MapLayerCpu;
+	import core.scene.gpu.ItemLayerGpu;
 	import core.scene.gpu.MapLayerGpu;
 	import definition.SanguoDefine;
 	import flash.events.KeyboardEvent;
@@ -20,6 +22,7 @@ package core.scene
 	import rookie.core.render.RenderType;
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
+	import rookie.tool.namer.namer;
 	import tool.SanguoCoorTool;
 	import tool.UserFactory;
     use namespace Rookie;
@@ -28,13 +31,16 @@ package core.scene
 	 */
 	public class SanguoScene extends RichSprite implements IRenderItem
 	{
-		private var _mapLayerGpu:MapLayerGpu;
 		private var _mapLayerCpu:MapLayerCpu;
+		private var _mapLayerGpu:MapLayerGpu;
+		
 		private var _mapDebugLayer:MapDebugLayerCpu;
 		
-		private var _itemLayer:ItemLayerCpu;
+		private var _itemLayerCpu:ItemLayerCpu;
+		private var _itemLayerGpu:ItemLayerGpu;
 		
-		private var _myself:MyselfCpu;
+		private var _myselfCpu:MyselfCpu;
+		private var _myselfGpu:MyselfGpu;
 		
 		private var _camera:SanguoCamera;
 		private var _renderManager:RenderManager;
@@ -50,15 +56,15 @@ package core.scene
 				_mapLayerCpu = new MapLayerCpu();
 				_mapLayerCpu.parent = this;
 				
-				_mapDebugLayer = new MapDebugLayerCpu();
+				//_mapDebugLayer = new MapDebugLayerCpu();
 				//_mapDebugLayer.parent = this;
 			}
 			
-			_itemLayer = new ItemLayerCpu();
-			_itemLayer.parent = this;
+			_itemLayerCpu = new ItemLayerCpu();
+			_itemLayerCpu.parent = this;
 
-			_myself = UserFactory.getMyselfCpu();
-			_myself.parent = _itemLayer;
+			_myselfCpu = UserFactory.getMyselfCpu();
+			_itemLayerCpu.addUser(_myselfCpu);
 			
 			_camera = SanguoEntry.camera;
 			_renderManager = RookieEntry.renderManager;
@@ -82,14 +88,9 @@ package core.scene
 		
 		private function init():void
 		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			
-			var meDedaultPos:Point = new Point(40, 40);
-			ModelEntry.myselfModel.cellX = meDedaultPos.x;
-			ModelEntry.myselfModel.cellY = meDedaultPos.y;
-			_myself.synScenePixelPos(SanguoCoorTool.cellToScene(meDedaultPos.x, meDedaultPos.y));
 			onScreenResize();
 		}
 
@@ -97,15 +98,10 @@ package core.scene
 		{
 			ManagerEntry.sceneManager.handleMouseDown(e);
 		}
-		
-		private function onKeyDown(e:KeyboardEvent):void
-		{
-			ManagerEntry.sceneManager.handleKeyDown(e);
-		}
 
 		private function onScreenResize(e:Event = null):void
 		{
-			_camera.setup(_myself.x - stage.stageWidth * 0.5, _myself.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
+			_camera.setup(_myselfCpu.x - stage.stageWidth * 0.5, _myselfCpu.y - stage.stageHeight * 0.5, stage.stageWidth, stage.stageHeight);
 			this.x = -_camera.xInScene;
 			this.y = -_camera.yInScene;
 			if (SanguoDefine.GPU_RENDER_MAP)
@@ -122,13 +118,13 @@ package core.scene
 		
 		public function render():void
 		{
-			_myself.refresh();
+			_myselfCpu.refresh();
 			moveScene();
 		}
 		
 		private function moveScene():void
 		{
-			_camera.move(_myself.x - _camera.width * 0.5, _myself.y - _camera.height * 0.5);
+			_camera.move(_myselfCpu.x - _camera.width * 0.5, _myselfCpu.y - _camera.height * 0.5);
 			this.x = - _camera.xInScene
 			this.y = - _camera.yInScene;
 		}
@@ -144,22 +140,22 @@ package core.scene
 		
 		public function get key():String
 		{
-			return "SanguoScene";
+			return namer("SanguoScene");
 		}
-
-		public function get mapLayer():MapLayerCpu
+		
+		public function get myselfCpu():MyselfCpu
+		{
+			return _myselfCpu;
+		}
+		
+		public function get mapLayerCpu():MapLayerCpu 
 		{
 			return _mapLayerCpu;
 		}
 		
-		public function get itemLayer():ItemLayerCpu
+		public function get itemLayerCpu():ItemLayerCpu 
 		{
-			return _itemLayer;
-		}
-		
-		public function get myself():MyselfCpu
-		{
-			return _myself;
+			return _itemLayerCpu;
 		}
 	}
 }

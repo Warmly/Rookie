@@ -2,6 +2,7 @@ package
 {
 	import cn.itamt.utils.Inspector;
 	import core.creature.gpu.NpcGpu;
+	import core.creature.gpu.UserGpu;
 	import core.scene.SanguoCamera;
 	import definition.SanguoDefine;
 	import flash.display.StageAlign;
@@ -20,6 +21,7 @@ package
 	import rookie.core.render.gpu.ImgGpu;
 	import rookie.core.resource.LoadPriority;
 	import rookie.tool.common.Color;
+	import rookie.tool.namer.namer;
 	import rookie.tool.text.TextTool;
 	import tool.UserFactory;
 	import core.creature.cpu.UserCpu;
@@ -99,13 +101,8 @@ package
 		
 		private function testCode():void 
 		{
-			var npc:NpcGpu = NpcFactory.getTestNpcGpu();
-			npc.selfStartRender();
-			
-			var user:UserCpu = UserFactory.getTestUserCpu();
-			user.x = 400;
-			user.y = 400;
-			user.parent = this;
+			var user:UserGpu = UserFactory.getTestUserGpu();
+			user.selfStartRender();
 			
 			var aStarTestArr:Array = [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -124,6 +121,10 @@ package
 			aStar.parseArrToMap(aStarTestArr, 10, 10);
 			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
+			
+			trace(~0);
+			
+			trace(namer(SanguoScene));
 		}
 	}
 }

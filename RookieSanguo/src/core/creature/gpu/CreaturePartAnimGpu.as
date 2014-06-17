@@ -61,10 +61,10 @@ package core.creature.gpu
 		
 		public function synDirection(direction:uint):void
 		{
-			_curLoop = 1;
 			_direction = direction;
 			synResDirAndReverse();
 			synPlayRange();
+			gotoAndPlay(_startFrame);
 		}
 		
 		private function synActDirNum():void
