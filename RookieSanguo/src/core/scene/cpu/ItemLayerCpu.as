@@ -27,18 +27,17 @@ package core.scene.cpu
 		public function updateDepth():void
 		{
 			_itemsRef.sort(sortByDepth);
-			for each (var item:ISceneObj in _itemsRef) 
+			var num:int = _itemsRef.length;
+			for (var i:int = 0; i < num; i++) 
 			{
-				if (item is IParent)
-				{
-					(item as IParent).parent = this;
-				}
+				var item:ISceneObj = _itemsRef[i];
+				(item as IParent).parent = this;
 			}
 		}
 		
 		private function sortByDepth(a:UserCpu, b:UserCpu):int
 		{
-			if (a.depth <= b.depth)
+			if (a.depth < b.depth)
 			{
 				return -1;
 			}
@@ -50,7 +49,7 @@ package core.scene.cpu
 				}
 				else
 				{
-					return 0;
+					return 1;
 				}
 			}
 			else

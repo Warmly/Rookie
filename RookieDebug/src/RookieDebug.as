@@ -121,10 +121,6 @@ package
 			aStar.parseArrToMap(aStarTestArr, 10, 10);
 			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
-			
-			trace(~0);
-			
-			trace(namer(SanguoScene));
 		}
 	}
 }

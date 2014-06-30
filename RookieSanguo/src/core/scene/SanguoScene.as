@@ -69,6 +69,7 @@ package core.scene
 				_itemLayerCpu.parent = this;
 	
 				_myselfCpu = UserFactory.getMyselfCpu();
+				ModelEntry.userModel.addUser(_myselfCpu.userVO);
 				_itemLayerCpu.addUser(_myselfCpu);
 			}
 			

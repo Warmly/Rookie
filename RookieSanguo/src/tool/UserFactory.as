@@ -49,6 +49,7 @@ package tool
 			vo.weapon = 10305;
 			vo.horse = 3214;
 			vo.costPerCell = SanguoDefine.MOVE_ONE_CELL_COST;
+			vo.id = 1;
 			return vo;
 		}
 		

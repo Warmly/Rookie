@@ -14,7 +14,10 @@ package rookie.core.render.cpu
 		
 		public function set parent(prt:DisplayObjectContainer):void
 		{
-			prt.addChild(this);
+			if (prt)
+			{
+				prt.addChild(this);
+			}
 		}
 
 		public function deleteParent():void
