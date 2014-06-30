@@ -139,5 +139,10 @@ package core.creature.cpu
 		{
 			_depth = value;
 		}
+		
+		public function get id():Number 
+		{
+			return _creatureVO.id;
+		}
 	}
 }
