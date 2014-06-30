@@ -21,6 +21,7 @@ package core.creature
 		//胸像
 		private var _bust:uint;
 		private var _atkFlag:uint;
+		private var _beatFlag:uint;
 		private var _visitFlag:uint;
 		private var _moveRange:uint;
 		private var _reward:uint;
@@ -32,6 +33,7 @@ package core.creature
 			_type = byteArr.readByte();
 			_quality = byteArr.readByte();
 			_level = byteArr.readUnsignedShort();
+			_beatFlag = byteArr.readUnsignedShort();
 			_pic = byteArr.readUnsignedShort();
 			_face = byteArr.readUnsignedShort();
 			_bust = byteArr.readUnsignedShort();
