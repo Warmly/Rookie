@@ -1,6 +1,7 @@
 package tool
 {
 	import core.creature.cpu.MyselfCpu;
+	import core.creature.gpu.MyselfGpu;
 	import core.creature.gpu.UserGpu;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
@@ -28,7 +29,7 @@ package tool
 		{
 			var userGpu:UserGpu = ObjectPool.getObject(UserGpu) as UserGpu;
 			userGpu.init(getTestUserVO());
-			userGpu.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.RIGHT_DOWN);
+			userGpu.synAction(ActionEnum.RUN_ON_HORSE, DirectionEnum.DOWN);
 			return userGpu;
 		}
 		
@@ -61,6 +62,16 @@ package tool
 			myselfCpu.synPixelPosByCurCellPos();
 			myselfCpu.synDepthByCurCellPos();
 			return myselfCpu;
+		}
+		
+		public static function getMyselfGpu():MyselfGpu
+		{
+			var myselfGpu:MyselfGpu = new MyselfGpu();
+			myselfGpu.init(getTestMyselfVO());
+			myselfGpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
+			//myselfGpu.synPixelPosByCurCellPos();
+			//myselfGpu.synDepthByCurCellPos();
+			return myselfGpu;
 		}
 	}
 }

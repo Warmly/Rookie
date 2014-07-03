@@ -2,6 +2,7 @@ package core.creature.gpu
 {
 	import core.creature.ActProcess;
 	import core.creature.CreatureVO;
+	import core.scene.ISceneObj;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.RenderType;
 	import rookie.global.RookieEntry;
@@ -14,7 +15,7 @@ package core.creature.gpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class CreatureGpu implements IObjPoolItem,IRenderItem,IName
+	public class CreatureGpu implements IObjPoolItem,IRenderItem,IName,ISceneObj
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerGpu;
@@ -22,6 +23,9 @@ package core.creature.gpu
 		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
 		protected var _name:String;
+		protected var _x:Number;
+		protected var _y:Number;
+		protected var _depth:uint;
 		
 		public function CreatureGpu() 
 		{
@@ -88,6 +92,26 @@ package core.creature.gpu
 		public function set name(value:String):void 
 		{
 			_name = value;
+		}
+		
+		public function get x():Number 
+		{
+			return _x;
+		}
+		
+		public function get y():Number 
+		{
+			return _y;
+		}
+		
+		public function get depth():uint 
+		{
+			return _depth;
+		}
+		
+		public function set depth(value:uint):void 
+		{
+			_depth = value;
 		}
 		
 		public function reset():void
