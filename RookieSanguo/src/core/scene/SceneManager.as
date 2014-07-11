@@ -76,7 +76,6 @@ package core.scene
 				if (ap.isFinish)
 				{
 					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfVO.costPerCell, new Point(_myselfVO.cellX, _myselfVO.cellY));
-					_myself.actProcess.nextStep();
 				}
 				else
 				{

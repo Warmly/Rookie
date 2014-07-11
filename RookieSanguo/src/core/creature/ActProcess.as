@@ -30,16 +30,28 @@ package core.creature
 			_isFinish = true;
 		}
 		
+		/**
+		 * 重置动作过程
+		 * @param action 动作类型
+		 * @param path 路径
+		 * @param costPerCell 移动每格消耗 
+		 * @param startPos 起点（如果上一步没走完则不需要）
+		 */		
 		public function reset(action:int, path:Vector.<AStarNode>, costPerCell:Number, startPos:Point = null):void
 		{
+			if (path.length == 0)
+			{
+				return;
+			}
 			_actionType = action;
 			_path = path;
 			_costPerCell = costPerCell;
-			_isFinish = false;
+			_isFinish = path.length == 0;
 			if (startPos)
 			{
 				_curStartPos = startPos;
 				_curStartPixelPos = SanguoCoorTool.cellToScene(startPos.x, startPos.y);
+				nextStep();
 			}
 		}
 		
