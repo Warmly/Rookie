@@ -34,7 +34,7 @@ package core.scene
 		private var _mapLayerCpu:MapLayerCpu;
 		private var _mapLayerGpu:MapLayerGpu;
 		
-		private var _mapDebugLayer:MapDebugLayerCpu;
+		private var _mapDebugLayerCpu:MapDebugLayerCpu;
 		
 		private var _itemLayerCpu:ItemLayerCpu;
 		private var _itemLayerGpu:ItemLayerGpu;
@@ -56,8 +56,11 @@ package core.scene
 				_mapLayerCpu = new MapLayerCpu();
 				_mapLayerCpu.parent = this;
 				
-				//_mapDebugLayer = new MapDebugLayerCpu();
-				//_mapDebugLayer.parent = this;
+				if (SanguoDefine.ENABLE_MAP_GRID)
+				{
+					_mapDebugLayerCpu = new MapDebugLayerCpu();
+					_mapDebugLayerCpu.parent = this;
+				}
 			}
 			
 			if (SanguoDefine.GPU_RENDER_CREATURE)
@@ -113,7 +116,10 @@ package core.scene
 			else
 			{
 				_mapLayerCpu.onScreenResize();
-				//_mapDebugLayer.onScreenResize();
+				if (SanguoDefine.ENABLE_MAP_GRID)
+				{
+					_mapDebugLayerCpu.onScreenResize();
+				}
 			}
 		}
 		
@@ -134,6 +140,10 @@ package core.scene
 			else
 			{
 				_mapLayerCpu.render();
+				if (SanguoDefine.ENABLE_MAP_GRID)
+				{
+					_mapDebugLayerCpu.render();
+				}
 			}
 			moveScene();
 		}
