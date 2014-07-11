@@ -46,7 +46,7 @@ package core.creature
 			_actionType = action;
 			_path = path;
 			_costPerCell = costPerCell;
-			_isFinish = path.length == 0;
+			_isFinish = false;
 			if (startPos)
 			{
 				_curStartPos = startPos;
