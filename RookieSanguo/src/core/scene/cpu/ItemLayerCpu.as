@@ -35,7 +35,7 @@ package core.scene.cpu
 			}
 		}
 		
-		private function sortByDepth(a:UserCpu, b:UserCpu):int
+		private function sortByDepth(a:ISceneObj, b:ISceneObj):int
 		{
 			if (a.depth < b.depth)
 			{

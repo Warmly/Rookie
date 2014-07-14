@@ -14,5 +14,9 @@ package core.scene
 		function get x():Number
 		
 		function get y():Number
+		
+		//function set id(value:Number):void
+		
+		function get id():Number
 	}
 }

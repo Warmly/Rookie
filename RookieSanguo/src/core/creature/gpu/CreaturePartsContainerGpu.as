@@ -14,6 +14,8 @@ package core.creature.gpu
 		private var _ref:Vector.<CreaturePartAnimGpu> = new Vector.<CreaturePartAnimGpu>();
 		private var _action:uint;
 		private var _direction:uint;
+		private var _x:Number;
+		private var _y:Number;
 		
 		public function CreaturePartsContainerGpu() 
 		{
@@ -22,18 +24,24 @@ package core.creature.gpu
 		public function initBody(resUrl:ResUrl):void
 		{
 			_body = new CreaturePartAnimGpu(resUrl, CreaturePartEnum.BODY);
+			_body.x = this.x;
+			_body.y = this.y;
 			_ref.push(_body);
 		}
 		
 		public function initWeapon(resUrl:ResUrl):void
 		{
 			_weapon = new CreaturePartAnimGpu(resUrl, CreaturePartEnum.WEAPON);
+			_weapon.x = this.x;
+			_weapon.y = this.y;
 			_ref.push(_weapon);
 		}
 		
 		public function initHorse(resUrl:ResUrl):void
 		{
 			_horse = new CreaturePartAnimGpu(resUrl, CreaturePartEnum.HORSE);
+			_horse.x = this.x;
+			_horse.y = this.y;
 			_ref.push(_horse);
 		}
 		
@@ -98,6 +106,34 @@ package core.creature.gpu
 		private function sortOnDepth(a:CreaturePartAnimGpu, b:CreaturePartAnimGpu):int 
 		{
 			return a.depth <= b.depth ? -1 : 1;
+		}
+		
+		public function get x():Number 
+		{
+			return _x;
+		}
+		
+		public function set x(value:Number):void 
+		{
+			_x = value;
+			for each (var item:CreaturePartAnimGpu in _ref) 
+			{
+				item.x = value;
+			}
+		}
+		
+		public function get y():Number 
+		{
+			return _y;
+		}
+		
+		public function set y(value:Number):void 
+		{
+			_y = value;
+			for each (var item:CreaturePartAnimGpu in _ref) 
+			{
+				item.y = value;
+			}
 		}
 	}
 }

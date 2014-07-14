@@ -139,5 +139,27 @@ package core.creature.gpu
 		{
 			_partsContainer.startPlay();
 		}
+		
+		public function get id():Number 
+		{
+			return _creatureVO.id;
+		}
+		
+		public function set x(value:Number):void 
+		{
+			_x = value;
+			_partsContainer.x = value;
+		}
+		
+		public function set y(value:Number):void 
+		{
+			_y = value;
+			_partsContainer.y = value;
+		}
+		
+		public function synDepthByCurCellPos():void
+		{
+			_depth = _creatureVO.cellY;
+		}
 	}
 }

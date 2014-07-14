@@ -66,7 +66,10 @@ package core.scene
 			if (SanguoDefine.GPU_RENDER_CREATURE)
 			{
 				_itemLayerGpu = new ItemLayerGpu();
+				
 				_myselfGpu = UserFactory.getMyselfGpu();
+				ModelEntry.userModel.addUser(_myselfGpu.userVO);
+				//_itemLayerGpu.
 			}
 			else
 			{
