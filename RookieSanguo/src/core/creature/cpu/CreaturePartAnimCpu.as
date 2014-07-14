@@ -135,7 +135,6 @@ package core.creature.cpu
 			}
 		}
 
-		// 待优化
 		override protected function adjustInnerPos():void
 		{
 			var xVal:Number = _curFrameVO.adjustX;

@@ -185,10 +185,12 @@ package rookie.core.render
 		{
 			_curRenderPosX = x;
 			_curRenderPosY = y;
+			_curCameraMatrix.identity();
+			//缩放到贴图实际大小
+			_curCameraMatrix.appendScale(width/_backBufferWidth, height/_backBufferHeight, 1);
+			//对准位置
 			var xValue:Number = (x - _backBufferWidth * 0.5 + _curTexture.width * 0.5) / _backBufferWidth * 2;
 			var yValue:Number = (_backBufferHeight * 0.5 - y - _curTexture.height * 0.5) / _backBufferHeight * 2;
-			_curCameraMatrix.identity();
-			_curCameraMatrix.appendScale(width/_backBufferWidth, height/_backBufferHeight, 1);
 			_curCameraMatrix.appendTranslation(xValue, yValue, 0);
 			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _curCameraMatrix, true);
 		}

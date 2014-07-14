@@ -102,6 +102,8 @@ package
 		private function testCode():void 
 		{
 			var user:UserGpu = UserFactory.getTestUserGpu();
+			user.x = 200;
+			user.y = 200;
 			user.selfStartRender();
 			
 			var aStarTestArr:Array = [

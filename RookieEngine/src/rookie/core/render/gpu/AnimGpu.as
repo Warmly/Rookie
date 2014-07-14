@@ -169,6 +169,12 @@ package rookie.core.render.gpu
 			_originY = value;
 		}
 		
+		protected function hardSetPos(xValue:Number, yValue:Number):void
+		{
+			super.x = xValue;
+			super.y = yValue;
+		}
+		
 		public function set frequency(value:Number):void 
 		{
 			_frequency = value;

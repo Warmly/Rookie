@@ -23,8 +23,8 @@ package core.creature.gpu
 		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
 		protected var _name:String;
-		protected var _x:Number;
-		protected var _y:Number;
+		protected var _x:Number = 0;
+		protected var _y:Number = 0;
 		protected var _depth:uint;
 		
 		public function CreatureGpu() 

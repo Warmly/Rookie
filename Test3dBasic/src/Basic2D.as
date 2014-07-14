@@ -32,7 +32,7 @@ package
 	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
 	public class Basic2D extends Sprite
 	{
-		[Embed(source="art/leaf.png")]
+		[Embed(source="art/map.jpg")]
 		private var bmdClass:Class;
 		//
 		private static const SWF_WIDTH:int = 800;
@@ -107,13 +107,13 @@ package
 		{
 			_vertexData = Vector.<Number>([//
 			// x, y, u, v
-			-256, 256, 0, 0,
+			-1, 1, 0, 0,
 			// 
-			256, 256, 1, 0,
+			1, 1, 1, 0,
 			// 
-			256, -256, 1, 1,
+			1, -1, 1, 1,
 			// 
-			-256, -256, 0, 1]);
+			-1, -1, 0, 1]);
 
 			_indexData = Vector.<uint>([//
 			//
@@ -179,10 +179,10 @@ package
 			_context3D.setProgram(_shader);
 
 			_mvpMatrix.identity();
-			_mvpMatrix.appendScale(1 / SWF_WIDTH, 1 / SWF_HEIGHT, 1);
+			_mvpMatrix.appendScale(256 / SWF_WIDTH, 256 / SWF_HEIGHT, 1);
 			var xVal:Number = (SCREEN_X - SWF_WIDTH * 0.5 + 128) / SWF_WIDTH * 2;
 			var yVal:Number = (SWF_HEIGHT * 0.5 - SCREEN_Y - 128) / SWF_HEIGHT * 2;
-			_mvpMatrix.appendTranslation(xVal, yVal, 0);
+			//_mvpMatrix.appendTranslation(xVal, yVal, 0);
 
 			// 设置vc0 
 			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _mvpMatrix, true);

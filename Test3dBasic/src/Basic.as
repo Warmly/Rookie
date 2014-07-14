@@ -71,7 +71,7 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 
-			addChild(new Stats());
+			//addChild(new Stats());
 
 			stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
 			stage.stage3Ds[0].requestContext3D();

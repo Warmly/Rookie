@@ -28,10 +28,7 @@ package rookie.core.render.gpu
 		//舞台坐标
 		protected var _x:Number = 0;
 		protected var _y:Number = 0;
-		//渲染配置
-		protected var _vertexBuffer:RookieVertexBuffer;
-		protected var _indexBuffer:RookieIndexBuffer;
-		protected var _shader:RookieShader;
+		//当前贴图
 		protected var _texture:RookieTexture;
 		//名字(键)
 		protected var _name:String;

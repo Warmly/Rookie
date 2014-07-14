@@ -143,6 +143,17 @@ package core.creature.gpu
 			}
 		}
 		
+		override protected function adjustInnerPos():void
+		{
+			var xVal:Number = _curFrameVO.adjustX;
+			var yVal:Number = _curFrameVO.adjustY + SanguoDefine.CREATURE_PART_ANIM_Y_OFFSET;
+			if (_needYReverse)
+			{
+				xVal = - xVal - _curFrameVO.validRectWidth;
+			}
+			hardSetPos(_originX + xVal, _originY + yVal);
+		}
+		
 		private function getResCls(actionId:uint, index:uint):Class
 		{
 			var clsName:String = "bmd_" + _resUrl.packId + "_" + _resUrl.fileName + "_" + actionId + "_" + index;

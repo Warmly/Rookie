@@ -90,7 +90,7 @@ package core.scene
 		private function onAddToStage(e:Event):void
 		{
 			init();
-			RookieEntry.renderManager.addToCpuRenderQueue(this);
+			RookieEntry.renderManager.addToGpuRenderQueue(this);
 		}
 		
 		private function init():void

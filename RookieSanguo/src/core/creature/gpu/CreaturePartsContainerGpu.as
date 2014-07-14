@@ -14,8 +14,8 @@ package core.creature.gpu
 		private var _ref:Vector.<CreaturePartAnimGpu> = new Vector.<CreaturePartAnimGpu>();
 		private var _action:uint;
 		private var _direction:uint;
-		private var _x:Number;
-		private var _y:Number;
+		private var _x:Number = 0;
+		private var _y:Number = 0;
 		
 		public function CreaturePartsContainerGpu() 
 		{
