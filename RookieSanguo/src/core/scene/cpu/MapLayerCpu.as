@@ -6,7 +6,8 @@ package core.scene.cpu
 	import global.ModelEntry;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
-	import rookie.core.render.RenderType;
+	import rookie.definition.RenderEnum;
+	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.log.log;
@@ -53,6 +54,8 @@ package core.scene.cpu
 		
 		public function render():void
 		{
+			this.x = - _camera.xInScene;
+			this.y = - _camera.yInScene;
 			if (_mapModel.curMapVO)
 			{
 				var startIndexX:int = getStartIndex(_camera.xInScene);
@@ -69,7 +72,7 @@ package core.scene.cpu
 						block.y = yInScene;
 						var index:int = (i + startIndexY) * numBlockWMap + (j + startIndexX);
 						block.index = index;
-						block.refresh();
+						block.render();
 					}
 				}
 			}
@@ -77,12 +80,12 @@ package core.scene.cpu
 		
 		public function get key():String
 		{
-			return "SanguoScene[MapLayerCpu]";
+			return namer("SanguoScene", "MapLayerCpu");
 		}
 		
 		public function get renderType():int
 		{
-			return RenderType.CPU;
+			return RenderEnum.CPU;
 		}
 
 		public function onScreenResize():void

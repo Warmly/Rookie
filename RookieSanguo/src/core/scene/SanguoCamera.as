@@ -4,29 +4,26 @@ package core.scene
 	import flash.geom.Rectangle;
 
 	/**
+	 * 一个矩形区域，对应舞台的宽高
 	 * @author Warmly
 	 */
 	public class SanguoCamera
 	{
-		private var _rect:Rectangle;
-		private var _xInScene:Number;
-		private var _yInScene:Number;
-		private var _width:Number;
-		private var _height:Number;
-		private var _focus:Point;
+		private var _xInScene:Number = 0;
+		private var _yInScene:Number = 0;
+		private var _width:Number = 0;
+		private var _height:Number = 0;
+		private var _focus:Point = new Point();
 
 		public function SanguoCamera()
 		{
 		}
-
-		public function setup(x:Number, y:Number, width:Number, height:Number):SanguoCamera
+        
+		public function setup(focusX:Number, focusY:Number, width:Number, height:Number):SanguoCamera
 		{
-			_rect = new Rectangle(x, y, width, height);
-			_xInScene = x;
-			_yInScene = y;
 			_width = width;
 			_height = height;
-			_focus = new Point(_xInScene + _width * 0.5, _yInScene +_height * 0.5);
+			moveFocus(focusX, focusY);
 			return this;
 		}
 
@@ -34,18 +31,29 @@ package core.scene
 		{
 			_xInScene = x;
 			_yInScene = y;
+			_focus.x = _xInScene + _width * 0.5;
+			_focus.y = _yInScene + _height * 0.5;
 		}
 		
-		public function get rect():Rectangle
+		public function moveFocus(x:Number, y:Number):void
 		{
-			return _rect;
+			_xInScene = x - _width * 0.5;
+			_yInScene = y - _height * 0.5;
+			_focus.x = x;
+			_focus.y = y;
 		}
-
+        
+		/**
+	     * 左上角在场景的X坐标
+	     */
 		public function get xInScene():Number
 		{
 			return _xInScene;
 		}
-
+        
+		/**
+	     * 左上角在场景的Y坐标
+	     */
 		public function get yInScene():Number
 		{
 			return _yInScene;
@@ -61,6 +69,9 @@ package core.scene
 			return _height;
 		}
 		
+		/**
+	     * 焦点
+	     */
 		public function get focus():Point
 		{
 			return _focus;

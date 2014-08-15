@@ -11,20 +11,10 @@ package global
 	 */
 	public class SanguoEntry
 	{
-		private static var _rookie:RookieEntry;
 		private static var _camera:SanguoCamera;
 		private static var _scene:SanguoScene;
 		private static var _keyboardHandler:KeyboardHandler;
 		private static var _myselfVO:MyselfVO;
-
-		public static function get rookie():RookieEntry
-		{
-			if (!_rookie)
-			{
-				_rookie = new RookieEntry();
-			}
-			return _rookie;
-		}
 
 		public static function get camera():SanguoCamera
 		{

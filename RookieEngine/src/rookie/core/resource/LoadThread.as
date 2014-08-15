@@ -65,10 +65,10 @@ package rookie.core.resource
 		private function onLoadToDomainComplete(event:Event):void
 		{
 			_isURLLoaderLoading = false;
-			if (_curLoadingItem.resType == ResType.SWF || _curLoadingItem.resType == ResType.PACK_SWF)
+			if (_curLoadingItem.resType == ResEnum.SWF || _curLoadingItem.resType == ResEnum.PACK_SWF)
 			{
 			}
-			else if (_curLoadingItem.resType == ResType.JPG)
+			else if (_curLoadingItem.resType == ResEnum.JPG)
 			{
 				RookieEntry.resManager.bmdData.insert(_curLoadingItem.url, Bitmap(_loader.content).bitmapData);
 			}
@@ -106,12 +106,12 @@ package rookie.core.resource
 		private function onLoadToByteArrComplete(event:Event):void
 		{
 			var byteArr:ByteArray = _urlLoader.data;
-			if (_curLoadingItem.resType == ResType.SWF || _curLoadingItem.resType == ResType.JPG)
+			if (_curLoadingItem.resType == ResEnum.SWF || _curLoadingItem.resType == ResEnum.JPG)
 			{
 				_byteArrQueue.push(byteArr);
 				loadByteArrToDomain();
 			}
-			else if (_curLoadingItem.resType == ResType.PACK_SWF)
+			else if (_curLoadingItem.resType == ResEnum.PACK_SWF)
 			{
 			    byteArr.endian = Endian.LITTLE_ENDIAN;
 				var flag:uint = byteArr.readUnsignedInt();
@@ -126,7 +126,7 @@ package rookie.core.resource
 				}
 				loadByteArrToDomain();
 			}
-			else if (_curLoadingItem.resType == ResType.MAP_DATA)
+			else if (_curLoadingItem.resType == ResEnum.MAP_DATA)
 			{
 				_isLoading = false;
 				RookieEntry.loadManager.setItemLoadedToken(_curLoadingItem.url);
@@ -135,7 +135,7 @@ package rookie.core.resource
 				_curLoadingItem.onLoaded();
 				_eventDispatcher.dispatchEvent(new LoadThreadEvent(LoadThreadEvent.ITEM_LOADED));
 			}
-			else if (_curLoadingItem.resType == ResType.SPK)
+			else if (_curLoadingItem.resType == ResEnum.SPK)
 			{
 				_isLoading = false;
 				RookieEntry.loadManager.setItemLoadedToken(_curLoadingItem.url);

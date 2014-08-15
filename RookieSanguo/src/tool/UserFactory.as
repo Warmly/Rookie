@@ -69,8 +69,8 @@ package tool
 			var myselfGpu:MyselfGpu = new MyselfGpu();
 			myselfGpu.init(getTestMyselfVO());
 			myselfGpu.synAction(ActionEnum.STAND_ON_HORSE, DirectionEnum.RIGHT_DOWN);
-			//myselfGpu.synPixelPosByCurCellPos();
-			//myselfGpu.synDepthByCurCellPos();
+			myselfGpu.synPixelPosByCurCellPos();
+			myselfGpu.synDepthByCurCellPos();
 			return myselfGpu;
 		}
 	}

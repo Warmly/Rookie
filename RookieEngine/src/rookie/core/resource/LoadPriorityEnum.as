@@ -3,7 +3,7 @@ package rookie.core.resource
 	/**
 	 * @author Warmly
 	 */
-	public class LoadPriority
+	public class LoadPriorityEnum
 	{
 		public static const LOW : int = 0;
 		public static const MIDDLE : int = 1;

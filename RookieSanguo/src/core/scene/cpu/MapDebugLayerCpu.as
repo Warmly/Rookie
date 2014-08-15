@@ -6,13 +6,16 @@ package core.scene.cpu
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import rookie.core.render.cpu.RichSprite;
+	import rookie.core.render.IRenderItem;
+	import rookie.definition.RenderEnum;
 	import rookie.tool.common.Color;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.namer;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class MapDebugLayerCpu extends RichSprite
+	public class MapDebugLayerCpu extends RichSprite implements IRenderItem
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
@@ -54,6 +57,16 @@ package core.scene.cpu
 			_numCellW = getBlockNum(_camera.width) * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_WIDTH);
 			_numCellH = getBlockNum(_camera.height) * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_HEIGHT);
 			resizeCells();
+		}
+		
+		public function get key():String
+		{
+			return namer("SanguoScene", "MapDebugLayerCpu");
+		}
+		
+		public function get renderType():int
+		{
+			return RenderEnum.CPU;
 		}
 		
 		private function resizeCells():void

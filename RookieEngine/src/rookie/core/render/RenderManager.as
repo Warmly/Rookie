@@ -22,7 +22,7 @@ package rookie.core.render
 	import rookie.dataStruct.Queue;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.dataStruct.HashTable;
-	import rookie.global.RookieGlobal;
+	import rookie.definition.RookieDefine;
 	import rookie.namespace.Rookie;
 	import rookie.tool.log.error;
 
@@ -128,7 +128,7 @@ package rookie.core.render
 				error("未获取到3D设备！");
 				return;
 			}
-			if (width >= RookieGlobal.MIN_BACK_BUFFER_SIZE && height >= RookieGlobal.MIN_BACK_BUFFER_SIZE)
+			if (width >= RookieDefine.MIN_BACK_BUFFER_SIZE && height >= RookieDefine.MIN_BACK_BUFFER_SIZE)
 			{
 				if (width != _backBufferWidth || height != _backBufferHeight)
 				{

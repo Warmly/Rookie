@@ -6,7 +6,7 @@ package core.scene.gpu
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import rookie.core.render.IRenderItem;
-	import rookie.core.render.RenderType;
+	import rookie.definition.RenderEnum;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.ObjectPool;
@@ -68,7 +68,7 @@ package core.scene.gpu
 		
 		public function get renderType():int
 		{
-			return RenderType.GPU;
+			return RenderEnum.GPU;
 		}
 		
 		private function resizeBlocks():void 

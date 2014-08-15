@@ -14,7 +14,9 @@ package core.creature.gpu
 		private var _ref:Vector.<CreaturePartAnimGpu> = new Vector.<CreaturePartAnimGpu>();
 		private var _action:uint;
 		private var _direction:uint;
+		//舞台渲染坐标X
 		private var _x:Number = 0;
+		//舞台渲染坐标Y
 		private var _y:Number = 0;
 		
 		public function CreaturePartsContainerGpu() 
@@ -108,6 +110,9 @@ package core.creature.gpu
 			return a.depth <= b.depth ? -1 : 1;
 		}
 		
+		/**
+		 * 舞台坐标X，渲染用
+		 */
 		public function get x():Number 
 		{
 			return _x;
@@ -122,6 +127,9 @@ package core.creature.gpu
 			}
 		}
 		
+		/**
+		 * 舞台坐标Y，渲染用
+		 */
 		public function get y():Number 
 		{
 			return _y;

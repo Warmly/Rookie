@@ -3,14 +3,17 @@ package core.creature.gpu
 	import core.creature.ActProcess;
 	import core.creature.CreatureVO;
 	import core.scene.ISceneObj;
+	import flash.geom.Point;
+	import global.SanguoEntry;
 	import rookie.core.render.IRenderItem;
-	import rookie.core.render.RenderType;
+	import rookie.definition.RenderEnum;
 	import rookie.global.RookieEntry;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.namer.IName;
 	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
+	import tool.SanguoCoorTool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -22,10 +25,12 @@ package core.creature.gpu
 		protected var _action:uint;
 		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
-		protected var _name:String;
-		protected var _x:Number = 0;
-		protected var _y:Number = 0;
 		protected var _depth:uint;
+		//场景坐标X
+		protected var _x:Number = 0;
+		//场景坐标Y
+		protected var _y:Number = 0;
+		protected var _name:String;
 		
 		public function CreatureGpu() 
 		{
@@ -72,7 +77,7 @@ package core.creature.gpu
 		
 		public function get renderType():int
 		{
-			return RenderType.GPU;
+			return RenderEnum.GPU;
 		}
 		
 		public function get key():String
@@ -94,11 +99,17 @@ package core.creature.gpu
 			_name = value;
 		}
 		
+		/**
+		 * 场景坐标X
+		 */
 		public function get x():Number 
 		{
 			return _x;
 		}
 		
+		/**
+		 * 场景坐标Y
+		 */
 		public function get y():Number 
 		{
 			return _y;
@@ -148,18 +159,40 @@ package core.creature.gpu
 		public function set x(value:Number):void 
 		{
 			_x = value;
-			_partsContainer.x = value;
+			_partsContainer.x = value - SanguoEntry.camera.xInScene;
 		}
 		
 		public function set y(value:Number):void 
 		{
 			_y = value;
-			_partsContainer.y = value;
+			_partsContainer.y = value - SanguoEntry.camera.yInScene;
 		}
 		
 		public function synDepthByCurCellPos():void
 		{
 			_depth = _creatureVO.cellY;
+		}
+		
+		public function synPixelPos(pixelX:Number, pixelY:Number):void
+		{
+			this.x = pixelX;
+			this.y = pixelY;
+		}
+		
+		public function synPixelPosByCurCellPos():void
+		{
+			var pt:Point = SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
+			synPixelPos(pt.x, pt.y);
+		}
+		
+		public function synCellPos(cellX:int, cellY:int, synPixelPos:Boolean = false):void
+		{
+			_creatureVO.cellX = cellX;
+			_creatureVO.cellY = cellY;
+			if (synPixelPos)
+			{
+				synPixelPosByCurCellPos();
+			}
 		}
 	}
 }

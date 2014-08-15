@@ -4,7 +4,7 @@ package core.scene.cpu
 	import flash.display.BitmapData;
 	import rookie.core.render.cpu.ImgCpuBase;
 	import rookie.core.render.cpu.RichSprite;
-	import rookie.core.resource.LoadPriority;
+	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.global.RookieEntry;
 	import rookie.tool.objectPool.ObjectPool;
 
@@ -28,12 +28,12 @@ package core.scene.cpu
 			super(null, false);
 		}
 
-		public function refresh():void
+		public function render():void
 		{
 			if (ModelEntry.mapModel.curMapVO)
 			{
 				var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(_index);
-				manualLoad(resUrl, LoadPriority.HIGH);
+				manualLoad(resUrl, LoadPriorityEnum.HIGH);
 			}
 		}
 		
@@ -42,23 +42,17 @@ package core.scene.cpu
 			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(_resUrl.url);
 			super.bitmapData = bmd;
 		}
-		
-		override public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
-		{
-			_resUrl = resUrl;
-			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
-		}
 
 		public function reset():void
+		{
+		}
+
+		public function dispose():void
 		{
 			if (this.bitmapData)
 			{
 				this.bitmapData.dispose();
 			}
-		}
-
-		public function dispose():void
-		{
 			ObjectPool.addToPool(this);
 		}
 

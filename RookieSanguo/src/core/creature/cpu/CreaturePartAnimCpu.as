@@ -2,9 +2,11 @@ package core.creature.cpu
 {
 	import definition.SanguoDefine;
 	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	import rookie.dataStruct.HashTable;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
+	import rookie.definition.AnimPlayEnum;
 
 	import global.ModelEntry;
 
@@ -36,15 +38,15 @@ package core.creature.cpu
 		private var _eachDirFrameNum:int;
 		// Y轴反转
 		private var _needYReverse:Boolean;
-		// 类型
-		private var _type:uint;
+		// 身体部件类型
+		private var _creaturePart:uint;
 		// 深度
 		private var _depth:uint;
 
-		public function CreaturePartAnimCpu(resUrl:ResUrl, type:uint)
+		public function CreaturePartAnimCpu(resUrl:ResUrl, creaturePart:uint)
 		{
-			_type = type;
-			super(resUrl, false);
+			_creaturePart = creaturePart;
+			super(resUrl, AnimPlayEnum.NEGATIVE);
 			frequency = SanguoDefine.CREATURE_PART_ANIM_FREQUENCY;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
@@ -65,7 +67,22 @@ package core.creature.cpu
 			synPlayRange();
 			gotoAndPlay(_startFrame);
 		}
-
+        
+		override public function startPlay():void
+		{
+			if (!_isRendering)
+			{
+				_lastTime = getTimer();
+				_isRendering = true;
+			}
+		}
+		
+		override public function stopPlay():void
+		{
+			_isRendering = false;
+			_curLoop = 1;
+		}
+		
 		private function synResDirAndReverse():void
 		{
 			_resDir = DirectionEnum.DIRECTION_MAP[_resDirNum][_direction];
@@ -127,11 +144,14 @@ package core.creature.cpu
 
 		override protected function setCurFrameBmd():void
 		{
-			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
-			if (_curFrameVO)
+			if (_imgConfigVO)
 			{
-				super.bitmapData = _needYReverse ? _curFrameVO.yReverseBitmapData : _curFrameVO.bitmapData;
-				adjustInnerPos();
+				_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
+				if (_curFrameVO)
+				{
+					super.bitmapData = _needYReverse ? _curFrameVO.yReverseBitmapData : _curFrameVO.bitmapData;
+					adjustInnerPos();
+				}
 			}
 		}
 
@@ -157,9 +177,9 @@ package core.creature.cpu
 			return resCls;
 		}
 
-		public function get type():uint
+		public function get creaturePart():uint
 		{
-			return _type;
+			return _creaturePart;
 		}
 
 		public function get depth():uint

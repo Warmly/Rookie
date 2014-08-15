@@ -6,8 +6,8 @@ package core.scene
 
 	import rookie.core.resource.ResManager;
 	import rookie.tool.functionHandler.fh;
-	import rookie.core.resource.LoadPriority;
-	import rookie.core.resource.ResType;
+	import rookie.core.resource.LoadPriorityEnum;
+	import rookie.core.resource.ResEnum;
 	import rookie.global.RookieEntry;
 	import rookie.dataStruct.HashTable;
 
@@ -71,8 +71,8 @@ package core.scene
 			if (mapInfoVO)
 			{
 				_curMapInfoVO = mapInfoVO;
-				var resUrl:ResUrl = new ResUrl(-1, -1, mapInfoVO.fileName, ResType.MAP_DATA, "map/");
-				RookieEntry.loadManager.load(resUrl, LoadPriority.HIGH, fh(onMapLoaded, resUrl.url));
+				var resUrl:ResUrl = new ResUrl(-1, -1, mapInfoVO.fileName, ResEnum.MAP_DATA, "map/");
+				RookieEntry.loadManager.load(resUrl, LoadPriorityEnum.HIGH, fh(onMapLoaded, resUrl.url));
 			}
 			else
 			{
@@ -95,7 +95,7 @@ package core.scene
 
 		public function getMapImgUrl(index:int):ResUrl
 		{
-			var resUrl:ResUrl = new ResUrl(320, _curMapVO.groupId, (index + "_" + MAP_BLOCK_SIZE + "_" + totalMapWidth + "_" + totalMapHeight), ResType.JPG);
+			var resUrl:ResUrl = new ResUrl(320, _curMapVO.groupId, (index + "_" + MAP_BLOCK_SIZE + "_" + totalMapWidth + "_" + totalMapHeight), ResEnum.JPG);
 			return resUrl;
 		}
 

@@ -1,21 +1,29 @@
 package core.scene.cpu 
 {
+	import core.creature.cpu.CreatureCpu;
 	import core.creature.cpu.UserCpu;
 	import core.scene.ISceneObj;
+	import core.scene.SanguoCamera;
 	import flash.display.DisplayObject;
+	import global.SanguoEntry;
 	import rookie.core.render.cpu.IParent;
 	import rookie.core.render.cpu.RichSprite;
+	import rookie.core.render.IRenderItem;
+	import rookie.definition.RenderEnum;
+	import rookie.tool.namer.namer;
 	
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ItemLayerCpu extends RichSprite 
+	public class ItemLayerCpu extends RichSprite implements IRenderItem
 	{
 		private var _itemsRef:Vector.<ISceneObj> = new Vector.<ISceneObj>();
+		private var _camera:SanguoCamera;
 		
 		public function ItemLayerCpu() 
 		{
+			_camera =  SanguoEntry.camera;
 		}
 		
 		public function addUser(user:UserCpu):void
@@ -24,14 +32,41 @@ package core.scene.cpu
 			user.parent = this;
 		}
 		
-		public function updateDepth():void
+		public function render():void
+		{
+			updateDepth();
+			for each (var item:ISceneObj in _itemsRef) 
+			{
+				if (item is CreatureCpu)
+				{
+					(item as CreatureCpu).render();
+				}
+			}
+			this.x = - _camera.xInScene;
+			this.y = - _camera.yInScene;
+		}
+		
+		public function get key():String
+		{
+			return namer("SanguoScene", "ItemLayerCpu");
+		}
+		
+		public function get renderType():int
+		{
+			return RenderEnum.CPU;
+		}
+		
+		private function updateDepth():void
 		{
 			_itemsRef.sort(sortByDepth);
 			var num:int = _itemsRef.length;
 			for (var i:int = 0; i < num; i++) 
 			{
 				var item:ISceneObj = _itemsRef[i];
-				(item as IParent).parent = this;
+				if (item is IParent)
+				{
+					(item as IParent).parent = this;
+				}
 			}
 		}
 		

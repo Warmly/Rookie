@@ -1,15 +1,18 @@
 package rookie.core.render.cpu
 {
-	import definition.SanguoDefine;
 	import rookie.core.render.IRenderItem;
-	import rookie.core.render.RenderType;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
+	import rookie.definition.AnimPlayEnum;
+	import rookie.definition.RenderEnum;
+	import rookie.definition.RookieDefine;
 	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.FunHandler;
 	import flash.utils.getTimer;
+	
 	/**
+	 * CPU渲染的序列帧动画
 	 * @author Warmly
 	 */
 	public class AnimCpu extends ImgCpuBase implements IRenderItem
@@ -41,16 +44,19 @@ package rookie.core.render.cpu
 		// 帧回调
 		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
 
-		public function AnimCpu(resUrl:ResUrl, isAutoPlay:Boolean = true)
+		/**
+		 * @param play 播放方式(默认AnimPlayEnum.IMMEDIATELY)
+		 */		
+		public function AnimCpu(resUrl:ResUrl = null, play:int = 0)
 		{
 			super(resUrl);
-		    frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
+		    frequency = RookieDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
 				_totalFrame = _imgConfigVO.frameLength;
 			}
 			setPlayRange(1, _totalFrame);
-			if (isAutoPlay)
+			if (play == AnimPlayEnum.IMMEDIATELY)
 			{
 				gotoAndPlay(_startFrame);
 			}
@@ -123,6 +129,11 @@ package rookie.core.render.cpu
 			_originY = value;
 		}
 
+		public function render():void
+		{
+			enterFrameRender();
+		}
+
 		public function gotoAndPlay(frame:int):void
 		{
 			_curFrame = frame;
@@ -139,31 +150,23 @@ package rookie.core.render.cpu
 				_isRendering = true;
 			}
 		}
-
+        
 		public function stopPlay():void
 		{
 			RookieEntry.renderManager.removeFromCpuRenderQueue(this);
 			_isRendering = false;
 			_curLoop = 1;
 		}
-
+		
 		protected function hardSetPos(xValue:Number, yValue:Number):void
 		{
 			super.x = xValue;
 			super.y = yValue;
 		}
-
-		public function render():void
-		{
-			if (_isRendering)
-			{
-				enterFrameRender();
-			}
-		}
 		
 		public function get renderType():int
 		{
-			return RenderType.CPU
+			return RenderEnum.CPU;
 		}
 
 		public function get key():String

@@ -1,10 +1,10 @@
 package rookie.core.render.gpu 
 {
-	import definition.SanguoDefine;
 	import flash.utils.getTimer;
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.factory.RookieTextureFactory;
 	import rookie.core.render.RenderManager;
+	import rookie.definition.RookieDefine;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.dataStruct.HashTable;
@@ -46,7 +46,7 @@ package rookie.core.render.gpu
 		public function AnimGpu(resUrl:ResUrl, isAutoPlay:Boolean = true) 
 		{
 			super(resUrl);
-			frequency = SanguoDefine.NORMAL_ANIM_FREQUENCY;
+			frequency = RookieDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
 				_totalFrame = _imgConfigVO.frameLength;

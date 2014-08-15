@@ -1,10 +1,10 @@
 package rookie.core.render.cpu
 {
-	import rookie.core.resource.LoadPriority;
+	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.tool.functionHandler.fh;
-	import rookie.core.resource.ResType;
+	import rookie.core.resource.ResEnum;
 	import rookie.global.RookieEntry;
 	import rookie.core.resource.ResUrl;
 
@@ -20,7 +20,7 @@ package rookie.core.render.cpu
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
 
-		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0)
+		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = LoadPriorityEnum.LOW)
 		{
 			super();
 			_resUrl = resUrl;
@@ -46,10 +46,13 @@ package rookie.core.render.cpu
 			}
 		}
 
-		public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
+		public function manualLoad(resUrl:ResUrl = null, loadPriority:int = LoadPriorityEnum.LOW):void
 		{
-			_resUrl = resUrl;
-			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
+			if (resUrl)
+			{
+				_resUrl = resUrl;
+			}
+			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
 			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
 		}
 

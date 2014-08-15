@@ -5,6 +5,7 @@ package rookie.core.resource
 	import rookie.namespace.Rookie;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.tool.log.log;
+	import rookie.tool.log.warning;
 	import rookie.tool.objectPool.ObjectPool;
 
 	import flash.events.EventDispatcher;
@@ -39,6 +40,10 @@ package rookie.core.resource
 
 		public function load(resUrl:ResUrl, priority:int = 0, callBack:FunHandler = null):void
 		{
+			if (!resUrl)
+			{
+				warning("Try to load an empty ResUrl!");
+			}
 			if (!resUrl.url)
 			{
 				return;
@@ -84,7 +89,7 @@ package rookie.core.resource
 			if (!loadThread.isLoading)
 			{
 				var loadItem:LoadItem;
-				var maxPriority:int = LoadPriority.HIGH;
+				var maxPriority:int = LoadPriorityEnum.HIGH;
 				for (var i:int = maxPriority;i >= 0;i--)
 				{
 					var subQueue:Vector.<LoadItem> = _waitToLoadQueue[i];
@@ -121,7 +126,7 @@ package rookie.core.resource
 		private function initLoadQueue():void
 		{
 			_waitToLoadQueue = new Vector.<Vector.<LoadItem>>();
-			var num:int = LoadPriority.HIGH;
+			var num:int = LoadPriorityEnum.HIGH;
 			for (var i:int = 0; i <= num;i++)
 			{
 				_waitToLoadQueue[i] = new Vector.<LoadItem>();

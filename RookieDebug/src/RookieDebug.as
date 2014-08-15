@@ -11,6 +11,7 @@ package
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
+	import flash.utils.Dictionary;
 	import global.SanguoEntry;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
@@ -38,7 +39,7 @@ package
 
 	import rookie.core.render.cpu.AnimCpu;
 	import rookie.tool.functionHandler.fh;
-	import rookie.core.resource.ResType;
+	import rookie.core.resource.ResEnum;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.render.cpu.ImgCpu;
 	import rookie.tool.objectPool.ObjectPool;
@@ -123,6 +124,13 @@ package
 			aStar.parseArrToMap(aStarTestArr, 10, 10);
 			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
+			
+			var dic:Dictionary = new Dictionary();
+			dic[String(1)] = 2;
+			if (!dic[1])
+			{
+				trace("么么哒！");
+			}
 		}
 	}
 }

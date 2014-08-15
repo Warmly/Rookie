@@ -1,6 +1,6 @@
 package rookie.core.render.gpu 
 {
-	import rookie.core.render.RenderType;
+	import rookie.definition.RenderEnum;
 	import rookie.tool.functionHandler.fh;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
@@ -88,7 +88,7 @@ package rookie.core.render.gpu
 		
 		public function get renderType():int
 		{
-			return RenderType.GPU;
+			return RenderEnum.GPU;
 		}
 		
 		public function get key():String

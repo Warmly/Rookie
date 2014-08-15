@@ -193,7 +193,7 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function canPass(node:AStarNode):Boolean
 		{
-			return node.type != AStarNodeTypeEnum.OBSTACLE;
+			return node.type != AStarNodeEnum.OBSTACLE;
 		}
 		
 		private function isInOpenList(node:AStarNode):Boolean

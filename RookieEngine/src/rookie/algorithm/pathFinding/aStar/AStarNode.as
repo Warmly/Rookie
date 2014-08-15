@@ -12,7 +12,7 @@ package rookie.algorithm.pathFinding.aStar
 		private var _hValue:Number = 0;
 		private var _update:Boolean;
 		private var _parentNode:AStarNode;
-		private var _type:int = AStarNodeTypeEnum.NORMAL;
+		private var _type:int = AStarNodeEnum.NORMAL;
 		private var _index:int;
 		private var _x:int;
 		private var _y:int;

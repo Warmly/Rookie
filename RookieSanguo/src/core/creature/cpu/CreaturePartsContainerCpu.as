@@ -21,24 +21,6 @@ package core.creature.cpu
 		{
 		}
 
-		private function updatePartsDepth():void
-		{
-			var numParts:int = _ref.length;
-			if (numParts)
-			{
-				var order:Array = CreaturePartEnum.RENDER_ORDER[_direction];
-				for each (var i : CreaturePartAnimCpu in _ref)
-				{
-					i.depth = order.indexOf(i.type);
-				}
-				_ref.sort(sortOnDepth);
-				for each (var j : CreaturePartAnimCpu in _ref)
-				{
-					j.parent = this;
-				}
-			}
-		}
-
 		public function synAction(action:uint, direction:uint, loop:uint):void
 		{
 			_action = action;
@@ -59,6 +41,14 @@ package core.creature.cpu
 				i.synDirection(direction);
 			}
 			updatePartsDepth();
+		}
+		
+		public function render():void
+		{
+			for each (var i:CreaturePartAnimCpu in _ref) 
+			{
+				i.render();
+			}
 		}
 
 		public function initBody(resUrl:ResUrl):void
@@ -88,6 +78,24 @@ package core.creature.cpu
 			_direction = 0;
 			removeChildren();
 			_ref.length = 0;
+		}
+
+		private function updatePartsDepth():void
+		{
+			var numParts:int = _ref.length;
+			if (numParts)
+			{
+				var order:Array = CreaturePartEnum.RENDER_ORDER[_direction];
+				for each (var i : CreaturePartAnimCpu in _ref)
+				{
+					i.depth = order.indexOf(i.creaturePart);
+				}
+				_ref.sort(sortOnDepth);
+				for each (var j : CreaturePartAnimCpu in _ref)
+				{
+					j.parent = this;
+				}
+			}
 		}
 
 		private function sortOnDepth(a:CreaturePartAnimCpu, b:CreaturePartAnimCpu):int

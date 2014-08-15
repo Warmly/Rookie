@@ -14,7 +14,7 @@ package rookie.core.resource
 		private var _groupId:int;
 		private var _fileName:*;
 		private var _url:String;
-		private var _resType:int = ResType.SWF;
+		private var _resType:int = ResEnum.SWF;
 
 		public function ResUrl(packId:int = -1, groupId:int = -1, fileName:* = -1, resType:int = 0, subPath:String = "3guores/")
 		{
@@ -47,7 +47,7 @@ package rookie.core.resource
 				var groupPath:String = _groupId != -1 ? _groupId + "/" : "";
 				var fileNamePath:String = _fileName != -1 ? _fileName : "";
 				_url = _ROOT_PATH + _subPath + packPath + groupPath + fileNamePath;
-				_url += ResType.getTailByType(_resType);
+				_url += ResEnum.getTailByEnum(_resType);
 			}
 			return _url;
 		}

@@ -4,7 +4,7 @@ package rookie.core.resource
 	/**
 	 * @author Warmly
 	 */
-	public class ResType
+	public class ResEnum
 	{
 		public static const SWF:int = 0;
 		public static const PACK_SWF:int = 1;
@@ -17,9 +17,9 @@ package rookie.core.resource
 		TAIL[MAP_DATA] = ".map";
 		TAIL[JPG] = ".jpg";
 		TAIL[SPK] = ".spk";
-		public static function getTailByType(type:int):String
+		public static function getTailByEnum(enum:int):String
 		{
-			return TAIL[type];
+			return TAIL[enum];
 		}
 	}
 }
