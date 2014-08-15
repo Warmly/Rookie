@@ -13,7 +13,7 @@ package definition
 		//配置资源路径
 		public static const CONFIG_RES_URL:ResUrl = new ResUrl( -1, -1, "config", ResEnum.SPK, "");
 		//是否GPU渲染地图
-		public static var GPU_RENDER_MAP:Boolean = false;
+		public static var GPU_RENDER_MAP:Boolean = true;
 		//是否GPU渲染creature
 		public static var GPU_RENDER_CREATURE:Boolean = false;
 		//是否显示地图格子

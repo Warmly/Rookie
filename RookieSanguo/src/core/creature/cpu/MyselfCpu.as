@@ -28,7 +28,6 @@ package core.creature.cpu
 				if(!_actProcess.isFinish)
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
-					trace(realTimePos);
 					synPixelPos(realTimePos.x, realTimePos.y);
 					synCamera();
 					var realTimeDir:int = _actProcess.getCurDirection();

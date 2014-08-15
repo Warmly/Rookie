@@ -43,13 +43,16 @@ package rookie.core.render.cpu
 		protected var _isRendering:Boolean;
 		// 帧回调
 		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
-
+        //播放方式
+		protected var _play:int = AnimPlayEnum.IMMEDIATELY;
+		
 		/**
 		 * @param play 播放方式(默认AnimPlayEnum.IMMEDIATELY)
 		 */		
 		public function AnimCpu(resUrl:ResUrl = null, play:int = 0)
 		{
 			super(resUrl);
+			_play = play;
 		    frequency = RookieDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
@@ -96,7 +99,16 @@ package rookie.core.render.cpu
 				}
 			}
 		}
-
+        
+		override protected function onImgDataLoaded():void
+		{
+			super.onImgDataLoaded();
+			if (_play == AnimPlayEnum.LOADED)
+			{
+				gotoAndPlay(_startFrame);
+			}
+		}
+		
 		protected function setCurFrameBmd():void
 		{
 			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);

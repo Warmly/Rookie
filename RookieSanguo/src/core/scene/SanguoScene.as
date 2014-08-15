@@ -72,7 +72,6 @@ package core.scene
 				
 				_myselfGpu = UserFactory.getMyselfGpu();
 				ModelEntry.userModel.addUser(_myselfGpu.userVO);
-				//_itemLayerGpu
 			}
 			else
 			{
@@ -147,6 +146,7 @@ package core.scene
 			
 			if (SanguoDefine.GPU_RENDER_MAP)
 			{
+				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
 			}
 			else
 			{
