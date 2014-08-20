@@ -72,6 +72,7 @@ package core.scene
 				
 				_myselfGpu = UserFactory.getMyselfGpu();
 				ModelEntry.userModel.addUser(_myselfGpu.userVO);
+				_itemLayerGpu.addUser(_myselfGpu);
 			}
 			else
 			{
@@ -136,14 +137,6 @@ package core.scene
 		
 		private function initLayer():void
 		{
-			if (SanguoDefine.GPU_RENDER_CREATURE)
-			{
-			}
-			else
-			{
-				RookieEntry.renderManager.addToCpuRenderQueue(_itemLayerCpu);
-			}
-			
 			if (SanguoDefine.GPU_RENDER_MAP)
 			{
 				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
@@ -156,6 +149,15 @@ package core.scene
 					RookieEntry.renderManager.addToCpuRenderQueue(_mapDebugLayerCpu);
 				}
 			}
+
+			if (SanguoDefine.GPU_RENDER_CREATURE)
+			{
+				RookieEntry.renderManager.addToGpuRenderQueue(_itemLayerGpu);
+			}
+			else
+			{
+				RookieEntry.renderManager.addToCpuRenderQueue(_itemLayerCpu);
+			}
 		}
 		
 		private function onMouseDown(e:MouseEvent):void
@@ -163,9 +165,9 @@ package core.scene
 			ManagerEntry.sceneManager.handleMouseDown(e);
 		}
 		
-		public function get myselfCpu():MyselfCpu
+		public function get myself():*
 		{
-			return _myselfCpu;
+			return SanguoDefine.GPU_RENDER_CREATURE?_myselfGpu:_myselfCpu;
 		}
 		
 		public function get mapLayerCpu():MapLayerCpu 

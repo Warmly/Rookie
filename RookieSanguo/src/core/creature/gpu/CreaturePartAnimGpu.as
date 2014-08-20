@@ -14,6 +14,7 @@ package core.creature.gpu
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.dataStruct.HashTable;
+	import rookie.definition.AnimPlayEnum;
 	import rookie.global.RookieEntry;
 	import rookie.tool.namer.namer;
 	
@@ -37,15 +38,15 @@ package core.creature.gpu
 		private var _eachDirFrameNum:uint;
 		// Y轴反转
 		private var _needYReverse:Boolean;
-		// 类型
-		private var _type:uint;
+		// 身体部件类型
+		private var _creaturePart:uint;
 		// 深度
 		private var _depth:uint;
 
-		public function CreaturePartAnimGpu(resUrl:ResUrl, type:uint) 
+		public function CreaturePartAnimGpu(resUrl:ResUrl, creaturePart:uint) 
 		{
-			_type = type;
-			super(resUrl, false);
+			_creaturePart = creaturePart;
+			super(resUrl, AnimPlayEnum.NEGATIVE);
 			frequency = SanguoDefine.CREATURE_PART_ANIM_FREQUENCY;
 			_imgConfigVoTable = RookieEntry.resManager.getImgConfigVoTable(resUrl);
 		}
@@ -113,15 +114,15 @@ package core.creature.gpu
 		
 		override protected function getCurFrameTexture():RookieTexture
 		{
-			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url, _action, _curFrame));
+			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url, _action, _curFrame, _needYReverse));
 			if (_texture)
 			{
 				return _texture;
 			}
 			else if (_curFrameVO && _curFrameVO.bitmapData)
 			{
-				_texture = RookieTextureFactory.createBasicTexture(_curFrameVO.bitmapData);
-				_texture.name = namer(_resUrl.url, _action, _curFrame);
+				_texture = RookieTextureFactory.createBasicTexture(_needYReverse?_curFrameVO.yReverseBitmapData:_curFrameVO.bitmapData);
+				_texture.name = namer(_resUrl.url, _action, _curFrame, _needYReverse);
 				RookieEntry.textureManager.addToCache(_texture);
 				return _texture;
 			}
@@ -175,9 +176,9 @@ package core.creature.gpu
 			_depth = value;
 		}
 		
-		public function get type():uint 
+		public function get creaturePart():uint 
 		{
-			return _type;
+			return _creaturePart;
 		}
 	}
 }

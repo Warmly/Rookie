@@ -20,7 +20,7 @@ package
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.render.gpu.ImgGpu;
-	import rookie.core.resource.LoadPriority;
+	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.tool.common.Color;
 	import rookie.tool.namer.namer;
 	import rookie.tool.text.TextTool;
@@ -71,7 +71,7 @@ package
 			}
 			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.stage.align = StageAlign.TOP_LEFT;
-			RookieEntry.loadManager.load(SanguoDefine.MAIN_RES_URL, LoadPriority.HIGH, fh(onMainResLoaded));
+			RookieEntry.loadManager.load(SanguoDefine.MAIN_RES_URL, LoadPriorityEnum.HIGH, fh(onMainResLoaded));
 		}
 		
 		private function on3DRenderComponentReady():void 
@@ -83,7 +83,7 @@ package
 		
 		private function onMainResLoaded():void
 		{
-			RookieEntry.loadManager.load(SanguoDefine.CONFIG_RES_URL, LoadPriority.HIGH, fh(onConfigResLoaded));
+			RookieEntry.loadManager.load(SanguoDefine.CONFIG_RES_URL, LoadPriorityEnum.HIGH, fh(onConfigResLoaded));
 		}
 		
 		private function onConfigResLoaded():void 
@@ -102,7 +102,7 @@ package
 		
 		private function testCode():void 
 		{
-			var user:UserGpu = UserFactory.getTestUserGpu();
+			var user:UserGpu = UserFactory.getMyselfGpu();
 			user.x = 200;
 			user.y = 200;
 			user.selfStartRender();

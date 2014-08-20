@@ -15,7 +15,7 @@ package definition
 		//是否GPU渲染地图
 		public static var GPU_RENDER_MAP:Boolean = true;
 		//是否GPU渲染creature
-		public static var GPU_RENDER_CREATURE:Boolean = false;
+		public static var GPU_RENDER_CREATURE:Boolean = true;
 		//是否显示地图格子
 		public static var ENABLE_MAP_GRID:Boolean = false;
 		//creature动画的Y坐标的附加偏移量，可以把creature的注册点对齐到脚下的位置

@@ -25,7 +25,7 @@ package core.scene.cpu
 
 		public function MapBlockCpu()
 		{
-			super(null, false);
+			super(null, false, LoadPriorityEnum.HIGH);
 		}
 
 		public function render():void

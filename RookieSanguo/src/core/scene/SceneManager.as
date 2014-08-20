@@ -25,7 +25,7 @@ package core.scene
 	{
 		private var _scene:SanguoScene;
 		private var _mapModel:MapModel;
-		private var _myself:MyselfCpu;
+		private var _myself:*;
 		private var _myselfVO:MyselfVO;
 		private var _pathFind:AStar;
 
@@ -33,7 +33,7 @@ package core.scene
 		{
 			_scene = SanguoEntry.scene;
 			_mapModel = ModelEntry.mapModel;
-			_myself = SanguoEntry.scene.myselfCpu;
+			_myself = SanguoEntry.scene.myself;
 			_myselfVO = SanguoEntry.myselfVO;
 			_pathFind = new AStar();
 		}

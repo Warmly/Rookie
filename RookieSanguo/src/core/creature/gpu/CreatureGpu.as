@@ -72,8 +72,28 @@ package core.creature.gpu
 		
 		public function render():void
 		{
+			updateRenderPos();
 			_partsContainer.render();
 		}
+		
+		public function initActProcess():void
+		{
+			if (!_actProcess)
+			{
+				_actProcess = new ActProcess();
+			}
+		}
+		
+		public function clearActProcess():void
+		{
+			_actProcess = null;
+		}
+		
+		public function get actProcess():ActProcess
+		{
+			return _actProcess;
+		}
+
 		
 		public function get renderType():int
 		{
@@ -113,6 +133,18 @@ package core.creature.gpu
 		public function get y():Number 
 		{
 			return _y;
+		}
+		
+		public function set x(value:Number):void 
+		{
+			_x = value;
+			updateRenderPos();
+		}
+		
+		public function set y(value:Number):void 
+		{
+			_y = value;
+			updateRenderPos();
 		}
 		
 		public function get depth():uint 
@@ -156,18 +188,6 @@ package core.creature.gpu
 			return _creatureVO.id;
 		}
 		
-		public function set x(value:Number):void 
-		{
-			_x = value;
-			_partsContainer.x = value - SanguoEntry.camera.xInScene;
-		}
-		
-		public function set y(value:Number):void 
-		{
-			_y = value;
-			_partsContainer.y = value - SanguoEntry.camera.yInScene;
-		}
-		
 		public function synDepthByCurCellPos():void
 		{
 			_depth = _creatureVO.cellY;
@@ -193,6 +213,13 @@ package core.creature.gpu
 			{
 				synPixelPosByCurCellPos();
 			}
+		}
+		
+		private function updateRenderPos():void
+		{
+			var cameraPos:Point = SanguoCoorTool.sceneToCamera(_x, _y);
+			_partsContainer.x = cameraPos.x;
+			_partsContainer.y = cameraPos.y;
 		}
 	}
 }

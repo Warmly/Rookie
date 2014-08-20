@@ -4,6 +4,7 @@ package rookie.core.render.gpu
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.factory.RookieTextureFactory;
 	import rookie.core.render.RenderManager;
+	import rookie.definition.AnimPlayEnum;
 	import rookie.definition.RookieDefine;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
@@ -42,17 +43,23 @@ package rookie.core.render.gpu
 		protected var _curFrameVO:ImgFrameConfigVO;
 		protected var _isRendering:Boolean;
 		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
+		// 播放方式
+		protected var _play:int = AnimPlayEnum.IMMEDIATELY; 
 		
-		public function AnimGpu(resUrl:ResUrl, isAutoPlay:Boolean = true) 
+		/**
+		 * @param play 播放方式(默认AnimPlayEnum.IMMEDIATELY)
+		 */
+		public function AnimGpu(resUrl:ResUrl = null, play:int = 0) 
 		{
 			super(resUrl);
+			_play = play;
 			frequency = RookieDefine.NORMAL_ANIM_FREQUENCY;
 			if (_imgConfigVO)
 			{
 				_totalFrame = _imgConfigVO.frameLength;
 			}
 			setPlayRange(1, _totalFrame);
-			if (isAutoPlay)
+			if (play == AnimPlayEnum.IMMEDIATELY)
 			{
 				gotoAndPlay(_startFrame);
 			}
@@ -60,39 +67,45 @@ package rookie.core.render.gpu
 		
 		override public function render():void
 		{
-			if (_isRendering)
+			renderCurFrame();
+			if (_frameCallBackTable.has(_curFrame))
 			{
-				renderCurFrame();
-				if (_frameCallBackTable.has(_curFrame))
+				var fun:FunHandler = _frameCallBackTable.search(_curFrame) as FunHandler;
+				fun.execute();
+			}
+			_curTime = getTimer();
+			if (_curTime - _lastTime >= _intervalTime)
+			{
+				_lastTime = _curTime;
+				if (_curFrame < _endFrame)
 				{
-					var fun:FunHandler = _frameCallBackTable.search(_curFrame) as FunHandler;
-					fun.execute();
+					_curFrame++;
 				}
-				_curTime = getTimer();
-				if (_curTime - _lastTime >= _intervalTime)
+				else
 				{
-					_lastTime = _curTime;
-					if (_curFrame < _endFrame)
+					if (_curLoop != _loop)
 					{
-						_curFrame++;
+						_curLoop++;
+						_curFrame = _startFrame;
 					}
 					else
 					{
-						if (_curLoop != _loop)
+						stopPlay();
+						if (_loopEndCallBack)
 						{
-							_curLoop++;
-							_curFrame = _startFrame;
-						}
-						else
-						{
-							stopPlay();
-							if (_loopEndCallBack)
-							{
-								_loopEndCallBack.execute();
-							}
+							_loopEndCallBack.execute();
 						}
 					}
 				}
+			}
+		}
+		
+		override protected function onImgDataLoaded(resUrl:ResUrl):void
+		{
+			super.onImgDataLoaded(resUrl);
+			if (_play == AnimPlayEnum.LOADED)
+			{
+				gotoAndPlay(_startFrame);
 			}
 		}
 		
@@ -128,6 +141,7 @@ package rookie.core.render.gpu
 		public function stopPlay():void
 		{
 			_isRendering = false;
+			_curLoop = 1;
 		}
 		
 		protected function getCurFrameTexture():RookieTexture

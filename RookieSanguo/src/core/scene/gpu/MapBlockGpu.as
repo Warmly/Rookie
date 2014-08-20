@@ -7,7 +7,9 @@ package core.scene.gpu
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.factory.RookieShaderFactory;
 	import rookie.core.render.gpu.factory.RookieTextureFactory;
+	import rookie.core.render.gpu.ImgGpuBase;
 	import rookie.core.render.RenderManager;
+	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.core.resource.ResUrl;
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.fh;
@@ -18,33 +20,32 @@ package core.scene.gpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class MapBlockGpu extends SceneObjGpuBase implements IObjPoolItem
+	public class MapBlockGpu extends ImgGpuBase implements IObjPoolItem
 	{
 		private var _index:int;
 		
 		public function MapBlockGpu() 
 		{
-			super(null);
+			super(null, false, LoadPriorityEnum.HIGH);
 		}
 		
 		public function set index(value:int):void 
 		{
 			_index = value;
 			var resUrl:ResUrl = ModelEntry.mapModel.getMapImgUrl(value);
-			if (_resUrl && _resUrl.equal(resUrl))
+			if (!_resUrl || ! _resUrl.equal(resUrl))
 			{
-				return;
-			}
-			_resUrl = resUrl;
-			_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url));
-			if (_texture)
-			{
-				_renderReady = true;
-			}
-			else
-			{
-				_renderReady = false;
-				RookieEntry.loadManager.load(_resUrl, 0, fh(onImgDataLoaded, _resUrl));
+				_resUrl = resUrl;
+				_texture = RookieEntry.textureManager.getTexture(namer(_resUrl.url));
+				if (_texture)
+				{
+					_renderReady = true;
+				}
+				else
+				{
+					_renderReady = false;
+					RookieEntry.loadManager.load(_resUrl, 0, fh(onImgDataLoaded, _resUrl));
+				}
 			}
 		}
 		

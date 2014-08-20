@@ -1,5 +1,6 @@
 package rookie.core.render.gpu 
 {
+	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.definition.RenderEnum;
 	import rookie.tool.functionHandler.fh;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
@@ -37,7 +38,7 @@ package rookie.core.render.gpu
 		//渲染就绪
 		protected var _renderReady:Boolean;
 		
-		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = 0) 
+		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = LoadPriorityEnum.LOW) 
 		{
 			_resUrl = resUrl;
 			if (resUrl && loadImmediately)
@@ -65,9 +66,12 @@ package rookie.core.render.gpu
 			_resLoaded = true;
 		}
 		
-		public function manualLoad(resUrl:ResUrl, loadPriority:int = 0):void
+		public function manualLoad(resUrl:ResUrl = null, loadPriority:int = LoadPriorityEnum.LOW):void
 		{
-			_resUrl = resUrl;
+			if (resUrl)
+			{
+				_resUrl = resUrl;
+			}
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(resUrl);
 			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded, resUrl));
 		}

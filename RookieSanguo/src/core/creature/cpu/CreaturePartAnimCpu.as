@@ -142,7 +142,7 @@ package core.creature.cpu
 			}
 		}
 
-		override protected function setCurFrameBmd():void
+		override protected function renderCurFrame():void
 		{
 			if (_imgConfigVO)
 			{

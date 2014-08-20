@@ -65,12 +65,12 @@ package rookie.core.render.cpu
 			}
 		}
 
-		private function enterFrameRender():void
+		public function render():void
 		{
 			_curTime = getTimer();
 			if (_curTime - _lastTime >= _intervalTime)
 			{
-				setCurFrameBmd();
+				renderCurFrame();
 				if (_frameCallBackTable.has(_curFrame))
 				{
 					var fun:FunHandler = _frameCallBackTable.search(_curFrame) as FunHandler;
@@ -109,7 +109,7 @@ package rookie.core.render.cpu
 			}
 		}
 		
-		protected function setCurFrameBmd():void
+		protected function renderCurFrame():void
 		{
 			_curFrameVO = _imgConfigVO.getFrame(_curFrame - 1);
 			if (_curFrameVO && _curFrameVO.bitmapData)
@@ -141,16 +141,11 @@ package rookie.core.render.cpu
 			_originY = value;
 		}
 
-		public function render():void
-		{
-			enterFrameRender();
-		}
-
 		public function gotoAndPlay(frame:int):void
 		{
 			_curFrame = frame;
 			startPlay();
-			setCurFrameBmd();
+			renderCurFrame();
 		}
 
 		public function startPlay():void

@@ -99,7 +99,7 @@ package core.creature.gpu
 				var order:Array = CreaturePartEnum.RENDER_ORDER[_direction];
 				for each (var item:CreaturePartAnimGpu in _ref) 
 				{
-					item.depth = order.indexOf(item.type);
+					item.depth = order.indexOf(item.creaturePart);
 				}
 				_ref.sort(sortOnDepth);
 			}
