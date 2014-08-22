@@ -91,6 +91,7 @@ package core.scene
 		
 		public function addUserGpu(user:UserGpu):void
 		{
+			_scene.itemLayerGpu.addUser(user);
 		}
 	}
 }

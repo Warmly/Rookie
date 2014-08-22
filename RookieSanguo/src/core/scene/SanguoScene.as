@@ -175,9 +175,19 @@ package core.scene
 			return _mapLayerCpu;
 		}
 		
+		public function get mapLayerGpu():MapLayerGpu 
+		{
+			return _mapLayerGpu;
+		}
+		
 		public function get itemLayerCpu():ItemLayerCpu 
 		{
 			return _itemLayerCpu;
+		}
+		
+		public function get itemLayerGpu():ItemLayerGpu 
+		{
+			return _itemLayerGpu;
 		}
 	}
 }

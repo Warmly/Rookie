@@ -4,6 +4,7 @@ package core.scene
 	import core.creature.UserVO;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
+	import definition.SanguoDefine;
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
@@ -60,13 +61,20 @@ package core.scene
 			var id:Number = RookieMath.randomInt(1, 10000);
 			if (!ModelEntry.userModel.hasUser(id))
 			{
-				var user:UserCpu = UserFactory.getTestUserCpu();
+				var user:* = SanguoDefine.GPU_RENDER_CREATURE?UserFactory.getTestUserGpu():UserFactory.getTestUserCpu();
 				user.synCellPos(RookieMath.randomInt(30, 50), RookieMath.randomInt(30, 50))
 				user.synPixelPosByCurCellPos();
 				user.synDepthByCurCellPos();
 				user.userVO.id = id;
 				ModelEntry.userModel.addUser(user.userVO);
-				ManagerEntry.sceneManager.addUserCpu(user);
+				if (SanguoDefine.GPU_RENDER_CREATURE)
+				{
+					ManagerEntry.sceneManager.addUserGpu(user);
+				}
+				else
+				{
+					ManagerEntry.sceneManager.addUserCpu(user);
+				}
 			}
 		}
 	}
