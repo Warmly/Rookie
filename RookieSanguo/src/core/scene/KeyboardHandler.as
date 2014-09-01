@@ -61,13 +61,13 @@ package core.scene
 			var id:Number = RookieMath.randomInt(1, 10000);
 			if (!ModelEntry.userModel.hasUser(id))
 			{
-				var user:* = SanguoDefine.GPU_RENDER_CREATURE?UserFactory.getTestUserGpu():UserFactory.getTestUserCpu();
+				var user:* = SanguoDefine.GPU_RENDER_SCENE?UserFactory.getTestUserGpu():UserFactory.getTestUserCpu();
 				user.synCellPos(RookieMath.randomInt(30, 50), RookieMath.randomInt(30, 50))
 				user.synPixelPosByCurCellPos();
 				user.synDepthByCurCellPos();
 				user.userVO.id = id;
 				ModelEntry.userModel.addUser(user.userVO);
-				if (SanguoDefine.GPU_RENDER_CREATURE)
+				if (SanguoDefine.GPU_RENDER_SCENE)
 				{
 					ManagerEntry.sceneManager.addUserGpu(user);
 				}

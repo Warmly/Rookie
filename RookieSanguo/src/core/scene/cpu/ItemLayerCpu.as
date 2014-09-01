@@ -8,15 +8,12 @@ package core.scene.cpu
 	import global.SanguoEntry;
 	import rookie.core.render.cpu.IParent;
 	import rookie.core.render.cpu.RichSprite;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
-	import rookie.tool.namer.namer;
 	
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ItemLayerCpu extends RichSprite implements IRenderItem
+	public class ItemLayerCpu extends RichSprite
 	{
 		private var _itemsRef:Vector.<ISceneObj> = new Vector.<ISceneObj>();
 		private var _camera:SanguoCamera;
@@ -42,16 +39,6 @@ package core.scene.cpu
 					(item as CreatureCpu).render();
 				}
 			}
-		}
-		
-		public function get key():String
-		{
-			return namer("SanguoScene", "ItemLayerCpu");
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.CPU;
 		}
 		
 		private function updateDepth():void

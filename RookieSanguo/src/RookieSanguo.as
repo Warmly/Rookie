@@ -53,12 +53,8 @@ package
 			RookieEntry.resManager.init();
 			SanguoEntry.camera.setup(0, 0, SanguoDefine.DEFAULT_CLIENT_WIDTH, SanguoDefine.DEFAULT_CLIENT_HEIGHT);
 			SanguoEntry.scene.parent = this;
-			if (SanguoDefine.GPU_RENDER_MAP || SanguoDefine.GPU_RENDER_CREATURE)
-			{
-				RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
-			}
+			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.mainLoop.add(RookieEntry.renderManager);
 			RookieEntry.mainLoop.add(SanguoEntry.scene);
 			
 			addChild(new Stats());

@@ -69,7 +69,7 @@ package core.scene
 		private function onScreenResize(e:Event = null):void
 		{
 			updateCamera();
-			if (SanguoDefine.GPU_RENDER_MAP)
+			if (SanguoDefine.GPU_RENDER_SCENE)
 			{
 				_renderManager.configBackBuffer(_camera.width, _camera.height);
 				_mapLayerGpu.onScreenResize();
@@ -89,30 +89,33 @@ package core.scene
 		
 		public function onEnterFrame():void
 		{
-			updateCamera();
-			if (SanguoDefine.GPU_RENDER_CREATURE)
+			RookieEntry.renderManager.clear();
+			if (SanguoDefine.GPU_RENDER_SCENE)
 			{
+				_myselfGpu.render();
+				updateCamera();
+				_mapLayerGpu.render();
+				_itemLayerGpu.render();
 			}
 			else
 			{
+				_myselfCpu.render();
+				updateCamera();
+				_mapLayerCpu.render();
+				_mapLayerCpu.x = -_camera.xInScene;
+				_mapLayerCpu.y = -_camera.yInScene;
+				_itemLayerCpu.render();
 				_itemLayerCpu.x = -_camera.xInScene;
 				_itemLayerCpu.y = -_camera.yInScene;
 			}
-			if (SanguoDefine.GPU_RENDER_MAP)
-			{
-			}
-			else
-			{
-				_mapLayerCpu.x = -_camera.xInScene;
-				_mapLayerCpu.y = -_camera.yInScene;
-			}
+			RookieEntry.renderManager.present();
 		}
 		
 		private function updateCamera():void
 		{
 			var focusX:Number;
 			var focusY:Number;
-			if (SanguoDefine.GPU_RENDER_CREATURE)
+			if (SanguoDefine.GPU_RENDER_SCENE)
 			{
 				focusX = _myselfGpu.x;
 				focusY = _myselfGpu.y;
@@ -127,29 +130,14 @@ package core.scene
 		
 		private function initLayer():void
 		{
-			if (SanguoDefine.GPU_RENDER_MAP)
+			if (SanguoDefine.GPU_RENDER_SCENE)
 			{
 				_mapLayerGpu = new MapLayerGpu();
-				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
-			}
-			else
-			{
-				_mapLayerCpu = new MapLayerCpu();
-				_mapLayerCpu.parent = this;
-				RookieEntry.renderManager.addToCpuRenderQueue(_mapLayerCpu);
+				_itemLayerGpu = new ItemLayerGpu();
 				
 				if (SanguoDefine.ENABLE_MAP_GRID)
 				{
-					_mapDebugLayerCpu = new MapDebugLayerCpu();
-					_mapDebugLayerCpu.parent = this;
-					RookieEntry.renderManager.addToCpuRenderQueue(_mapDebugLayerCpu);
 				}
-			}
-			
-			if (SanguoDefine.GPU_RENDER_CREATURE)
-			{
-				_itemLayerGpu = new ItemLayerGpu();
-				RookieEntry.renderManager.addToGpuRenderQueue(_itemLayerGpu);
 				
 				_myselfGpu = UserFactory.getMyselfGpu();
 				ModelEntry.userModel.addUser(_myselfGpu.userVO);
@@ -157,9 +145,17 @@ package core.scene
 			}
 			else
 			{
+				_mapLayerCpu = new MapLayerCpu();
+				_mapLayerCpu.parent = this;
+				
+				if (SanguoDefine.ENABLE_MAP_GRID)
+				{
+					_mapDebugLayerCpu = new MapDebugLayerCpu();
+					_mapDebugLayerCpu.parent = this;
+				}
+				
 				_itemLayerCpu = new ItemLayerCpu();
 				_itemLayerCpu.parent = this;
-				RookieEntry.renderManager.addToCpuRenderQueue(_itemLayerCpu);
 	
 				_myselfCpu = UserFactory.getMyselfCpu();
 				ModelEntry.userModel.addUser(_myselfCpu.userVO);
@@ -174,7 +170,7 @@ package core.scene
 		
 		public function get myself():*
 		{
-			return SanguoDefine.GPU_RENDER_CREATURE?_myselfGpu:_myselfCpu;
+			return SanguoDefine.GPU_RENDER_SCENE?_myselfGpu:_myselfCpu;
 		}
 		
 		public function get mapLayerCpu():MapLayerCpu 

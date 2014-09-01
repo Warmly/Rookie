@@ -26,13 +26,11 @@ package rookie.core.render
 	import rookie.tool.log.error;
 	import rookie.tool.log.log;
 
-	import rookie.core.IMainLoop;
-
 	/**
 	 * 渲染管理(2D/3D)
 	 * @author Warmly
 	 */
-	public class RenderManager implements IMainLoop
+	public class RenderManager
 	{
 		//CPU渲染队列
 		private var _cpuRenderQueue:HashTable = new HashTable(String, IRenderItem);
@@ -88,21 +86,19 @@ package rookie.core.render
 			_3DRenderComponentReadyCallBack.execute();
 			_context3D.enableErrorChecking = true;
 		}
-
-		public function onEnterFrame():void
+		
+		public function render():void
 		{
 			GpuRender();
 			CpuRender();
 		}
 		
-		private function GpuRender():void 
+		public function GpuRender():void 
 		{
 			if (_3DRenderComponentReady)
 			{
-				clear();
 				Gpu3DRender();
 				Gpu2DRender();
-				_context3D.present();
 			}
 		}
 		
@@ -118,7 +114,7 @@ package rookie.core.render
 			}
 		}
 		
-		private function CpuRender():void 
+		public function CpuRender():void 
 		{
 			var items:Dictionary = _cpuRenderQueue.content;
 			for each (var i : IRenderItem in items)
@@ -148,6 +144,11 @@ package rookie.core.render
 		public function clear():void
 		{
 			_context3D.clear(255, 255, 255);
+		}
+		
+		public function present():void
+		{
+			_context3D.present();
 		}
 		
 		public function setBlendMode(mode:int):void

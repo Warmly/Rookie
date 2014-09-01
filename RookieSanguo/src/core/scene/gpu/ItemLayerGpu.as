@@ -3,14 +3,11 @@ package core.scene.gpu
 	import core.creature.gpu.CreatureGpu;
 	import core.creature.gpu.UserGpu;
 	import core.scene.ISceneObj;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
-	import rookie.tool.namer.namer;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ItemLayerGpu implements IRenderItem
+	public class ItemLayerGpu
 	{
 		private var _itemsRef:Vector.<ISceneObj> = new Vector.<ISceneObj>();
 		
@@ -33,16 +30,6 @@ package core.scene.gpu
 					(item as CreatureGpu).render();
 				}
 			}
-		}
-
-		public function get key():String
-		{
-			return namer("SanguoScene", "ItemLayerGpu");
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.GPU;
 		}
 		
 		public function updateDepth():void

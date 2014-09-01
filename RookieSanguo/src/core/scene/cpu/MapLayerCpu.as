@@ -4,10 +4,7 @@ package core.scene.cpu
 	import core.scene.SanguoCamera;
 	import flash.geom.Point;
 	import global.ModelEntry;
-	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
-	import rookie.definition.RenderEnum;
-	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.ObjectPool;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.log.log;
@@ -17,7 +14,7 @@ package core.scene.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class MapLayerCpu extends RichSprite implements IRenderItem
+	public class MapLayerCpu extends RichSprite
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
@@ -74,16 +71,6 @@ package core.scene.cpu
 					}
 				}
 			}
-		}
-		
-		public function get key():String
-		{
-			return namer("SanguoScene", "MapLayerCpu");
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.CPU;
 		}
 
 		public function onScreenResize():void

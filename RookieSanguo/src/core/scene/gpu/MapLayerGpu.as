@@ -5,17 +5,14 @@ package core.scene.gpu
 	import flash.geom.Point;
 	import global.ModelEntry;
 	import global.SanguoEntry;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
 	import rookie.tool.math.RookieMath;
-	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.ObjectPool;
 	import tool.SanguoCoorTool;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class MapLayerGpu implements IRenderItem
+	public class MapLayerGpu
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
@@ -59,16 +56,6 @@ package core.scene.gpu
 			_numBlockW = getBlockNum(_camera.width);
 			_numBlockH = getBlockNum(_camera.height);
 	        resizeBlocks();	
-		}
-		
-		public function get key():String
-		{
-			return namer("SanguoScene", "MapLayerGpu");
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.GPU;
 		}
 		
 		private function resizeBlocks():void 
