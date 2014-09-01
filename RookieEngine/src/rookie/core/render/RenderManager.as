@@ -19,12 +19,12 @@ package rookie.core.render
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.factory.RookieRenderFactory;
 	import rookie.core.render.gpu.factory.RookieShaderFactory;
-	import rookie.dataStruct.Queue;
 	import rookie.tool.functionHandler.FunHandler;
 	import rookie.dataStruct.HashTable;
 	import rookie.definition.RookieDefine;
 	import rookie.namespace.Rookie;
 	import rookie.tool.log.error;
+	import rookie.tool.log.log;
 
 	import rookie.core.IMainLoop;
 
@@ -37,7 +37,7 @@ package rookie.core.render
 		//CPU渲染队列
 		private var _cpuRenderQueue:HashTable = new HashTable(String, IRenderItem);
 		//GPU渲染队列
-		private var _gpuRenderQueue:Queue = new Queue(IRenderItem);
+		private var _gpuRenderQueue:Vector.<IRenderItem> = new Vector.<IRenderItem>();
 		private var _context3D:Context3D;
 		private var _stage:Stage;
 		//后台缓冲区宽高
@@ -74,9 +74,13 @@ package rookie.core.render
 		{
 			_context3D = (e.target as Stage3D).context3D;
 			
-			if (!_context3D)
+			if (_context3D)
 			{
-				error("未获取到3D设备！");
+				log("3D device ready!");
+			}
+			else
+			{
+				error("3D device not found!");
 				return;
 			}
 			
@@ -93,10 +97,13 @@ package rookie.core.render
 		
 		private function GpuRender():void 
 		{
-			clear();
-			Gpu3DRender();
-			Gpu2DRender();
-			_context3D.present();
+			if (_3DRenderComponentReady)
+			{
+				clear();
+				Gpu3DRender();
+				Gpu2DRender();
+				_context3D.present();
+			}
 		}
 		
 		private function Gpu3DRender():void 
@@ -105,8 +112,7 @@ package rookie.core.render
 		
 		private function Gpu2DRender():void 
 		{
-			var items:Vector.<*> = _gpuRenderQueue.content;
-			for each (var item:IRenderItem in items) 
+			for each (var item:IRenderItem in _gpuRenderQueue) 
 			{
 				item.render();
 			}

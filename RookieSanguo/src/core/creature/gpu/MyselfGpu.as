@@ -26,7 +26,7 @@ package core.creature.gpu
 				if (!_actProcess.isFinish)
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
-					synCamera(realTimePos);
+					//synCamera(realTimePos);
 					synPixelPos(realTimePos.x, realTimePos.y);
 					var realTimeDir:int = _actProcess.getCurDirection();
 					synAction(ActionEnum.RUN, realTimeDir);

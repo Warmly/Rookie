@@ -8,14 +8,18 @@ package definition
 	 */
 	public class SanguoDefine 
 	{
+		//初始客户端宽
+		public static const DEFAULT_CLIENT_WIDTH:int = 1200;
+		//初始客户端高
+		public static const DEFAULT_CLIENT_HEIGHT:int = 800;
 		//主资源路径
 		public static const MAIN_RES_URL:ResUrl = new ResUrl( -1, -1, "resource_debug", ResEnum.PACK_SWF, "");
 		//配置资源路径
 		public static const CONFIG_RES_URL:ResUrl = new ResUrl( -1, -1, "config", ResEnum.SPK, "");
 		//是否GPU渲染地图
-		public static var GPU_RENDER_MAP:Boolean = true;
+		public static var GPU_RENDER_MAP:Boolean = false;
 		//是否GPU渲染creature
-		public static var GPU_RENDER_CREATURE:Boolean = true;
+		public static var GPU_RENDER_CREATURE:Boolean = false;
 		//是否显示地图格子
 		public static var ENABLE_MAP_GRID:Boolean = false;
 		//creature动画的Y坐标的附加偏移量，可以把creature的注册点对齐到脚下的位置

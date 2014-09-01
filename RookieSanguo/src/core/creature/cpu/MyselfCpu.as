@@ -29,7 +29,7 @@ package core.creature.cpu
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
 					synPixelPos(realTimePos.x, realTimePos.y);
-					synCamera();
+					//synCamera();
 					var realTimeDir:int = _actProcess.getCurDirection();
 					synAction(ActionEnum.RUN, realTimeDir);
 					if (_actProcess.checkStepFinish())

@@ -4,7 +4,7 @@ package core.scene
 	import flash.geom.Rectangle;
 
 	/**
-	 * 一个矩形区域，对应舞台的宽高
+	 * 定义一个矩形区域，对应舞台的宽高
 	 * @author Warmly
 	 */
 	public class SanguoCamera

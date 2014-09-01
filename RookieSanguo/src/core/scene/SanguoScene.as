@@ -13,6 +13,7 @@ package core.scene
 	import flash.geom.Point;
 	import global.ManagerEntry;
 	import global.ModelEntry;
+	import rookie.core.IMainLoop;
 	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
 	import global.SanguoEntry;
@@ -29,7 +30,7 @@ package core.scene
 	/**
 	 * @author Warmly
 	 */
-	public class SanguoScene extends RichSprite
+	public class SanguoScene extends RichSprite implements IMainLoop
 	{
 		private var _mapLayerCpu:MapLayerCpu;
 		private var _mapLayerGpu:MapLayerGpu;
@@ -49,41 +50,6 @@ package core.scene
 		{
 			_camera = SanguoEntry.camera;
 			_renderManager = RookieEntry.renderManager;
-			
-			if (SanguoDefine.GPU_RENDER_MAP)
-			{
-				_mapLayerGpu = new MapLayerGpu();
-			}
-			else
-			{
-				_mapLayerCpu = new MapLayerCpu();
-				_mapLayerCpu.parent = this;
-				
-				if (SanguoDefine.ENABLE_MAP_GRID)
-				{
-					_mapDebugLayerCpu = new MapDebugLayerCpu();
-					_mapDebugLayerCpu.parent = this;
-				}
-			}
-			
-			if (SanguoDefine.GPU_RENDER_CREATURE)
-			{
-				_itemLayerGpu = new ItemLayerGpu();
-				
-				_myselfGpu = UserFactory.getMyselfGpu();
-				ModelEntry.userModel.addUser(_myselfGpu.userVO);
-				_itemLayerGpu.addUser(_myselfGpu);
-			}
-			else
-			{
-				_itemLayerCpu = new ItemLayerCpu();
-				_itemLayerCpu.parent = this;
-	
-				_myselfCpu = UserFactory.getMyselfCpu();
-				ModelEntry.userModel.addUser(_myselfCpu.userVO);
-				_itemLayerCpu.addUser(_myselfCpu);
-			}
-			
 			addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 		}
 
@@ -94,29 +60,15 @@ package core.scene
 		
 		private function init():void
 		{
+			initLayer();
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(Event.RESIZE, onScreenResize);
 			onScreenResize();
-			initLayer();
 		}
 
 		private function onScreenResize(e:Event = null):void
 		{
-			var focus:Point = new Point;
-			
-			if (SanguoDefine.GPU_RENDER_CREATURE)
-			{
-				focus.x = _myselfGpu.x;
-				focus.y = _myselfGpu.y;
-			}
-			else
-			{
-				focus.x = _myselfCpu.x;
-				focus.y = _myselfCpu.y;
-			}
-			
-			_camera.setup(focus.x, focus.y, stage.stageWidth, stage.stageHeight);
-			
+			updateCamera();
 			if (SanguoDefine.GPU_RENDER_MAP)
 			{
 				_renderManager.configBackBuffer(_camera.width, _camera.height);
@@ -135,28 +87,83 @@ package core.scene
 			}
 		}
 		
+		public function onEnterFrame():void
+		{
+			updateCamera();
+			if (SanguoDefine.GPU_RENDER_CREATURE)
+			{
+			}
+			else
+			{
+				_itemLayerCpu.x = -_camera.xInScene;
+				_itemLayerCpu.y = -_camera.yInScene;
+			}
+			if (SanguoDefine.GPU_RENDER_MAP)
+			{
+			}
+			else
+			{
+				_mapLayerCpu.x = -_camera.xInScene;
+				_mapLayerCpu.y = -_camera.yInScene;
+			}
+		}
+		
+		private function updateCamera():void
+		{
+			var focusX:Number;
+			var focusY:Number;
+			if (SanguoDefine.GPU_RENDER_CREATURE)
+			{
+				focusX = _myselfGpu.x;
+				focusY = _myselfGpu.y;
+			}
+			else
+			{
+				focusX = _myselfCpu.x;
+				focusY = _myselfCpu.y;
+			}
+			_camera.setup(focusX, focusY, stage.stageWidth, stage.stageHeight);
+		}
+		
 		private function initLayer():void
 		{
 			if (SanguoDefine.GPU_RENDER_MAP)
 			{
+				_mapLayerGpu = new MapLayerGpu();
 				RookieEntry.renderManager.addToGpuRenderQueue(_mapLayerGpu);
 			}
 			else
 			{
+				_mapLayerCpu = new MapLayerCpu();
+				_mapLayerCpu.parent = this;
 				RookieEntry.renderManager.addToCpuRenderQueue(_mapLayerCpu);
+				
 				if (SanguoDefine.ENABLE_MAP_GRID)
 				{
+					_mapDebugLayerCpu = new MapDebugLayerCpu();
+					_mapDebugLayerCpu.parent = this;
 					RookieEntry.renderManager.addToCpuRenderQueue(_mapDebugLayerCpu);
 				}
 			}
-
+			
 			if (SanguoDefine.GPU_RENDER_CREATURE)
 			{
+				_itemLayerGpu = new ItemLayerGpu();
 				RookieEntry.renderManager.addToGpuRenderQueue(_itemLayerGpu);
+				
+				_myselfGpu = UserFactory.getMyselfGpu();
+				ModelEntry.userModel.addUser(_myselfGpu.userVO);
+				_itemLayerGpu.addUser(_myselfGpu);
 			}
 			else
 			{
+				_itemLayerCpu = new ItemLayerCpu();
+				_itemLayerCpu.parent = this;
 				RookieEntry.renderManager.addToCpuRenderQueue(_itemLayerCpu);
+	
+				_myselfCpu = UserFactory.getMyselfCpu();
+				ModelEntry.userModel.addUser(_myselfCpu.userVO);
+				_itemLayerCpu.addUser(_myselfCpu);
 			}
 		}
 		

@@ -16,7 +16,7 @@ package
     import rookie.tool.functionHandler.fh;
 	import flash.display.Sprite;
 
-	[SWF(backgroundColor="#ffffff", frameRate="60", width="800", height="600")]
+	[SWF(backgroundColor="#ffffff", frameRate="60", width="1200", height="800")]
 	public class RookieSanguo extends Sprite
 	{
 		public function RookieSanguo()
@@ -51,12 +51,15 @@ package
 		private function onConfigResLoaded():void
 		{
 			RookieEntry.resManager.init();
-			
-			var scene:SanguoScene = SanguoEntry.scene;
-			scene.parent = this;
-			
+			SanguoEntry.camera.setup(0, 0, SanguoDefine.DEFAULT_CLIENT_WIDTH, SanguoDefine.DEFAULT_CLIENT_HEIGHT);
+			SanguoEntry.scene.parent = this;
+			if (SanguoDefine.GPU_RENDER_MAP || SanguoDefine.GPU_RENDER_CREATURE)
+			{
+				RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
+			}
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
+			RookieEntry.mainLoop.add(RookieEntry.renderManager);
+			RookieEntry.mainLoop.add(SanguoEntry.scene);
 			
 			addChild(new Stats());
 			
@@ -70,7 +73,7 @@ package
 		
 		private function on3DRenderComponentReady():void 
 		{
-			RookieEntry.renderManager.configBackBuffer(SanguoEntry.camera.width, SanguoEntry.camera.height);
+			RookieEntry.renderManager.configBackBuffer(SanguoDefine.DEFAULT_CLIENT_WIDTH, SanguoDefine.DEFAULT_CLIENT_HEIGHT);
 			RookieRenderFactory.setBasicRenderState();
 		}
 	}

@@ -54,8 +54,6 @@ package core.scene.cpu
 		
 		public function render():void
 		{
-			this.x = - _camera.xInScene;
-			this.y = - _camera.yInScene;
 			if (_mapModel.curMapVO)
 			{
 				var startIndexX:int = getStartIndex(_camera.xInScene);

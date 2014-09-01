@@ -46,7 +46,7 @@ package tool
 			var vo:MyselfVO = SanguoEntry.myselfVO;
 			vo.cellX = 40;
 			vo.cellY = 40;
-			vo.body = 10305;
+			vo.body = 10310;
 			vo.weapon = 10305;
 			vo.horse = 3214;
 			vo.costPerCell = SanguoDefine.MOVE_ONE_CELL_COST;

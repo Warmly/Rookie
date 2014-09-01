@@ -1,9 +1,8 @@
 package rookie.core
 {
-	import rookie.global.RookieEntry;
-
 	import flash.events.Event;
 	import flash.display.Stage;
+	import rookie.global.RookieEntry;
 
 	/**
 	 * @author Warmly
@@ -11,6 +10,7 @@ package rookie.core
 	public class MainLoop
 	{
 		private var _stage:Stage;
+		private var _queue:Vector.<IMainLoop> = new Vector.<IMainLoop>();
 
 		public function MainLoop()
 		{
@@ -21,11 +21,18 @@ package rookie.core
 			_stage = stage;
 			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
+		
+		public function add(item:IMainLoop):void
+		{
+			_queue.push(item);
+		}
 
 		private function onEnterFrame(event:Event):void
 		{
-			RookieEntry.renderManager.onEnterFrame();
-			RookieEntry.timerManager.onEnterFrame();
+			for each (var item:IMainLoop in _queue) 
+			{
+				item.onEnterFrame();
+			}
 		}
 	}
 }

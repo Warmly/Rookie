@@ -131,6 +131,10 @@ package
 			{
 				trace("么么哒！");
 			}
+			
+			var str:String = "杀死他们90999%/20阿斯达";
+			str = str.replace("90999%", "123");
+			trace(str);
 		}
 	}
 }

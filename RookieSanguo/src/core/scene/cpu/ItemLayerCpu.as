@@ -42,8 +42,6 @@ package core.scene.cpu
 					(item as CreatureCpu).render();
 				}
 			}
-			this.x = - _camera.xInScene;
-			this.y = - _camera.yInScene;
 		}
 		
 		public function get key():String
