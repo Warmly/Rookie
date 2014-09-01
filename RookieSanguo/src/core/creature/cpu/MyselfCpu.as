@@ -1,6 +1,5 @@
 package core.creature.cpu 
 {
-	import core.scene.SanguoCamera;
 	import definition.ActionEnum;
 	import flash.geom.Point;
 	import global.ModelEntry;
@@ -13,11 +12,8 @@ package core.creature.cpu
 	 */
 	public class MyselfCpu extends UserCpu 
 	{
-		private var _camera:SanguoCamera;
-		
 		public function MyselfCpu() 
 		{
-			_camera = SanguoEntry.camera;
 		}
 		
 		override public function render():void
@@ -29,7 +25,6 @@ package core.creature.cpu
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
 					synPixelPos(realTimePos.x, realTimePos.y);
-					//synCamera();
 					var realTimeDir:int = _actProcess.getCurDirection();
 					synAction(ActionEnum.RUN, realTimeDir);
 					if (_actProcess.checkStepFinish())
@@ -45,11 +40,6 @@ package core.creature.cpu
 					clearActProcess();
 				}
 			}
-		}
-		
-		private function synCamera():void
-		{
-			_camera.moveFocus(this.x, this.y);
 		}
 	}
 }

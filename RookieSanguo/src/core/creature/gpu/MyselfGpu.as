@@ -1,6 +1,5 @@
 package core.creature.gpu 
 {
-	import core.scene.SanguoCamera;
 	import definition.ActionEnum;
 	import flash.geom.Point;
 	import global.SanguoEntry;
@@ -11,11 +10,8 @@ package core.creature.gpu
 	 */
 	public class MyselfGpu extends UserGpu 
 	{
-		private var _camera:SanguoCamera;
-		
 		public function MyselfGpu() 
 		{
-			_camera = SanguoEntry.camera;
 		}
 		
 		override public function render():void
@@ -26,7 +22,6 @@ package core.creature.gpu
 				if (!_actProcess.isFinish)
 				{
 					var realTimePos:Point = _actProcess.getCurPixelPos();
-					//synCamera(realTimePos);
 					synPixelPos(realTimePos.x, realTimePos.y);
 					var realTimeDir:int = _actProcess.getCurDirection();
 					synAction(ActionEnum.RUN, realTimeDir);
@@ -43,11 +38,6 @@ package core.creature.gpu
 					clearActProcess();
 				}
 			}
-		}
-		
-		private function synCamera(focus:Point):void
-		{
-			_camera.moveFocus(focus.x, focus.y);
 		}
 	}
 }
