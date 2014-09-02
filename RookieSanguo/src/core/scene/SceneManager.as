@@ -41,8 +41,8 @@ package core.scene
 		public function onMapLoaded():void
 		{
 			var vo:MapVO = _mapModel.curMapVO;
-			var w:int = vo.numCellW + MapModel.MAP_W_ADD_CELL;
-			var h:int = vo.numCellH + MapModel.MAP_H_ADD_CELL;
+			var w:int = vo.numCellW + MapModel.MAP_W_ADD_CELL * 2;
+			var h:int = vo.numCellH + MapModel.MAP_H_ADD_CELL * 2;
 			var numCell:int = w * h;
 			var arr:Array = [];
 			for (var i:int = 0; i < numCell; i++)

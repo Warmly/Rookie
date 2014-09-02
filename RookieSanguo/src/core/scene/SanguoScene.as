@@ -113,18 +113,15 @@ package core.scene
 		
 		private function updateCamera():void
 		{
-			var focusX:Number;
-			var focusY:Number;
-			if (SanguoDefine.GPU_RENDER_SCENE)
-			{
-				focusX = _myselfGpu.x;
-				focusY = _myselfGpu.y;
-			}
-			else
-			{
-				focusX = _myselfCpu.x;
-				focusY = _myselfCpu.y;
-			}
+			var myself:* = SanguoDefine.GPU_RENDER_SCENE ? _myselfGpu : _myselfCpu;
+			var inLeftLimit:Boolean = myself.x - _camera.width * 0.5 > MapModel.MAP_W_ADD;
+			var inRightLimit:Boolean = myself.x + _camera.width * 0.5 + MapModel.MAP_W_ADD < ModelEntry.mapModel.totalMapWidth;
+			var inUpLimit:Boolean = myself.y - _camera.height * 0.5 > MapModel.MAP_H_ADD;
+			var inDownLimit:Boolean = myself.y + _camera.height * 0.5 + MapModel.MAP_H_ADD < ModelEntry.mapModel.totalMapHeight;
+			var needMoveCameraX:Boolean = inLeftLimit && inRightLimit;
+			var needMoveCameraY:Boolean = inUpLimit && inDownLimit;
+			var focusX:Number = needMoveCameraX ? myself.x : (!inLeftLimit?MapModel.MAP_W_ADD + _camera.width * 0.5:MapModel.MAP_W_ADD + ModelEntry.mapModel.validMapWidth - _camera.width * 0.5);
+			var focusY:Number = needMoveCameraY ? myself.y : (!inUpLimit?MapModel.MAP_H_ADD + _camera.height * 0.5:MapModel.MAP_H_ADD + ModelEntry.mapModel.validMapHeight - _camera.height * 0.5);
 			_camera.setup(focusX, focusY, stage.stageWidth, stage.stageHeight);
 		}
 		

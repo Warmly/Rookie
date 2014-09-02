@@ -16,7 +16,6 @@ package core.creature.gpu
 		
 		override public function render():void
 		{
-			super.render();
 			if (_actProcess)
 			{
 				if (!_actProcess.isFinish)
@@ -38,6 +37,7 @@ package core.creature.gpu
 					clearActProcess();
 				}
 			}
+			super.render();
 		}
 	}
 }

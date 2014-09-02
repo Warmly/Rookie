@@ -138,13 +138,13 @@ package core.scene
 
 		public function get validMapWidth():int
 		{
-			_validMapWidth = _curMapVO.numCellW * CELL_WIDTH;
+			_validMapWidth = _curMapVO ? _curMapVO.numCellW * CELL_WIDTH : 0;
 			return _validMapWidth;
 		}
 
 		public function get validMapHeight():int
 		{
-			_validMapHeight = _curMapVO.numCellH * CELL_HEIGHT;
+			_validMapHeight = _curMapVO ? _curMapVO.numCellH * CELL_HEIGHT : 0;
 			return _validMapHeight;
 		}
 		

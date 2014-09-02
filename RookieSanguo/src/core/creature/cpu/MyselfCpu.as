@@ -18,7 +18,6 @@ package core.creature.cpu
 		
 		override public function render():void
 		{
-			super.render();
 			if (_actProcess)
 			{
 				if(!_actProcess.isFinish)
@@ -40,6 +39,7 @@ package core.creature.cpu
 					clearActProcess();
 				}
 			}
+			super.render();
 		}
 	}
 }
