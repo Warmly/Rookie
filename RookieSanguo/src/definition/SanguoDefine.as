@@ -19,7 +19,7 @@ package definition
 		//是否GPU渲染场景
 		public static var GPU_RENDER_SCENE:Boolean = false;
 		//是否显示地图格子
-		public static var ENABLE_MAP_GRID:Boolean = false;
+		public static var ENABLE_MAP_GRID:Boolean = true;
 		//creature动画的Y坐标的附加偏移量，可以把creature的注册点对齐到脚下的位置
 		public static const CREATURE_PART_ANIM_Y_OFFSET:int = -48;
         //creature动画播放频率		

@@ -33,15 +33,12 @@ package rookie.algorithm.pathFinding.aStar
 		{
 			_startNode = _map[startX + startY * _width];
 			_endNode = _map[endX + endY * _width];
+			checkEndNode();
 			reset();
 		}
 		
 		private function reset():void
 		{
-			/*for each(var i:AStarNode in _map)
-			{
-				i.parentNode = null;
-			}*/
 			_openList.clear();
 			_closeList.clear();
 			_path.length = 0;
@@ -63,7 +60,66 @@ package rookie.algorithm.pathFinding.aStar
 				}
 				checkNodeAround(_curNode);
 			}
+			log("Path find failed !");
 			return false;
+		}
+		
+		/**
+		 * 当终点不可走时，水漫法寻找距离终点最近的可走点
+	     */
+		private function checkEndNode():void 
+		{
+			if (_endNode.type == AStarNodeEnum.OBSTACLE)
+			{
+				var disX:int = RookieMath.abs(_startNode.x - _endNode.x);
+				var disY:int = RookieMath.abs(_startNode.y - _endNode.y);
+				var maxRange:int = RookieMath.max(disX, disY);
+				var fromX:int = 0;
+				var toX:int = 0;
+				var fromY:int = 0;
+				var toY:int = 0;
+				//已经检查过的节点, (index, true)
+				var checkedNode:HashTable = new HashTable(int, Boolean);
+				//当前一圈节点
+				var curAroundNode:Vector.<AStarNode> = new Vector.<AStarNode>();
+				for (var i:int = 1; i <= maxRange; i++) 
+				{
+					curAroundNode.length = 0;
+					fromX = RookieMath.max(0, _endNode.x - i);
+			        toX = RookieMath.min(_endNode.x + i, _width - i);
+			        fromY = RookieMath.max(0, _endNode.y - i);
+			        toY = RookieMath.min(_endNode.y + i, _height - i);
+					for (var y:int = fromY; y <= toY; y++) 
+					{
+						for (var x:int = fromX; x <= toX; x++) 
+						{
+							if (!checkedNode.has(x + y * _width))
+							{
+								var node:AStarNode = getNodeByCoor(x, y);
+								if (node.type != AStarNodeEnum.OBSTACLE)
+								{
+									curAroundNode.push(node);
+								}
+								checkedNode.insert(x + y * _width, true);
+							}
+						}
+					}
+					for each (var nd:AStarNode in curAroundNode) 
+					{
+						var nearestNd:AStarNode;
+						if (!nearestNd || (calHValue(nd, _endNode) < calHValue(nearestNd, _endNode)))
+						{
+							nearestNd = nd;
+						}
+					}
+					if (nearestNd)
+					{
+						_endNode = nearestNd;
+						return;
+					}
+				}
+				_endNode = _startNode;
+			}
 		}
 		
 		/**
@@ -116,55 +172,16 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function checkNodeAround(node:AStarNode):void
 		{
-			var x:int = node.x;
-			var y:int = node.y;
-			//左上
-			if (x-1>=0 && y-1>=0)
+			var fromX:int = RookieMath.max(0, node.x - 1);
+			var toX:int = RookieMath.min(node.x + 1, _width - 1);
+			var fromY:int = RookieMath.max(0, node.y - 1);
+			var toY:int = RookieMath.min(node.y + 1, _height - 1);
+			for (var j:int = fromY; j <= toY; j++) 
 			{
-				var nodeLeftUp:AStarNode = getNodeByCoor(x - 1, y - 1);
-				checkNode(nodeLeftUp);
-			}
-			//上
-			if (y-1>=0)
-			{
-				var nodeUp:AStarNode = getNodeByCoor(x, y - 1);
-				checkNode(nodeUp);
-			}
-			//右上
-			if (x+1<_width && y-1>=0)
-			{
-				var nodeRightUp:AStarNode = getNodeByCoor(x + 1, y - 1);
-				checkNode(nodeRightUp);
-			}
-			//左
-			if (x-1>=0)
-			{
-				var nodeLeft:AStarNode = getNodeByCoor(x - 1, y);
-				checkNode(nodeLeft);
-			}
-			//右
-			if (x+1<_width)
-			{
-				var nodeRight:AStarNode = getNodeByCoor(x + 1, y);
-				checkNode(nodeRight);
-			}
-			//左下
-			if (x-1>=0 && y+1<_height)
-			{
-				var nodeLeftDown:AStarNode = getNodeByCoor(x - 1, y + 1);
-				checkNode(nodeLeftDown);
-			}
-			//下
-			if (y+1<_height)
-			{
-				var nodeDown:AStarNode = getNodeByCoor(x, y + 1);
-				checkNode(nodeDown);
-			}
-			//右下
-			if (x+1<_width && y+1<_height)
-			{
-				var nodeRightDown:AStarNode = getNodeByCoor(x + 1, y + 1);
-				checkNode(nodeRightDown);
+				for (var i:int = fromX; i <= toX; i++) 
+				{
+					checkNode(getNodeByCoor(i, j));
+				}
 			}
 		}
 		

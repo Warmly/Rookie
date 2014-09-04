@@ -53,7 +53,7 @@ package rookie.dataStruct
 			}
 			else
 			{
-				warning("Try to insert a key '" + String(key) + "'already exists into HashTable" + _name + "!");
+				warning("Try to insert a key '" + String(key) + "'already exists into HashTable " + _name + "!");
 			}
 		}
 

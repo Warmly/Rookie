@@ -107,6 +107,12 @@ package core.scene
 				_itemLayerCpu.render();
 				_itemLayerCpu.x = -_camera.xInScene;
 				_itemLayerCpu.y = -_camera.yInScene;
+				if (SanguoDefine.ENABLE_MAP_GRID)
+				{
+					_mapDebugLayerCpu.render();
+					_mapDebugLayerCpu.x = -_camera.xInScene;
+					_mapDebugLayerCpu.y = -_camera.yInScene;
+				}
 			}
 			RookieEntry.renderManager.present();
 		}
@@ -114,14 +120,14 @@ package core.scene
 		private function updateCamera():void
 		{
 			var myself:* = SanguoDefine.GPU_RENDER_SCENE ? _myselfGpu : _myselfCpu;
-			var inLeftLimit:Boolean = myself.x - _camera.width * 0.5 > MapModel.MAP_W_ADD;
-			var inRightLimit:Boolean = myself.x + _camera.width * 0.5 + MapModel.MAP_W_ADD < ModelEntry.mapModel.totalMapWidth;
-			var inUpLimit:Boolean = myself.y - _camera.height * 0.5 > MapModel.MAP_H_ADD;
-			var inDownLimit:Boolean = myself.y + _camera.height * 0.5 + MapModel.MAP_H_ADD < ModelEntry.mapModel.totalMapHeight;
+			var inLeftLimit:Boolean = myself.x > _camera.width * 0.5;
+			var inRightLimit:Boolean = myself.x + _camera.width * 0.5 < ModelEntry.mapModel.curMapWidth;
+			var inUpLimit:Boolean = myself.y > _camera.height * 0.5;
+			var inDownLimit:Boolean = myself.y + _camera.height * 0.5 < ModelEntry.mapModel.curMapHeight;
 			var needMoveCameraX:Boolean = inLeftLimit && inRightLimit;
 			var needMoveCameraY:Boolean = inUpLimit && inDownLimit;
-			var focusX:Number = needMoveCameraX ? myself.x : (!inLeftLimit?MapModel.MAP_W_ADD + _camera.width * 0.5:MapModel.MAP_W_ADD + ModelEntry.mapModel.validMapWidth - _camera.width * 0.5);
-			var focusY:Number = needMoveCameraY ? myself.y : (!inUpLimit?MapModel.MAP_H_ADD + _camera.height * 0.5:MapModel.MAP_H_ADD + ModelEntry.mapModel.validMapHeight - _camera.height * 0.5);
+			var focusX:Number = needMoveCameraX ? myself.x : (!inLeftLimit?_camera.width * 0.5: ModelEntry.mapModel.curMapWidth - _camera.width * 0.5);
+			var focusY:Number = needMoveCameraY ? myself.y : (!inUpLimit?_camera.height * 0.5:ModelEntry.mapModel.curMapHeight - _camera.height * 0.5);
 			_camera.setup(focusX, focusY, stage.stageWidth, stage.stageHeight);
 		}
 		

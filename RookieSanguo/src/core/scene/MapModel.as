@@ -33,27 +33,15 @@ package core.scene
 		public static const CELL_WIDTH:int = 64;
 		// 格子高
 		public static const CELL_HEIGHT:int = 32;
-		// 地图水平附加格子数
-		public static const MAP_W_ADD_CELL:int = 20;
-		// 地图竖直附加格子数
-		public static const MAP_H_ADD_CELL:int = 20;
-		// 地图水平附加长度
-		public static const MAP_W_ADD:int = MAP_W_ADD_CELL * CELL_WIDTH;
-		// 地图竖直附加长度
-		public static const MAP_H_ADD:int = MAP_H_ADD_CELL * CELL_HEIGHT;
 		private var _sceneMapInfoConfig:HashTable = new HashTable(int, MapInfoVO);
 		private var _curMapInfoVO:MapInfoVO;
 		private var _mapVoConfig:HashTable = new HashTable(int, MapVO);
 		private var _curMapId:int;
 		private var _curMapVO:MapVO;
-		// 有效地图宽
-		private var _validMapWidth:int;
-		// 有效地图高
-		private var _validMapHeight:int;
-		// 地图总高（计算附加高）
-		private var _totalMapWidth:int;
-		// 地图总宽（计算附加宽）
-		private var _totalMapHeight:int;
+		// 地图总高
+		private var _curMapWidth:int;
+		// 地图总宽
+		private var _curMapHeight:int;
 		//
 		private var _staticDataModel:StaticDataModel;
 		private var _resManager:ResManager;
@@ -95,7 +83,7 @@ package core.scene
 
 		public function getMapImgUrl(index:int):ResUrl
 		{
-			var resUrl:ResUrl = new ResUrl(320, _curMapVO.groupId, (index + "_" + MAP_BLOCK_SIZE + "_" + totalMapWidth + "_" + totalMapHeight), ResEnum.JPG);
+			var resUrl:ResUrl = new ResUrl(320, _curMapVO.groupId, index, ResEnum.JPG);
 			return resUrl;
 		}
 
@@ -124,35 +112,6 @@ package core.scene
 			_curMapVO = curMapVO;
 		}
 
-		public function get totalMapWidth():int
-		{
-			_totalMapWidth = validMapWidth + MAP_W_ADD * 2;
-			return _totalMapWidth;
-		}
-
-		public function get totalMapHeight():int
-		{
-			_totalMapHeight = validMapHeight + MAP_H_ADD * 2;
-			return _totalMapHeight;
-		}
-
-		public function get validMapWidth():int
-		{
-			_validMapWidth = _curMapVO ? _curMapVO.numCellW * CELL_WIDTH : 0;
-			return _validMapWidth;
-		}
-
-		public function get validMapHeight():int
-		{
-			_validMapHeight = _curMapVO ? _curMapVO.numCellH * CELL_HEIGHT : 0;
-			return _validMapHeight;
-		}
-		
-		public function get numBlockW():int
-		{
-			return totalMapWidth / MAP_BLOCK_SIZE;
-		}
-
 		public function get sceneMapInfoConfig():HashTable
 		{
 			if (_sceneMapInfoConfig.length == 0)
@@ -165,6 +124,23 @@ package core.scene
 				}
 			}
 			return _sceneMapInfoConfig;
+		}
+		
+		public function get numBlockW():int
+		{
+			return curMapWidth / MAP_BLOCK_SIZE;
+		}
+		
+		public function get curMapWidth():int 
+		{
+			_curMapWidth = _curMapVO ? CELL_WIDTH * _curMapVO.numCellW : 0;
+			return _curMapWidth;
+		}
+		
+		public function get curMapHeight():int 
+		{
+			_curMapHeight = _curMapVO ? CELL_HEIGHT * _curMapVO.numCellH : 0;
+			return _curMapHeight;
 		}
 	}
 }

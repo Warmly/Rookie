@@ -11,6 +11,7 @@ package core.scene
 	import global.ModelEntry;
 	import global.MyselfVO;
 	import rookie.algorithm.pathFinding.aStar.AStar;
+	import rookie.algorithm.pathFinding.aStar.AStarNodeEnum;
 	import tool.SanguoCoorTool;
 	import tool.SanguoTimeTool;
 
@@ -41,15 +42,22 @@ package core.scene
 		public function onMapLoaded():void
 		{
 			var vo:MapVO = _mapModel.curMapVO;
-			var w:int = vo.numCellW + MapModel.MAP_W_ADD_CELL * 2;
-			var h:int = vo.numCellH + MapModel.MAP_H_ADD_CELL * 2;
-			var numCell:int = w * h;
+			var numCellW:int = vo.numCellW;
+			var numCellH:int = vo.numCellH;
 			var arr:Array = [];
-			for (var i:int = 0; i < numCell; i++)
+			for (var j:int = 0; j < numCellH; j++)
 			{
-				arr.push(i);
+				for (var i:int = 0; i < numCellW; i++) 
+				{
+					var type:int = AStarNodeEnum.NORMAL;
+					if (vo.getCellType(i, j))
+					{
+						type = vo.getCellType(i, j);
+					}
+					arr.push(type);
+				}
 			}
-			_pathFind.parseArrToMap(arr, w, h);
+			_pathFind.parseArrToMap(arr, numCellW, numCellH);
 		}
 		
 		public function handleMouseDown(event:MouseEvent):void

@@ -6,8 +6,6 @@ package core.scene.cpu
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import rookie.core.render.cpu.RichSprite;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
 	import rookie.tool.common.Color;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.namer.namer;
@@ -15,7 +13,7 @@ package core.scene.cpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class MapDebugLayerCpu extends RichSprite implements IRenderItem
+	public class MapDebugLayerCpu extends RichSprite
 	{
 		private var _mapModel:MapModel;
 		private var _camera:SanguoCamera;
@@ -47,6 +45,7 @@ package core.scene.cpu
 						cell.x = i * MapModel.CELL_WIDTH + startX;
 						cell.y = j * MapModel.CELL_HEIGHT + startY;
 						//cell.synTxt();
+						cell.synObstacle();
 					}
 				}
 			}
@@ -57,16 +56,6 @@ package core.scene.cpu
 			_numCellW = getBlockNum(_camera.width) * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_WIDTH);
 			_numCellH = getBlockNum(_camera.height) * (MapModel.MAP_BLOCK_SIZE / MapModel.CELL_HEIGHT);
 			resizeCells();
-		}
-		
-		public function get key():String
-		{
-			return namer("SanguoScene", "MapDebugLayerCpu");
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.CPU;
 		}
 		
 		private function resizeCells():void
@@ -106,6 +95,7 @@ package core.scene.cpu
 import flash.display.Shape;
 import flash.geom.Point;
 import flash.text.TextField;
+import global.ModelEntry;
 import rookie.core.render.cpu.RichSprite;
 import rookie.tool.common.Color;
 import rookie.tool.text.RookieTextField;
@@ -126,17 +116,27 @@ class MapDebugCell extends RichSprite
 		
 		_shape = new Shape();
 		_shape.graphics.lineStyle(1, Color.BLACK_DATA);
-		_shape.graphics.lineTo(MapModel.CELL_WIDTH, 0);
-		_shape.graphics.lineTo(MapModel.CELL_WIDTH, MapModel.CELL_HEIGHT);
-		_shape.graphics.lineTo(0, MapModel.CELL_HEIGHT);
-		_shape.graphics.lineTo(0, 0);
+		_shape.graphics.drawRect(0, 0, MapModel.CELL_WIDTH, MapModel.CELL_HEIGHT);
 		_shape.graphics.endFill();
 		addChild(_shape);
+		
+		_obstacle = new Shape();
+		_obstacle.graphics.lineStyle(1, Color.BLACK_DATA);
+		_obstacle.graphics.drawCircle(MapModel.CELL_WIDTH * 0.5, MapModel.CELL_HEIGHT * 0.5, 10);
+		_obstacle.graphics.endFill();
+		_obstacle.visible = false;
+		addChild(_obstacle);
 	}
 	
 	public function synTxt():void
 	{
 		var pt:Point = SanguoCoorTool.sceneToCell(this.x, this.y);
 		_txt.htmlText = TextTool.getHtmlText("(" + pt.x + "," + pt.y + ")");
+	}
+	
+	public function synObstacle():void
+	{
+		var pt:Point = SanguoCoorTool.sceneToCell(this.x, this.y);
+		_obstacle.visible = ModelEntry.mapModel.curMapVO.getCellType(pt.x, pt.y) > 0;
 	}
 }

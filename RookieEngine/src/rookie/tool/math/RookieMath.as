@@ -35,6 +35,16 @@ package rookie.tool.math
 		    return (a <= b?a:b) + floor(temp * random());
 		}
 		
+		public static function max(val1:Number, val2:Number):Number
+		{
+			return Math.max(val1, val2);
+		}
+		
+		public static function min(val1:Number, val2:Number):Number
+		{
+			return Math.min(val1, val2);
+		}
+		
 		/**
 		 * 获取下一个2次幂
 		 * http://goo.gl/D9kPj

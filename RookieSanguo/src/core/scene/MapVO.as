@@ -1,5 +1,6 @@
 package core.scene
 {
+	import rookie.dataStruct.HashTable;
 	import rookie.tool.log.log;
 	import definition.SceneLayerEnum;
 
@@ -21,6 +22,7 @@ package core.scene
 		// 竖直格子数
 		private var _numCellH:uint;
 		private var _buildShadows:Vector.<Vector.<int>>;
+		private var _data:Array = [];
 
 		public function MapVO(byteArr:ByteArray)
 		{
@@ -35,7 +37,7 @@ package core.scene
 
 			log("宽:" + _numCellW + " 高:" + _numCellH + " 层数:" + numLayer);
 
-			for (var i:uint = 0;i < numLayer;i++)
+			for (var i:uint = 0;i < 2;i++)
 			{
 				var layerType:uint = byteArr.readUnsignedShort();
 				var blendType:uint = byteArr.readUnsignedShort();
@@ -66,9 +68,15 @@ package core.scene
 						if(isAlphaArea || isWater)
 						{
 						}
+						_data[cellX + cellY * _numCellW] = type;
 					}
 				}
 			}
+		}
+		
+		public function getCellType(x:int, y:int):int
+		{
+			return _data[x + y * _numCellW];
 		}
 
 		public function get id():uint

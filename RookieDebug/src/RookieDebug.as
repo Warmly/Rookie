@@ -125,8 +125,17 @@ package
 			aStar.init(0, 0, 3, 5);
 			aStar.findPath();
 			
+		    var arr:Array = [];
+			arr[1] = "0";
+			if (arr[1])
+			{
+				trace("!!!!");
+			}
+			
+			
 			var dic:Dictionary = new Dictionary();
 			dic[String(1)] = 2;
+			trace(dic[2]);
 			if (!dic[1])
 			{
 				trace("么么哒！");
