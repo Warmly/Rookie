@@ -1,10 +1,8 @@
 package rookie.core.render.cpu
 {
-	import rookie.core.render.IRenderItem;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.definition.AnimPlayEnum;
-	import rookie.definition.RenderEnum;
 	import rookie.definition.RookieDefine;
 	import rookie.dataStruct.HashTable;
 	import rookie.global.RookieEntry;
@@ -15,7 +13,7 @@ package rookie.core.render.cpu
 	 * CPU渲染的序列帧动画
 	 * @author Warmly
 	 */
-	public class AnimCpu extends ImgCpuBase implements IRenderItem
+	public class AnimCpuBase extends ImgCpuBase
 	{
 		protected var _totalFrame:uint;
 		protected var _curFrame:uint = 1;
@@ -49,7 +47,7 @@ package rookie.core.render.cpu
 		/**
 		 * @param play 播放方式(默认AnimPlayEnum.IMMEDIATELY)
 		 */		
-		public function AnimCpu(resUrl:ResUrl = null, play:int = 0)
+		public function AnimCpuBase(resUrl:ResUrl = null, play:int = 0)
 		{
 			super(resUrl);
 			_play = play;
@@ -153,14 +151,12 @@ package rookie.core.render.cpu
 			if (!_isRendering)
 			{
 				_lastTime = getTimer();
-				RookieEntry.renderManager.addToCpuRenderQueue(this);
 				_isRendering = true;
 			}
 		}
         
 		public function stopPlay():void
 		{
-			RookieEntry.renderManager.removeFromCpuRenderQueue(this);
 			_isRendering = false;
 			_curLoop = 1;
 		}
@@ -169,16 +165,6 @@ package rookie.core.render.cpu
 		{
 			super.x = xValue;
 			super.y = yValue;
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.CPU;
-		}
-
-		public function get key():String
-		{
-			return _resUrl.url + "[" + name + "]";
 		}
 
 		public function get loop():uint

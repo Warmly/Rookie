@@ -5,12 +5,7 @@ package core.creature.gpu
 	import core.scene.ISceneObj;
 	import flash.geom.Point;
 	import global.SanguoEntry;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
 	import rookie.global.RookieEntry;
-	import rookie.tool.math.RookieMath;
-	import rookie.tool.namer.IName;
-	import rookie.tool.namer.namer;
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
 	import tool.SanguoCoorTool;
@@ -18,7 +13,7 @@ package core.creature.gpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class CreatureGpu implements IObjPoolItem,IRenderItem,IName,ISceneObj
+	public class CreatureGpu implements IObjPoolItem,ISceneObj
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerGpu;
@@ -30,7 +25,6 @@ package core.creature.gpu
 		protected var _x:Number = 0;
 		//场景坐标Y
 		protected var _y:Number = 0;
-		protected var _name:String;
 		
 		public function CreatureGpu() 
 		{
@@ -93,31 +87,6 @@ package core.creature.gpu
 		{
 			return _actProcess;
 		}
-
-		
-		public function get renderType():int
-		{
-			return RenderEnum.GPU;
-		}
-		
-		public function get key():String
-		{
-			return namer("Creature Instance", name); 
-		}
-		
-		public function get name():String 
-		{
-			if (!_name)
-			{
-				_name = "" + RookieMath.random();
-			}
-			return _name;
-		}
-		
-		public function set name(value:String):void 
-		{
-			_name = value;
-		}
 		
 		/**
 		 * 场景坐标X
@@ -168,15 +137,6 @@ package core.creature.gpu
 		{
 			ObjectPool.addToPool(this);
 		}
-		
-		/**
-		 * 仅用于调试，慎用！
-		 */
-	    public function selfStartRender():void
-	    {
-		    RookieEntry.renderManager.addToGpuRenderQueue(this);
-			startPlay();
-	    }
 		
 		public function startPlay():void 
 		{

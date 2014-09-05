@@ -14,7 +14,6 @@ package core.scene
 	import global.ManagerEntry;
 	import global.ModelEntry;
 	import rookie.core.IMainLoop;
-	import rookie.core.render.IRenderItem;
 	import rookie.core.render.cpu.RichSprite;
 	import global.SanguoEntry;
 	import flash.events.Event;

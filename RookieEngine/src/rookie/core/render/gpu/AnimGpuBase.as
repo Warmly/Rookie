@@ -16,7 +16,7 @@ package rookie.core.render.gpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class AnimGpu extends ImgGpuBase 
+	public class AnimGpuBase extends ImgGpuBase 
 	{
 		protected var _totalFrame:uint;
 		protected var _curFrame:uint = 1;
@@ -49,7 +49,7 @@ package rookie.core.render.gpu
 		/**
 		 * @param play 播放方式(默认AnimPlayEnum.IMMEDIATELY)
 		 */
-		public function AnimGpu(resUrl:ResUrl = null, play:int = 0) 
+		public function AnimGpuBase(resUrl:ResUrl = null, play:int = 0) 
 		{
 			super(resUrl);
 			_play = play;
@@ -213,15 +213,6 @@ package rookie.core.render.gpu
 		public function delFrameCallBack(frame:uint):void
 		{
 			_frameCallBackTable.del(frame);
-		}
-		
-	    /**
-		 * 仅用于调试，慎用！
-		 */
-		public function selfStartRender():void
-		{
-			RookieEntry.renderManager.addToGpuRenderQueue(this);
-			startPlay();
 		}
 	}
 }

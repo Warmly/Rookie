@@ -2,7 +2,7 @@ package rookie.dataStruct
 {
 	import flash.utils.getQualifiedClassName;
 	import rookie.tool.log.warning;
-	import rookie.tool.namer.IName;
+	import rookie.tool.namer.NameBase;
 
 	import flash.utils.Dictionary;
 
@@ -12,13 +12,12 @@ package rookie.dataStruct
 	 * 2.适用于查找
 	 * @author Warmly
 	 */
-	public class HashTable implements IName
+	public class HashTable extends NameBase
 	{
 		private var _keyType:Class;
 		private var _valueType:Class;
 		private var _items:Dictionary = new Dictionary();
 		private var _length:int;
-		private var _name:String;
 
 		public function HashTable(keyType:Class, valueType:Class)
 		{
@@ -96,16 +95,6 @@ package rookie.dataStruct
 		public function get length():int
 		{
 			return _length;
-		}
-		
-		public function set name(value:String):void 
-		{
-			_name = value;
-		}
-		
-		public function get name():String 
-		{
-			return _name;
 		}
 	}
 }

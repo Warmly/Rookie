@@ -7,7 +7,7 @@ package core.creature.gpu
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	import global.ModelEntry;
-	import rookie.core.render.gpu.AnimGpu;
+	import rookie.core.render.gpu.AnimGpuBase;
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.factory.RookieTextureFactory;
 	import rookie.core.resource.ResUrl;
@@ -22,7 +22,7 @@ package core.creature.gpu
 	 * ...
 	 * @author Warmly
 	 */
-	public class CreaturePartAnimGpu extends AnimGpu 
+	public class CreaturePartAnimGpu extends AnimGpuBase 
 	{
 		// 动作ID为键，包含所有方向的配置为值的哈希表
 		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);

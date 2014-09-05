@@ -1,26 +1,22 @@
 package rookie.core.render.gpu 
 {
 	import rookie.core.resource.LoadPriorityEnum;
-	import rookie.definition.RenderEnum;
 	import rookie.tool.functionHandler.fh;
 	import rookie.core.render.gpu.base.RookieIndexBuffer;
 	import rookie.core.render.gpu.base.RookieShader;
 	import rookie.core.render.gpu.base.RookieTexture;
 	import rookie.core.render.gpu.base.RookieVertexBuffer;
-	import rookie.core.render.IRenderItem;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
 	import rookie.tool.log.error;
-	import rookie.tool.math.RookieMath;
-	import rookie.tool.namer.IName;
-	import rookie.tool.namer.namer;
+	import rookie.tool.namer.NameBase;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ImgGpuBase implements IRenderItem,IName
+	public class ImgGpuBase extends NameBase
 	{	
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
@@ -31,8 +27,6 @@ package rookie.core.render.gpu
 		protected var _y:Number = 0;
 		//当前贴图
 		protected var _texture:RookieTexture;
-		//名字(键)
-		protected var _name:String;
 		//资源是否加载完毕
 		protected var _resLoaded:Boolean;
 		//渲染就绪
@@ -90,16 +84,6 @@ package rookie.core.render.gpu
 		{
 		}
 		
-		public function get renderType():int
-		{
-			return RenderEnum.GPU;
-		}
-		
-		public function get key():String
-		{
-			return namer(_resUrl.url, _name); 
-		}
-		
 		public function get width():Number 
 		{
 			return _width;
@@ -134,20 +118,6 @@ package rookie.core.render.gpu
 		public function set y(value:Number):void 
 		{
 			_y = value;
-		}
-		
-		public function get name():String 
-		{
-			if (!_name)
-			{
-				_name = "3D Img Instance" + RookieMath.random();
-			}
-			return _name;
-		}
-		
-		public function set name(value:String):void 
-		{
-			_name = value;
 		}
 	}
 }

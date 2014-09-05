@@ -37,7 +37,7 @@ package
 
 	import global.ModelEntry;
 
-	import rookie.core.render.cpu.AnimCpu;
+	import rookie.core.render.cpu.AnimCpuBase;
 	import rookie.tool.functionHandler.fh;
 	import rookie.core.resource.ResEnum;
 	import rookie.core.resource.ResUrl;

@@ -10,7 +10,7 @@ package core.creature.cpu
 
 	import global.ModelEntry;
 
-	import rookie.core.render.cpu.AnimCpu;
+	import rookie.core.render.cpu.AnimCpuBase;
 	import rookie.core.resource.ResUrl;
 	import rookie.core.vo.ImgConfigVO;
 	import rookie.core.vo.ImgFrameConfigVO;
@@ -22,7 +22,7 @@ package core.creature.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class CreaturePartAnimCpu extends AnimCpu
+	public class CreaturePartAnimCpu extends AnimCpuBase
 	{
 		// 动作ID为键，包含所有方向的配置为值的哈希表
 		private var _imgConfigVoTable:HashTable = new HashTable(uint, ImgConfigVO);

@@ -7,11 +7,7 @@ package core.creature.cpu
 	import rookie.core.render.cpu.RichSprite;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
-	import rookie.core.render.IRenderItem;
-	import rookie.definition.RenderEnum;
 	import rookie.global.RookieEntry;
-	import rookie.tool.log.error;
-	import rookie.tool.namer.namer;
 	import tool.SanguoCoorTool;
 
 	import rookie.tool.objectPool.IObjPoolItem;
@@ -20,7 +16,7 @@ package core.creature.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class CreatureCpu extends RichSprite implements IObjPoolItem, ISceneObj, IRenderItem
+	public class CreatureCpu extends RichSprite implements IObjPoolItem, ISceneObj
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerCpu;
@@ -123,28 +119,6 @@ package core.creature.cpu
 			_action = 0;
 			_direction = 0;
 			_partsContainer.reset();
-		}
-		
-		/**
-		 * 仅用于调试，慎用！
-		 */
-	    public function selfStartRender():void
-	    {
-		    RookieEntry.renderManager.addToCpuRenderQueue(this);
-	    }
-		
-		/**
-		 * 由子类重写
-		 */
-		public function get key():String
-		{
-			error("Invalid call!");
-			return "";
-		}
-		
-		public function get renderType():int
-		{
-			return RenderEnum.CPU;
 		}
 		
 		public function dispose():void

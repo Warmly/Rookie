@@ -5,7 +5,6 @@ package core.creature
 	import definition.DirectionEnum;
 	import flash.geom.Point;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
-	import rookie.tool.math.RookieMath;
 	import tool.SanguoCoorTool;
 	import tool.SanguoTimeTool;
 	import rookie.tool.log.log;
