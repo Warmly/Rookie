@@ -10,8 +10,8 @@ package core.scene
 	import flash.geom.Point;
 	import global.ModelEntry;
 	import global.MyselfVO;
-	import rookie.algorithm.pathFinding.aStar.AStar;
-	import rookie.algorithm.pathFinding.aStar.AStarNodeEnum;
+	import rookie.algorithm.pathFinding.NodeEnum;
+	import rookie.algorithm.pathFinding.PathFinding;
 	import tool.SanguoCoorTool;
 	import tool.SanguoTimeTool;
 
@@ -28,7 +28,7 @@ package core.scene
 		private var _mapModel:MapModel;
 		private var _myself:*;
 		private var _myselfVO:MyselfVO;
-		private var _pathFind:AStar;
+		private var _pathFinding:PathFinding;
 
 		public function SceneManager()
 		{
@@ -36,7 +36,7 @@ package core.scene
 			_mapModel = ModelEntry.mapModel;
 			_myself = SanguoEntry.scene.myself;
 			_myselfVO = SanguoEntry.myselfVO;
-			_pathFind = new AStar();
+			_pathFinding = new PathFinding();
 		}
 		
 		public function onMapLoaded():void
@@ -49,7 +49,7 @@ package core.scene
 			{
 				for (var i:int = 0; i < numCellW; i++) 
 				{
-					var type:int = AStarNodeEnum.NORMAL;
+					var type:int = NodeEnum.NORMAL;
 					if (vo.getCellType(i, j))
 					{
 						type = vo.getCellType(i, j);
@@ -57,7 +57,7 @@ package core.scene
 					arr.push(type);
 				}
 			}
-			_pathFind.parseArrToMap(arr, numCellW, numCellH);
+			_pathFinding.init(arr, numCellW, numCellH);
 		}
 		
 		public function handleMouseDown(event:MouseEvent):void
@@ -73,21 +73,16 @@ package core.scene
 			var ap:ActProcess = _myself.actProcess;
 			if (ap.isFinish)
 			{
-				_pathFind.init(_myselfVO.cellX, _myselfVO.cellY, targetCell.x, targetCell.y);
+				if (_pathFinding.findPath(_myselfVO.cellX, _myselfVO.cellY, targetCell.x, targetCell.y))
+				{
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFinding.path, _myselfVO.costPerCell, new Point(_myselfVO.cellX, _myselfVO.cellY));
+				}
 			}
 			else
 			{
-				_pathFind.init(ap.curTgtPos.x, ap.curTgtPos.y, targetCell.x, targetCell.y);
-			}
-			if (_pathFind.findPath())
-			{
-				if (ap.isFinish)
+				if (_pathFinding.findPath(ap.curTgtPos.x, ap.curTgtPos.y, targetCell.x, targetCell.y))
 				{
-					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfVO.costPerCell, new Point(_myselfVO.cellX, _myselfVO.cellY));
-				}
-				else
-				{
-					_myself.actProcess.reset(ActionEnum.RUN, _pathFind.path, _myselfVO.costPerCell);
+					_myself.actProcess.reset(ActionEnum.RUN, _pathFinding.path, _myselfVO.costPerCell);
 				}
 			}
 		}

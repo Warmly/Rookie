@@ -1,16 +1,20 @@
 package rookie.algorithm.pathFinding.aStar 
 {
 	import flash.utils.Dictionary;
+	import rookie.algorithm.IPathFinding;
+	import rookie.algorithm.pathFinding.NodeEnum;
+	import rookie.algorithm.pathFinding.PathFindingNodeBase;
 	import rookie.dataStruct.HashTable;
 	import rookie.tool.log.log;
 	import rookie.tool.math.RookieMath;
+	import rookie.tool.namer.namer;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class AStar 
+	public class AStar implements IPathFinding
 	{
-		private var _map:Vector.<AStarNode> = new Vector.<AStarNode>();
+		private var _grid:Vector.<AStarNode> = new Vector.<AStarNode>();
 		private var _openList:HashTable = new HashTable(int, AStarNode);
 		private var _closeList:HashTable = new HashTable(int, AStarNode);
 		private var _path:Vector.<AStarNode> = new Vector.<AStarNode>();
@@ -24,108 +28,143 @@ package rookie.algorithm.pathFinding.aStar
 		{
 		}
 		
-		public function initMap(map:Vector.<AStarNode>):void
+		public function init(gridData:*, width:int, height:int):void
 		{
-			_map = map;
+			_grid.length = 0;
+			var length:int = gridData.length;
+			for (var j:int = 0; j < height; j++)
+			{
+				for (var i:int = 0; i < width; i++)
+				{
+					var node:AStarNode = new AStarNode();
+					node.init(i, j, i + j * width, gridData[i + j * width]);
+					_grid.push(node);
+				}
+			}
+			_width = width;
+			_height = height;
 		}
 		
-		public function init(startX:int, startY:int, endX:int, endY:int):void
+		public function findPath(startX:int, startY:int, endX:int, endY:int):Boolean
 		{
-			_startNode = _map[startX + startY * _width];
-			_endNode = _map[endX + endY * _width];
-			checkEndNode();
-			reset();
+			if (canReach(startX, startY, endX, endY))
+			{
+				return true;
+			}
+			else
+			{
+				setStartAndEnd(startX, startY, endX, endY);
+				adjustEndNode();
+				return tryFindPath();
+			}
 		}
 		
-		private function reset():void
+		public function reset():void
 		{
 			_openList.clear();
 			_closeList.clear();
 			_path.length = 0;
 		}
 		
-		public function findPath():Boolean
+		private function setStartAndEnd(startX:int, startY:int, endX:int, endY:int):void
 		{
+			_startNode = _grid[startX + startY * _width];
+			_endNode = _grid[endX + endY * _width];
+		}
+		
+		/**
+		 * 终点是否可达
+		 */
+		private function canReach(startX:int, startY:int, endX:int, endY:int):Boolean
+		{
+			setStartAndEnd(startX, startY, endX, endY);
+			if (_endNode.type == NodeEnum.OBSTACLE || !tryFindPath())
+			{
+				return false;
+			}
+			return true;
+		}
+		
+		/**
+		 * 尝试寻路并生成路径
+		 */
+		private function tryFindPath():Boolean
+		{
+			reset();
 			addToOpenList(_startNode);
 			while (_openList.length)
 			{
 				_curNode = getMinFValueNodeInOpenList();
-				//log(_curNode.x + "," + _curNode.y);
 				switchToCloseList(_curNode);
 				if (_curNode.equal(_endNode))
 				{
 					generatePath();
-					//traceResult();
 					return true;
 				}
 				checkNodeAround(_curNode);
 			}
-			log("Path find failed !");
 			return false;
 		}
 		
 		/**
-		 * 当终点不可走时，水漫法寻找距离终点最近的可走点
+		 * 当终点不可达，水漫法寻找距离终点最近的可走点
 	     */
-		private function checkEndNode():void 
+		private function adjustEndNode():void 
 		{
-			if (_endNode.type == AStarNodeEnum.OBSTACLE)
+			var disX:int = RookieMath.abs(_startNode.x - _endNode.x);
+			var disY:int = RookieMath.abs(_startNode.y - _endNode.y);
+			var maxRange:int = RookieMath.max(disX, disY);
+			var fromX:int = 0;
+			var toX:int = 0;
+			var fromY:int = 0;
+			var toY:int = 0;
+			//已经检查过的节点, (index, true)
+			var checkedNode:HashTable = new HashTable(int, Boolean);
+			//当前一圈节点
+			var curAroundNode:Vector.<AStarNode> = new Vector.<AStarNode>();
+			for (var i:int = 1; i <= maxRange; i++) 
 			{
-				var disX:int = RookieMath.abs(_startNode.x - _endNode.x);
-				var disY:int = RookieMath.abs(_startNode.y - _endNode.y);
-				var maxRange:int = RookieMath.max(disX, disY);
-				var fromX:int = 0;
-				var toX:int = 0;
-				var fromY:int = 0;
-				var toY:int = 0;
-				//已经检查过的节点, (index, true)
-				var checkedNode:HashTable = new HashTable(int, Boolean);
-				//当前一圈节点
-				var curAroundNode:Vector.<AStarNode> = new Vector.<AStarNode>();
-				for (var i:int = 1; i <= maxRange; i++) 
+				curAroundNode.length = 0;
+				fromX = RookieMath.max(0, _endNode.x - i);
+				toX = RookieMath.min(_endNode.x + i, _width - i);
+				fromY = RookieMath.max(0, _endNode.y - i);
+				toY = RookieMath.min(_endNode.y + i, _height - i);
+				for (var y:int = fromY; y <= toY; y++) 
 				{
-					curAroundNode.length = 0;
-					fromX = RookieMath.max(0, _endNode.x - i);
-			        toX = RookieMath.min(_endNode.x + i, _width - i);
-			        fromY = RookieMath.max(0, _endNode.y - i);
-			        toY = RookieMath.min(_endNode.y + i, _height - i);
-					for (var y:int = fromY; y <= toY; y++) 
+					for (var x:int = fromX; x <= toX; x++) 
 					{
-						for (var x:int = fromX; x <= toX; x++) 
+						if (!checkedNode.has(x + y * _width))
 						{
-							if (!checkedNode.has(x + y * _width))
+							var node:AStarNode = getNodeByCoor(x, y);
+							if (canReach(_startNode.x, _startNode.y, x, y))
 							{
-								var node:AStarNode = getNodeByCoor(x, y);
-								if (node.type != AStarNodeEnum.OBSTACLE)
-								{
-									curAroundNode.push(node);
-								}
-								checkedNode.insert(x + y * _width, true);
+								curAroundNode.push(node);
 							}
+							checkedNode.insert(x + y * _width, true);
 						}
-					}
-					for each (var nd:AStarNode in curAroundNode) 
-					{
-						var nearestNd:AStarNode;
-						if (!nearestNd || (calHValue(nd, _endNode) < calHValue(nearestNd, _endNode)))
-						{
-							nearestNd = nd;
-						}
-					}
-					if (nearestNd)
-					{
-						_endNode = nearestNd;
-						return;
 					}
 				}
-				_endNode = _startNode;
+				for each (var nd:AStarNode in curAroundNode) 
+				{
+					var nearestNd:AStarNode;
+					if (!nearestNd || (calHValue(nd, _startNode) < calHValue(nearestNd, _startNode)))
+					{
+						nearestNd = nd;
+					}
+				}
+				if (nearestNd)
+				{
+					_endNode = nearestNd;
+					return;
+				}
 			}
+			_endNode = _startNode;
 		}
 		
 		/**
 		 * 不包含起点，包含终点 
 	     */
-		public function get path():Vector.<AStarNode>
+		public function get path():*
 		{
 			return _path;
 		}
@@ -210,7 +249,7 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function canPass(node:AStarNode):Boolean
 		{
-			return node.type != AStarNodeEnum.OBSTACLE;
+			return node.type != NodeEnum.OBSTACLE;
 		}
 		
 		private function isInOpenList(node:AStarNode):Boolean
@@ -230,7 +269,7 @@ package rookie.algorithm.pathFinding.aStar
 		
 		private function getNodeByIndex(index:int):AStarNode
 		{
-			return _map[index];
+			return _grid[index];
 		}
 		
 		private function calHValue(nodeA:AStarNode, nodeB:AStarNode):Number
@@ -241,32 +280,15 @@ package rookie.algorithm.pathFinding.aStar
 			return hValue;
 		}
 		
-		public function parseArrToMap(arr:Array, width:int, height:int):void
-		{
-			_width = width;
-			_height = height;
-			_map.length = 0;
-			var length:int = arr.length;
-			for (var j:int = 0; j < height; j++)
-			{
-				for (var i:int = 0; i < width; i++)
-				{
-					var node:AStarNode = new AStarNode();
-					node.init(i, j, i + j * width, arr[i + j * width]);
-					_map.push(node);
-				}
-			}
-		}
-		
 		private function traceResult():void
 		{
-			log("======本次寻路======");
+			log("本次寻路");
 			for (var j:int = 0; j < _height;j++)
 			{
 				var rowStr:String = "";
 				for (var i:int = 0; i < _width; i++)
 				{
-					var node:AStarNode = _map[i + j * _width];
+					var node:AStarNode = _grid[i + j * _width];
 					if (node.equal(_startNode))
 					{
 						rowStr += "S ";

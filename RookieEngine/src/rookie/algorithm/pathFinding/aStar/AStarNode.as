@@ -1,21 +1,20 @@
 package rookie.algorithm.pathFinding.aStar 
 {
 	import flash.geom.Point;
+	import rookie.algorithm.pathFinding.NodeEnum;
+	import rookie.algorithm.pathFinding.PathFindingNodeBase;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class AStarNode 
+	public class AStarNode extends PathFindingNodeBase
 	{
 		private var _fValue:Number = 0;
 		private var _gValue:Number = 0;
 		private var _hValue:Number = 0;
 		private var _update:Boolean;
 		private var _parentNode:AStarNode;
-		private var _type:int = AStarNodeEnum.NORMAL;
 		private var _index:int;
-		private var _x:int;
-		private var _y:int;
 		
 		public function AStarNode() 
 		{
@@ -89,34 +88,9 @@ package rookie.algorithm.pathFinding.aStar
 			return _fValue;
 		}
 		
-		public function equal(node:AStarNode):Boolean
-		{
-			return this.x == node.x && this.y == node.y;
-		}
-		
-		public function toPoint():Point
-		{
-			return new Point(_x, _y);
-		}
-		
 		public function get index():int
 		{
 			return _index;
-		}
-		
-		public function get type():int
-		{
-			return _type;
-		}
-		
-		public function get x():int
-		{
-			return _x;
-		}
-		
-		public function get y():int
-		{
-			return _y;
 		}
 	}
 }

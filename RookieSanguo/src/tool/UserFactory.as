@@ -44,8 +44,8 @@ package tool
 		public static function getTestMyselfVO():MyselfVO
 		{
 			var vo:MyselfVO = SanguoEntry.myselfVO;
-			vo.cellX = 40;
-			vo.cellY = 40;
+			vo.cellX = 32;
+			vo.cellY = 65;
 			vo.body = 10310;
 			vo.weapon = 10305;
 			vo.horse = 3214;

@@ -121,7 +121,7 @@ class MapDebugCell extends RichSprite
 		addChild(_shape);
 		
 		_obstacle = new Shape();
-		_obstacle.graphics.lineStyle(1, Color.BLACK_DATA);
+		_obstacle.graphics.beginFill(Color.BLACK_DATA);
 		_obstacle.graphics.drawCircle(MapModel.CELL_WIDTH * 0.5, MapModel.CELL_HEIGHT * 0.5, 10);
 		_obstacle.graphics.endFill();
 		_obstacle.visible = false;
