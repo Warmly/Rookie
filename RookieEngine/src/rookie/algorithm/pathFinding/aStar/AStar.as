@@ -20,9 +20,15 @@ package rookie.algorithm.pathFinding.aStar
 		private var _path:Vector.<AStarNode> = new Vector.<AStarNode>();
 		private var _width:int;
 		private var _height:int;
+		//当前起点
 		private var _startNode:AStarNode;
+        //当前终点
 		private var _endNode:AStarNode;
 		private var _curNode:AStarNode;
+		//原始起点
+		private var _oriStartNode:AStarNode;
+		//原始终点
+		private var _oriEndNode:AStarNode;
 		
 		public function AStar() 
 		{
@@ -47,13 +53,14 @@ package rookie.algorithm.pathFinding.aStar
 		
 		public function findPath(startX:int, startY:int, endX:int, endY:int):Boolean
 		{
+			_oriStartNode = _grid[startX + startY * _width];
+			_oriEndNode = _grid[endX + endY * _width];
 			if (canReach(startX, startY, endX, endY))
 			{
 				return true;
 			}
 			else
 			{
-				setStartAndEnd(startX, startY, endX, endY);
 				adjustEndNode();
 				return tryFindPath();
 			}
@@ -111,8 +118,8 @@ package rookie.algorithm.pathFinding.aStar
 	     */
 		private function adjustEndNode():void 
 		{
-			var disX:int = RookieMath.abs(_startNode.x - _endNode.x);
-			var disY:int = RookieMath.abs(_startNode.y - _endNode.y);
+			var disX:int = RookieMath.abs(_oriStartNode.x - _oriEndNode.x);
+			var disY:int = RookieMath.abs(_oriStartNode.y - _oriEndNode.y);
 			var maxRange:int = RookieMath.max(disX, disY);
 			var fromX:int = 0;
 			var toX:int = 0;
@@ -125,10 +132,10 @@ package rookie.algorithm.pathFinding.aStar
 			for (var i:int = 1; i <= maxRange; i++) 
 			{
 				curAroundNode.length = 0;
-				fromX = RookieMath.max(0, _endNode.x - i);
-				toX = RookieMath.min(_endNode.x + i, _width - i);
+				fromX = RookieMath.max(0, _oriEndNode.x - i);
+				toX = RookieMath.min(_oriEndNode.x + i, _width - i);
 				fromY = RookieMath.max(0, _endNode.y - i);
-				toY = RookieMath.min(_endNode.y + i, _height - i);
+				toY = RookieMath.min(_oriEndNode.y + i, _height - i);
 				for (var y:int = fromY; y <= toY; y++) 
 				{
 					for (var x:int = fromX; x <= toX; x++) 
@@ -136,7 +143,7 @@ package rookie.algorithm.pathFinding.aStar
 						if (!checkedNode.has(x + y * _width))
 						{
 							var node:AStarNode = getNodeByCoor(x, y);
-							if (canReach(_startNode.x, _startNode.y, x, y))
+							if (canReach(_oriStartNode.x, _oriStartNode.y, x, y))
 							{
 								curAroundNode.push(node);
 							}
