@@ -11,12 +11,12 @@ package rookie.core.render.gpu
 	import rookie.core.vo.ImgFrameConfigVO;
 	import rookie.global.RookieEntry;
 	import rookie.tool.log.error;
-	import rookie.tool.namer.NameBase;
+	import rookie.tool.objectPool.ObjPoolItem;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class ImgGpuBase extends NameBase
+	public class ImgGpuBase extends ObjPoolItem
 	{	
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
@@ -31,6 +31,7 @@ package rookie.core.render.gpu
 		protected var _resLoaded:Boolean;
 		//渲染就绪
 		protected var _renderReady:Boolean;
+		protected var _isRendering:Boolean;
 		
 		public function ImgGpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = LoadPriorityEnum.LOW) 
 		{
@@ -82,6 +83,12 @@ package rookie.core.render.gpu
 		 */
 		public function render():void
 		{
+		}
+		
+				
+		public function get isRendering():Boolean 
+		{
+			return _isRendering;
 		}
 		
 		public function get width():Number 

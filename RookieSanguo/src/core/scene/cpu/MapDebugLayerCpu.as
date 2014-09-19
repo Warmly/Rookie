@@ -101,7 +101,7 @@ import rookie.tool.common.Color;
 import rookie.tool.text.RookieTextField;
 import rookie.tool.text.TextTool;
 import core.scene.MapModel;
-import tool.SanguoCoorTool;
+import tool.CoorTool;
 
 class MapDebugCell extends RichSprite
 {
@@ -130,13 +130,13 @@ class MapDebugCell extends RichSprite
 	
 	public function synTxt():void
 	{
-		var pt:Point = SanguoCoorTool.sceneToCell(this.x, this.y);
+		var pt:Point = CoorTool.sceneToCell(this.x, this.y);
 		_txt.htmlText = TextTool.getHtmlText("(" + pt.x + "," + pt.y + ")");
 	}
 	
 	public function synObstacle():void
 	{
-		var pt:Point = SanguoCoorTool.sceneToCell(this.x, this.y);
+		var pt:Point = CoorTool.sceneToCell(this.x, this.y);
 		_obstacle.visible = ModelEntry.mapModel.curMapVO.getCellType(pt.x, pt.y) > 0;
 	}
 }

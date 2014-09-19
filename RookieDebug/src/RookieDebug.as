@@ -15,7 +15,6 @@ package
 	import global.SanguoEntry;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
-	import rookie.core.render.gpu.AnimGpu;
 	import rookie.core.render.gpu.blend.RookieBlendMode;
 	import rookie.core.render.gpu.factory.RookieBufferFactory;
 	import rookie.core.render.gpu.factory.RookieRenderFactory;
@@ -74,13 +73,6 @@ package
 			RookieEntry.loadManager.load(SanguoDefine.MAIN_RES_URL, LoadPriorityEnum.HIGH, fh(onMainResLoaded));
 		}
 		
-		private function on3DRenderComponentReady():void 
-		{
-			var camera:SanguoCamera = SanguoEntry.camera.setup(0, 0, stage.stageWidth, stage.stageHeight);
-			RookieEntry.renderManager.configBackBuffer(camera.width, camera.height);
-			RookieRenderFactory.setBasicRenderState();
-		}
-		
 		private function onMainResLoaded():void
 		{
 			RookieEntry.loadManager.load(SanguoDefine.CONFIG_RES_URL, LoadPriorityEnum.HIGH, fh(onConfigResLoaded));
@@ -89,61 +81,17 @@ package
 		private function onConfigResLoaded():void 
 		{
 			RookieEntry.resManager.init();
-	
+			SanguoEntry.camera.setup(0, 0, SanguoDefine.DEFAULT_CLIENT_WIDTH, SanguoDefine.DEFAULT_CLIENT_HEIGHT);
 			ModelEntry.staticDataModel;
-	
 			RookieEntry.mainLoop.init(this.stage);
-			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
-
-			addChild(new Stats());
-			
-			testCode();
+			//RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
+			//addChild(new Stats());
 		}
 		
-		private function testCode():void 
+		private function on3DRenderComponentReady():void 
 		{
-			var user:UserGpu = UserFactory.getMyselfGpu();
-			user.x = 200;
-			user.y = 200;
-			user.selfStartRender();
-			
-			var aStarTestArr:Array = [
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-			];
-			
-			var aStar:AStar = new AStar();
-			aStar.parseArrToMap(aStarTestArr, 10, 10);
-			aStar.init(0, 0, 3, 5);
-			aStar.findPath();
-			
-		    var arr:Array = [];
-			arr[1] = "0";
-			if (arr[1])
-			{
-				trace("!!!!");
-			}
-			
-			
-			var dic:Dictionary = new Dictionary();
-			dic[String(1)] = 2;
-			trace(dic[2]);
-			if (!dic[1])
-			{
-				trace("么么哒！");
-			}
-			
-			var str:String = "杀死他们90999%/20阿斯达";
-			str = str.replace("90999%", "123");
-			trace(str);
+			RookieEntry.renderManager.configBackBuffer(SanguoDefine.DEFAULT_CLIENT_WIDTH, SanguoDefine.DEFAULT_CLIENT_HEIGHT);
+			RookieRenderFactory.setBasicRenderState();
 		}
 	}
 }

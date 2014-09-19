@@ -8,9 +8,10 @@ package core.scene.cpu
 	import global.SanguoEntry;
 	import rookie.core.render.cpu.IParent;
 	import rookie.core.render.cpu.RichSprite;
+	import rookie.tool.objectPool.IObjPoolItem;
 	
 	/**
-	 * ...
+	 * Layer of items, including creatures, effects and items
 	 * @author Warmly
 	 */
 	public class ItemLayerCpu extends RichSprite
@@ -20,7 +21,7 @@ package core.scene.cpu
 		
 		public function ItemLayerCpu() 
 		{
-			_camera =  SanguoEntry.camera;
+			_camera = SanguoEntry.camera;
 		}
 		
 		public function addUser(user:UserCpu):void
@@ -29,16 +30,32 @@ package core.scene.cpu
 			user.parent = this;
 		}
 		
+		public function addSceneAnim(anim:SceneAnimCpu):void
+		{
+			_itemsRef.push(anim);
+			anim.parent = this;
+		}
+		
 		public function render():void
 		{
+			filterRef();
 			updateDepth();
 			for each (var item:ISceneObj in _itemsRef) 
 			{
-				if (item is CreatureCpu)
-				{
-					(item as CreatureCpu).render();
-				}
+				item.render();
 			}
+		}
+		
+		private function filterRef():void
+		{
+			_itemsRef = _itemsRef.filter(function(item:ISceneObj, index:int, vec:Vector.<ISceneObj>):Boolean
+			{
+				if (item is IObjPoolItem && !(item as IObjPoolItem).disposed)
+				{
+					return true;
+				}
+				return false;
+			});
 		}
 		
 		private function updateDepth():void

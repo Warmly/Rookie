@@ -19,12 +19,11 @@ package core.scene
 		{
 		}
         
-		public function setup(focusX:Number, focusY:Number, width:Number, height:Number):SanguoCamera
+		public function setup(focusX:Number, focusY:Number, width:Number, height:Number):void
 		{
 			_width = width;
 			_height = height;
 			moveFocus(focusX, focusY);
-			return this;
 		}
 
 		public function move(x:Number, y:Number):void

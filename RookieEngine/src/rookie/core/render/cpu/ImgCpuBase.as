@@ -7,6 +7,8 @@ package rookie.core.render.cpu
 	import rookie.core.resource.ResEnum;
 	import rookie.global.RookieEntry;
 	import rookie.core.resource.ResUrl;
+	import rookie.tool.objectPool.IObjPoolItem;
+	import rookie.tool.objectPool.ObjectPool;
 
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
@@ -15,10 +17,11 @@ package rookie.core.render.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class ImgCpuBase extends Bitmap implements IParent
+	public class ImgCpuBase extends Bitmap implements IParent, IObjPoolItem
 	{
 		protected var _imgConfigVO:ImgConfigVO;
 		protected var _resUrl:ResUrl;
+		protected var _disposed:Boolean;
 
 		public function ImgCpuBase(resUrl:ResUrl = null, loadImmediately:Boolean = true, loadPriority:int = LoadPriorityEnum.LOW)
 		{
@@ -55,7 +58,24 @@ package rookie.core.render.cpu
 			_imgConfigVO = RookieEntry.resManager.getImgConfigVO(_resUrl);
 			RookieEntry.loadManager.load(resUrl, loadPriority, fh(onImgDataLoaded));
 		}
-
+        
+		public function reset():void
+		{
+			_disposed = false;
+		}
+		
+		public function dispose():void
+		{
+			deleteParent();
+			_disposed = true;
+			ObjectPool.addToPool(this);
+		}
+		
+		public function get disposed():Boolean 
+		{
+			return _disposed;
+		}
+		
 		public function set parent(prt:DisplayObjectContainer):void
 		{
 			prt.addChild(this);

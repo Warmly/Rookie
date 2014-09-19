@@ -1,6 +1,6 @@
 package rookie.algorithm.pathFinding 
 {
-	import rookie.algorithm.IPathFinding;
+	import rookie.algorithm.pathFinding.IPathFinding;
 	import rookie.algorithm.pathFinding.aStar.AStar;
 	/**
 	 * 寻路系统
@@ -11,7 +11,7 @@ package rookie.algorithm.pathFinding
 		private var _fun:IPathFinding;
 		private var _type:int;
 		
-		public function PathFinding(type:int = PathFindingEnum.ASTAR) 
+		public function PathFinding(type:int = 0) 
 		{
 			_type = type;
 			initFun();

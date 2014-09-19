@@ -23,7 +23,6 @@ package core.scene
 	import rookie.global.RookieEntry;
 	import rookie.namespace.Rookie;
 	import rookie.tool.namer.namer;
-	import tool.SanguoCoorTool;
 	import tool.UserFactory;
     use namespace Rookie;
 	/**
@@ -91,10 +90,11 @@ package core.scene
 			RookieEntry.renderManager.clear();
 			if (SanguoDefine.GPU_RENDER_SCENE)
 			{
-				_myselfGpu.render();
+				_myselfGpu.update();
 				updateCamera();
 				_mapLayerGpu.render();
 				_itemLayerGpu.render();
+				//_myselfGpu.render();
 			}
 			else
 			{

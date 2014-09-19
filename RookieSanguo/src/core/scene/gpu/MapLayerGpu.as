@@ -7,7 +7,7 @@ package core.scene.gpu
 	import global.SanguoEntry;
 	import rookie.tool.math.RookieMath;
 	import rookie.tool.objectPool.ObjectPool;
-	import tool.SanguoCoorTool;
+	import tool.CoorTool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -41,7 +41,7 @@ package core.scene.gpu
 					{
 						var xInScene:Number = (j + startIndexX) * MapModel.MAP_BLOCK_SIZE;
 						var block:MapBlockGpu = _blocks[i * _numBlockW + j];
-						var pt:Point = SanguoCoorTool.sceneToCamera(xInScene, yInScene);
+						var pt:Point = CoorTool.sceneToCamera(xInScene, yInScene);
 						block.x = pt.x;
 						block.y = pt.y;
 						block.index = (i + startIndexY) * _mapModel.numBlockW + (j + startIndexX);

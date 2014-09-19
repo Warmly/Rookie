@@ -6,12 +6,10 @@ package core.scene.cpu
 	import rookie.core.render.cpu.RichSprite;
 	import rookie.core.resource.LoadPriorityEnum;
 	import rookie.global.RookieEntry;
-	import rookie.tool.objectPool.ObjectPool;
 
 	import global.ModelEntry;
 
 	import rookie.core.resource.ResUrl;
-	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.core.render.cpu.ImgCpu;
 	import rookie.tool.functionHandler.fh;
 	import rookie.tool.log.log;
@@ -19,7 +17,7 @@ package core.scene.cpu
 	/**
 	 * @author Warmly
 	 */
-	public class MapBlockCpu extends ImgCpuBase implements IObjPoolItem
+	public class MapBlockCpu extends ImgCpuBase
 	{
 		private var _index:int;
 
@@ -41,19 +39,6 @@ package core.scene.cpu
 		{
 			var bmd:BitmapData = RookieEntry.resManager.bmdData.search(_resUrl.url);
 			super.bitmapData = bmd;
-		}
-
-		public function reset():void
-		{
-		}
-
-		public function dispose():void
-		{
-			if (this.bitmapData)
-			{
-				this.bitmapData.dispose();
-			}
-			ObjectPool.addToPool(this);
 		}
 
 		public function set index(index:int):void

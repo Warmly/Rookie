@@ -1,18 +1,24 @@
 package rookie.tool.objectPool
 {
 	/**
+	 * Interface of an object pool item
 	 * @author Warmly
 	 */
 	public interface IObjPoolItem
 	{
 		/**
-		 * 从对象池中取出后，会自动调用 
+		 * Automatically execute when getting out of pool
 		 */
 		function reset() : void;
 
 		/**
-		 * 释放到对象池里 
+		 * Dispose to pool
 		 */
 		function dispose() : void;
+		
+		/**
+		 * Whether disposed
+		 */
+		function get disposed():Boolean; 
 	}
 }

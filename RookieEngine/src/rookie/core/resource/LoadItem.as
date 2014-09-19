@@ -1,12 +1,12 @@
 package rookie.core.resource
 {
 	import rookie.tool.functionHandler.FunHandler;
-	import rookie.tool.objectPool.IObjPoolItem;
+	import rookie.tool.objectPool.ObjPoolItem;
 
 	/**
 	 * @author Warmly
 	 */
-	public class LoadItem implements IObjPoolItem
+	public class LoadItem extends ObjPoolItem
 	{
 		private var _resUrl:ResUrl;
 		private var _resType:int;
@@ -29,12 +29,14 @@ package rookie.core.resource
 			}
 		}
 
-		public function reset():void
+		override public function reset():void
 		{
+			super.reset();
 		}
 
-		public function dispose():void
+		override public function dispose():void
 		{
+			super.dispose();
 		}
 
 		public function get url():String

@@ -19,7 +19,7 @@ package tool
 		public static function getTestUserVO():UserVO
 		{
 			var vo:UserVO = new UserVO();
-			vo.body = 10305;
+			vo.body = 10310;
 			vo.weapon = 10305;
 			vo.horse = 3214;
 			return vo;

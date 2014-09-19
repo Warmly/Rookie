@@ -7,9 +7,9 @@ package rookie.dataStruct
 	import flash.utils.Dictionary;
 
 	/**
-	 * 哈希表
-	 * 1.键唯一
-	 * 2.适用于查找
+	 * Hash Table
+	 * 1.Unique key
+	 * 2.Perform well in searching
 	 * @author Warmly
 	 */
 	public class HashTable extends NameBase
@@ -26,7 +26,7 @@ package rookie.dataStruct
 		}
 
 		/**
-		 * 查找
+		 * Search
 		 */
 		public function search(key:*):*
 		{
@@ -34,7 +34,7 @@ package rookie.dataStruct
 		}
 
 		/**
-		 * 插入
+		 * Insert
 		 */
 		public function insert(key:*, value:*):void
 		{
@@ -57,7 +57,7 @@ package rookie.dataStruct
 		}
 
 		/**
-		 * 删除
+		 * Delete
 		 */
 		public function del(key:*):*
 		{
@@ -85,7 +85,7 @@ package rookie.dataStruct
 		}
         
 		/**
-		 * 仅用于遍历，不要修改内容！
+		 * Used in traversing only, do not modify the content!
 		 */
 		public function get content():Dictionary
 		{

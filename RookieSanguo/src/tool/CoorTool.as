@@ -5,11 +5,12 @@ package tool
 	import flash.geom.Point;
 	import global.SanguoEntry;
 	import rookie.tool.math.RookieMath;
+	
 	/**
-	 * 三国坐标转换工具
+	 * A tool to transform coordinates
 	 * @author Warmly
 	 */
-	public class SanguoCoorTool 
+	public class CoorTool 
 	{
 		/**
 	     * 屏幕像素坐标到场景像素坐标

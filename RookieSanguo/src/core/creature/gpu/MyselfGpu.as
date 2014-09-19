@@ -3,7 +3,7 @@ package core.creature.gpu
 	import definition.ActionEnum;
 	import flash.geom.Point;
 	import global.SanguoEntry;
-	import tool.SanguoCoorTool;
+	import tool.CoorTool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -14,7 +14,7 @@ package core.creature.gpu
 		{
 		}
 		
-		override public function render():void
+		public function update():void
 		{
 			if (_actProcess)
 			{
@@ -26,7 +26,7 @@ package core.creature.gpu
 					synAction(ActionEnum.RUN, realTimeDir);
 					if (_actProcess.checkStepFinish())
 					{
-						var logicPos:Point = SanguoCoorTool.sceneToCell(this.x, this.y);
+						var logicPos:Point = CoorTool.sceneToCell(this.x, this.y);
 						synCellPos(logicPos.x, logicPos.y);
 						synDepthByCurCellPos();
 					}
@@ -37,6 +37,10 @@ package core.creature.gpu
 					clearActProcess();
 				}
 			}
+		}
+		
+		override public function render():void
+		{
 			super.render();
 		}
 	}

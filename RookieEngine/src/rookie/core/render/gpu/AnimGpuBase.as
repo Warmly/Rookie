@@ -41,7 +41,6 @@ package rookie.core.render.gpu
 		protected var _endFrame:uint;
 		// 当前帧数据
 		protected var _curFrameVO:ImgFrameConfigVO;
-		protected var _isRendering:Boolean;
 		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
 		// 播放方式
 		protected var _play:int = AnimPlayEnum.IMMEDIATELY; 
@@ -203,6 +202,16 @@ package rookie.core.render.gpu
 		public function set loop(value:uint):void 
 		{
 			_loop = value;
+		}
+		
+		public function get loopEndCallBack():FunHandler 
+		{
+			return _loopEndCallBack;
+		}
+		
+		public function set loopEndCallBack(value:FunHandler):void 
+		{
+			_loopEndCallBack = value;
 		}
 		
 		public function addFrameCallBack(frame:uint, fun:FunHandler):void

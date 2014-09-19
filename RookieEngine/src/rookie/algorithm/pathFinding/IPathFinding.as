@@ -1,4 +1,4 @@
-package rookie.algorithm 
+package rookie.algorithm.pathFinding 
 {
 	
 	/**

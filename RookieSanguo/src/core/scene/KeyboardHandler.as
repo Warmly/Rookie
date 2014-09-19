@@ -7,11 +7,15 @@ package core.scene
 	import definition.SanguoDefine;
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
+	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	import global.ManagerEntry;
 	import global.ModelEntry;
 	import global.SanguoEntry;
+	import rookie.core.resource.ResUrl;
 	import rookie.tool.math.RookieMath;
+	import tool.CastAnimTool;
+	import tool.CoorTool;
 	import tool.UserFactory;
 	/**
 	 * ...
@@ -49,11 +53,27 @@ package core.scene
 				case Keyboard.T:
 					addTestUser();
 					break;
+				case Keyboard.E:
+					addTestEffect();
+					break;
 			}
 		}
 		
-		private function onKeyUp(e:KeyboardEvent):void 
+		private function addTestEffect():void 
 		{
+			var myCellPosX:int = SanguoEntry.myselfVO.cellX;
+			myCellPosX = RookieMath.randomInt(myCellPosX - 10, myCellPosX + 10);
+			var myCellPosY:int = SanguoEntry.myselfVO.cellY;
+			myCellPosY = RookieMath.randomInt(myCellPosY - 10, myCellPosY + 10);
+			var pt:Point = CoorTool.cellToScene(myCellPosX, myCellPosY);
+			if (SanguoDefine.GPU_RENDER_SCENE)
+			{
+				CastAnimTool.castAnimGpuToScene(new ResUrl(310, 1, 1005), pt.x, pt.y);
+			}
+			else
+			{
+				CastAnimTool.castAnimCpuToScene(new ResUrl(310, 1, 1005), pt.x, pt.y);
+			}
 		}
 		
 		private function addTestUser():void
@@ -61,8 +81,10 @@ package core.scene
 			var id:Number = RookieMath.randomInt(1, 10000);
 			if (!ModelEntry.userModel.hasUser(id))
 			{
+				var myCellPosX:int = SanguoEntry.myselfVO.cellX;
+				var myCellPosY:int = SanguoEntry.myselfVO.cellY;
 				var user:* = SanguoDefine.GPU_RENDER_SCENE?UserFactory.getTestUserGpu():UserFactory.getTestUserCpu();
-				user.synCellPos(RookieMath.randomInt(30, 50), RookieMath.randomInt(30, 50))
+				user.synCellPos(RookieMath.randomInt(myCellPosX - 10, myCellPosX + 10), RookieMath.randomInt(myCellPosY - 10, myCellPosY + 10))
 				user.synPixelPosByCurCellPos();
 				user.synDepthByCurCellPos();
 				user.userVO.id = id;
@@ -76,6 +98,10 @@ package core.scene
 					ManagerEntry.sceneManager.addUserCpu(user);
 				}
 			}
+		}
+		
+		private function onKeyUp(e:KeyboardEvent):void 
+		{
 		}
 	}
 }

@@ -8,7 +8,7 @@ package core.creature.cpu
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 	import rookie.global.RookieEntry;
-	import tool.SanguoCoorTool;
+	import tool.CoorTool;
 
 	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
@@ -24,6 +24,7 @@ package core.creature.cpu
 		protected var _direction:uint;
 		protected var _actProcess:ActProcess;
 		protected var _depth:uint;
+		protected var _disposed:Boolean;
 
 		public function CreatureCpu()
 		{
@@ -87,7 +88,7 @@ package core.creature.cpu
 		
 		public function synPixelPosByCurCellPos():void
 		{
-			var pt:Point = SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
+			var pt:Point = CoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
 			synPixelPos(pt.x, pt.y);
 		}
 		
@@ -114,18 +115,6 @@ package core.creature.cpu
 			return _actProcess;
 		}
 
-		public function reset():void
-		{
-			_action = 0;
-			_direction = 0;
-			_partsContainer.reset();
-		}
-		
-		public function dispose():void
-		{
-			ObjectPool.addToPool(this);
-		}
-
 		public function get direction():uint
 		{
 			return _direction;
@@ -149,6 +138,30 @@ package core.creature.cpu
 		public function get id():Number 
 		{
 			return _creatureVO.id;
+		}
+		
+		public function set id(value:Number):void 
+		{
+			_creatureVO.id = value;
+		}
+
+		public function reset():void
+		{
+			_action = 0;
+			_direction = 0;
+			_partsContainer.reset();
+			_disposed = false;
+		}
+		
+		public function dispose():void
+		{
+			_disposed = true;
+			ObjectPool.addToPool(this);
+		}
+		
+		public function get disposed():Boolean 
+		{
+			return _disposed;
 		}
 	}
 }

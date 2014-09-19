@@ -5,7 +5,7 @@ package core.creature.cpu
 	import global.ModelEntry;
 	import global.SanguoEntry;
 	import rookie.tool.log.log;
-	import tool.SanguoCoorTool;
+	import tool.CoorTool;
 	/**
 	 * ...
 	 * @author Warmly
@@ -28,7 +28,7 @@ package core.creature.cpu
 					synAction(ActionEnum.RUN, realTimeDir);
 					if (_actProcess.checkStepFinish())
 					{
-						var logicPos:Point = SanguoCoorTool.sceneToCell(this.x, this.y)
+						var logicPos:Point = CoorTool.sceneToCell(this.x, this.y)
 						synCellPos(logicPos.x, logicPos.y);
 						synDepthByCurCellPos();
 					}

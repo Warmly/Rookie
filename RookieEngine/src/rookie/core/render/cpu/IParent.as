@@ -11,5 +11,7 @@ package rookie.core.render.cpu
 		function set parent(parent:DisplayObjectContainer):void
 
 		function deleteParent():void
+		
+		function get parent():DisplayObjectContainer
 	}
 }

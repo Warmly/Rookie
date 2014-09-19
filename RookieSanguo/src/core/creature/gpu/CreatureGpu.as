@@ -6,14 +6,14 @@ package core.creature.gpu
 	import flash.geom.Point;
 	import global.SanguoEntry;
 	import rookie.global.RookieEntry;
-	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
-	import tool.SanguoCoorTool;
+	import rookie.tool.objectPool.ObjPoolItem;
+	import tool.CoorTool;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class CreatureGpu implements IObjPoolItem,ISceneObj
+	public class CreatureGpu extends ObjPoolItem implements ISceneObj
 	{
 		protected var _creatureVO:CreatureVO;
 		protected var _partsContainer:CreaturePartsContainerGpu;
@@ -126,16 +126,12 @@ package core.creature.gpu
 			_depth = value;
 		}
 		
-		public function reset():void
+		override public function reset():void
 		{
 			_action = 0;
 			_direction = 0;
 			_partsContainer.reset();
-		}
-		
-		public function dispose():void
-		{
-			ObjectPool.addToPool(this);
+			super.reset();
 		}
 		
 		public function startPlay():void 
@@ -146,6 +142,11 @@ package core.creature.gpu
 		public function get id():Number 
 		{
 			return _creatureVO.id;
+		}
+		
+		public function set id(value:Number):void 
+		{
+			_creatureVO.id = value;
 		}
 		
 		public function synDepthByCurCellPos():void
@@ -161,7 +162,7 @@ package core.creature.gpu
 		
 		public function synPixelPosByCurCellPos():void
 		{
-			var pt:Point = SanguoCoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
+			var pt:Point = CoorTool.cellToScene(_creatureVO.cellX, _creatureVO.cellY);
 			synPixelPos(pt.x, pt.y);
 		}
 		
@@ -177,7 +178,7 @@ package core.creature.gpu
 		
 		private function updateRenderPos():void
 		{
-			var cameraPos:Point = SanguoCoorTool.sceneToCamera(_x, _y);
+			var cameraPos:Point = CoorTool.sceneToCamera(_x, _y);
 			_partsContainer.x = cameraPos.x;
 			_partsContainer.y = cameraPos.y;
 		}

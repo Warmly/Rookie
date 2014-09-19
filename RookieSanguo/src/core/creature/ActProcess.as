@@ -5,8 +5,8 @@ package core.creature
 	import definition.DirectionEnum;
 	import flash.geom.Point;
 	import rookie.algorithm.pathFinding.aStar.AStarNode;
-	import tool.SanguoCoorTool;
-	import tool.SanguoTimeTool;
+	import tool.CoorTool;
+	import tool.TimeTool;
 	import rookie.tool.log.log;
 	/**
 	 * ...
@@ -49,7 +49,7 @@ package core.creature
 			if (startPos)
 			{
 				_curStartPos = startPos;
-				_curStartPixelPos = SanguoCoorTool.cellToScene(startPos.x, startPos.y);
+				_curStartPixelPos = CoorTool.cellToScene(startPos.x, startPos.y);
 				nextStep();
 			}
 		}
@@ -57,18 +57,18 @@ package core.creature
 		public function nextStep():void
 		{
 			_curTgtPos = _path.shift().toPoint();
-			_curTgtPixelPos = SanguoCoorTool.cellToScene(_curTgtPos.x, _curTgtPos.y);
-			_curStartTime = SanguoTimeTool.getCurTime();
+			_curTgtPixelPos = CoorTool.cellToScene(_curTgtPos.x, _curTgtPos.y);
+			_curStartTime = TimeTool.getCurTime();
 		}
 		
 		public function checkStepFinish():Boolean
 		{
-			if (SanguoTimeTool.getCurTime() - _curStartTime >= _costPerCell)
+			if (TimeTool.getCurTime() - _curStartTime >= _costPerCell)
 			{
 				if (_path.length)
 				{
 					_curStartPos = _curTgtPos.clone();
-					_curStartPixelPos = SanguoCoorTool.cellToScene(_curStartPos.x, _curStartPos.y);
+					_curStartPixelPos = CoorTool.cellToScene(_curStartPos.x, _curStartPos.y);
 					nextStep();
 				}
 				else
@@ -98,7 +98,7 @@ package core.creature
 		
 		public function getCurPixelPos():Point
 		{
-			var timePast:int = SanguoTimeTool.getCurTime() - _curStartTime;
+			var timePast:int = TimeTool.getCurTime() - _curStartTime;
 			var ratio:Number = timePast / _costPerCell;
 			var curXDis:Number = MapModel.CELL_WIDTH * (_curTgtPos.x - _curStartPos.x);
 			var curYDis:Number = MapModel.CELL_HEIGHT * (_curTgtPos.y - _curStartPos.y);

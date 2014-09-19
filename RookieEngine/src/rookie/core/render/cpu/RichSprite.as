@@ -2,6 +2,7 @@ package rookie.core.render.cpu
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 
 	/**
 	 * @author Warmly
@@ -26,6 +27,23 @@ package rookie.core.render.cpu
 			{
 				parent.removeChild(this);
 			}
+		}
+		
+		public function setPosition(x:Number, y:Number):void
+		{
+			this.x = x;
+			this.y = y;
+		}
+		
+		public function get position():Point 
+		{
+			return new Point(this.x, this.y);
+		}
+		
+		public function set position(value:Point):void 
+		{
+			this.x = value.x;
+			this.y = value.y;
 		}
 	}
 }

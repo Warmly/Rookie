@@ -14,13 +14,12 @@ package core.scene.gpu
 	import rookie.global.RookieEntry;
 	import rookie.tool.functionHandler.fh;
 	import rookie.tool.namer.namer;
-	import rookie.tool.objectPool.IObjPoolItem;
 	import rookie.tool.objectPool.ObjectPool;
 	/**
 	 * ...
 	 * @author Warmly
 	 */
-	public class MapBlockGpu extends ImgGpuBase implements IObjPoolItem
+	public class MapBlockGpu extends ImgGpuBase
 	{
 		private var _index:int;
 		
@@ -73,18 +72,14 @@ package core.scene.gpu
 				renderManager.draw();
 			}
 		}
-		
-		public function reset():void
+
+	    override public function dispose():void
 		{
 			if (_texture)
 			{
 				_texture.dispose();
 			}
-		}
-
-	    public function dispose():void
-		{
-			ObjectPool.addToPool(this);
+			super.dispose();
 		}
 	}
 }

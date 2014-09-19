@@ -1,7 +1,7 @@
 package rookie.algorithm.pathFinding.aStar 
 {
 	import flash.utils.Dictionary;
-	import rookie.algorithm.IPathFinding;
+	import rookie.algorithm.pathFinding.IPathFinding;
 	import rookie.algorithm.pathFinding.NodeEnum;
 	import rookie.algorithm.pathFinding.PathFindingNodeBase;
 	import rookie.dataStruct.HashTable;

@@ -5,9 +5,9 @@ package tool
 	 * ...
 	 * @author Warmly
 	 */
-	public class SanguoTimeTool 
+	public class TimeTool 
 	{
-		public function SanguoTimeTool() 
+		public function TimeTool() 
 		{
 		}
 		

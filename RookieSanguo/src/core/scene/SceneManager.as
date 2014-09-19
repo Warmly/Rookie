@@ -4,6 +4,8 @@ package core.scene
 	import core.creature.cpu.MyselfCpu;
 	import core.creature.cpu.UserCpu;
 	import core.creature.gpu.UserGpu;
+	import core.scene.cpu.SceneAnimCpu;
+	import core.scene.gpu.SceneAnimGpu;
 	import definition.ActionEnum;
 	import definition.DirectionEnum;
 	import flash.events.MouseEvent;
@@ -12,8 +14,7 @@ package core.scene
 	import global.MyselfVO;
 	import rookie.algorithm.pathFinding.NodeEnum;
 	import rookie.algorithm.pathFinding.PathFinding;
-	import tool.SanguoCoorTool;
-	import tool.SanguoTimeTool;
+	import tool.CoorTool;
 
 	import global.SanguoEntry;
 	import global.ManagerBase;
@@ -62,7 +63,7 @@ package core.scene
 		
 		public function handleMouseDown(event:MouseEvent):void
 		{	
-			var targetSceneCellCoor:Point = SanguoCoorTool.cameraToCell(event.stageX, event.stageY);
+			var targetSceneCellCoor:Point = CoorTool.cameraToCell(event.stageX, event.stageY);
 			createMoveProcess(targetSceneCellCoor);
 		}
 		
@@ -85,6 +86,16 @@ package core.scene
 					_myself.actProcess.reset(ActionEnum.RUN, _pathFinding.path, _myselfVO.costPerCell);
 				}
 			}
+		}
+		
+		public function addSceneAnimCpu(anim:SceneAnimCpu):void
+		{
+			_scene.itemLayerCpu.addSceneAnim(anim);
+		}
+		
+		public function addSceneAnimGpu(anim:SceneAnimGpu):void
+		{
+			_scene.itemLayerGpu.addSceneAnim(anim);
 		}
 		
 		public function addUserCpu(user:UserCpu):void

@@ -56,14 +56,10 @@ package
 			RookieEntry.renderManager.init3DRenderComponent(this.stage, fh(on3DRenderComponentReady));
 			RookieEntry.mainLoop.init(this.stage);
 			RookieEntry.mainLoop.add(SanguoEntry.scene);
-			
 			addChild(new Stats());
-			
 			ModelEntry.staticDataModel;
-			
 			ModelEntry.mapModel.curMapId = 2005;
 			ModelEntry.mapModel.loadMap();
-			
 			SanguoEntry.keyboardHandler.init(this.stage);
 		}
 		

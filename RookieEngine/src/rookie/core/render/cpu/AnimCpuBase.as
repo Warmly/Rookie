@@ -10,7 +10,7 @@ package rookie.core.render.cpu
 	import flash.utils.getTimer;
 	
 	/**
-	 * CPU渲染的序列帧动画
+	 * Frame animation based on cpu render 
 	 * @author Warmly
 	 */
 	public class AnimCpuBase extends ImgCpuBase
@@ -41,7 +41,7 @@ package rookie.core.render.cpu
 		protected var _isRendering:Boolean;
 		// 帧回调
 		protected var _frameCallBackTable:HashTable = new HashTable(uint, FunHandler);
-        //播放方式
+        // 播放方式
 		protected var _play:int = AnimPlayEnum.IMMEDIATELY;
 		
 		/**
